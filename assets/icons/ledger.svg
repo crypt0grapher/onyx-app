@@ -1,0 +1,6 @@
+<svg width="20" height="20" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg">
+<rect width="6" height="6" rx="3" transform="matrix(1 0 0 -1 2 18)" stroke="#808080" stroke-width="1.5"/>
+<path d="M5 18C3.34315 18 2 16.6569 2 15L2 2L8 2L8 15C8 16.6569 6.65685 18 5 18V18Z" stroke="#808080" stroke-width="1.5"/>
+<path d="M2 15C2 13.3431 3.34315 12 5 12L18 12V18L5 18C3.34315 18 2 16.6569 2 15V15Z" stroke="#808080" stroke-width="1.5"/>
+<path d="M15.5 15L10.5 15" stroke="#808080" stroke-width="1.5"/>
+</svg>

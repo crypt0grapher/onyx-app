@@ -1,0 +1,551 @@
+{
+    "sidebar": {
+        "navigation": {
+            "stake": "Stake Et",
+            "history": "Geçmiş",
+            "swap": "Takas",
+            "bridge": "Köprü",
+            "farm": "Farm",
+            "governance": "Yönetişim",
+            "ai-agent": "AI Ajansı",
+            "points": "Puanlar",
+            "card": "Kart",
+            "payments": "Ödemeler",
+            "enterprise": "Kurumsal"
+        },
+        "footer": {
+            "terms": "Şartlar",
+            "disclosures": "Açıklamalar",
+            "docs": "Belgeler",
+            "accessLedger": "XCN Ledger'a Erişim",
+            "addNetwork": "Cüzdana XCN Ağını ekle",
+            "addNetworkButton": "Ağ Ekle",
+            "lastBlock": "Son Blok:"
+        },
+        "status": {
+            "new": "Yeni",
+            "soon": "Çok Yakında",
+            "aiAgentStatus": "AI Ajansı durumu: Yeni",
+            "comingSoonStatus": "{item} durumu: Çok Yakında"
+        },
+        "wallet": {
+            "connect": "Cüzdan Bağla",
+            "connected": "Bağlandı",
+            "disconnect": "Bağlantıyı Kes",
+            "modal": {
+                "title": "Cüzdan Bağla",
+                "termsText": "Bir cüzdan bağlayarak Onyx",
+                "termsLink": "Hizmet Şartları",
+                "closeButton": "Modali kapat",
+                "wallets": {
+                    "onyx": "Onyx Cüzdan",
+                    "trust": "Trust Wallet",
+                    "metamask": "MetaMask",
+                    "walletconnect": "WalletConnect",
+                    "coinbase": "Coinbase Wallet",
+                    "browser": "Tarayıcı Cüzdanı"
+                }
+            },
+            "info": {
+                "title": "Cüzdanınız",
+                "subtext": "Şu anda bağlı olan cüzdanı kontrol edin ve zincirleri değiştirin",
+                "logout": "Çıkış Yap"
+            }
+        }
+    },
+    "common": {
+        "loading": "Yükleniyor...",
+        "error": "Hata",
+        "success": "Başarılı",
+        "cancel": "İptal",
+        "confirm": "Onayla",
+        "close": "Kapat",
+        "insert": "Ekle",
+        "errors": {
+            "wallet": {
+                "notFound": "Cüzdan Bulunamadı",
+                "notFoundDescription": "Ethereum cüzdanı algılanamadı. Lütfen MetaMask veya başka bir Web3 cüzdanı kurun.",
+                "connectionRejected": "Bağlantı isteği reddedildi",
+                "providerNotAvailable": "Cüzdan sağlayıcısı kullanılamıyor. Lütfen cüzdan uzantınızı kurun veya etkinleştirin.",
+                "connectionInProgress": "Bağlantı zaten devam ediyor. Lütfen cüzdanınızı kontrol edin.",
+                "networkError": "Ağ hatası. Lütfen cüzdanınızın doğru ağda olduğundan emin olun.",
+                "walletDisconnected": "Cüzdan bağlantısı kesildi. Lütfen cüzdanınızı yeniden bağlayın.",
+                "connectionTimeout": "Bağlantı zaman aşımına uğradı. Lütfen tekrar deneyin.",
+                "connectionFailed": "Cüzdana bağlanılamadı. Lütfen tekrar deneyin.",
+                "disconnectionFailed": "Cüzdan bağlantısı kesilemedi."
+            },
+            "network": {
+                "notFound": "Cüzdan Bulunamadı",
+                "notFoundDescription": "Ethereum cüzdanı algılanamadı. Lütfen MetaMask veya başka bir Web3 cüzdanı kurun.",
+                "networkAdded": "Ağ Eklendi",
+                "networkAddedSuccess": "{chainName} başarıyla cüzdanınıza eklendi!",
+                "networkAdditionCancelled": "Ağ Ekleme İptal Edildi",
+                "networkAdditionCancelledDescription": "Ağı cüzdanınıza eklemekten vazgeçtiniz.",
+                "networkSwitched": "Ağ Değiştirildi",
+                "networkSwitchedSuccess": "{chainName}'a başarıyla geçildi!",
+                "addingNetwork": "Ağ Ekleniyor",
+                "addingNetworkDescription": "{chainName} cüzdanınıza ekleniyor...",
+                "failedToAddNetwork": "Ağ eklenemedi",
+                "networkAddedAndSwitched": "Ağ Eklendi ve Değiştirildi",
+                "networkAddedAndSwitchedSuccess": "{chainName} başarıyla eklendi ve geçildi!",
+                "failedToAddNetworkDescription": "{chainName} eklenemedi. Lütfen manuel olarak ekleyin.",
+                "networkSwitchCancelled": "Ağ Değiştirme İptal Edildi",
+                "networkSwitchCancelledDescription": "Ağ değiştirmekten vazgeçtiniz.",
+                "userCancelledNetworkSwitch": "Kullanıcı ağ değiştirmeyi iptal etti",
+                "failedToSwitchNetwork": "{chainName}'a geçilemedi",
+                "networkSwitchFailed": "Ağ Değiştirme Başarısız"
+            },
+            "validation": {
+                "invalidPath": "Geçersiz yol: aynı tokenlar",
+                "amountMustBeGreaterThanZero": "Tutar 0'dan büyük olmalıdır"
+            }
+        },
+        "ui": {
+            "search": "Ara",
+            "placeholder": "https://example.com",
+            "wallet": "Cüzdan",
+            "connect": "Bağlan",
+            "info": "Bilgi",
+            "swap": "Takas",
+            "toggleSection": "Bölümü aç/kapat",
+            "expand": "Genişlet",
+            "toggleDropdown": "Açılır menüyü aç/kapat",
+            "toggleAction": "Eylemi aç/kapat",
+            "stakingGraph": "Stake ve günlük kazanç grafiği",
+            "stakedTokens": "Stake Edilen Tokenlar",
+            "totalProposals": "Toplam Teklif",
+            "votingPower": "Oy Verme Gücü",
+            "insertLink": "Bağlantı Ekle",
+            "onyxGovernance": "Onyx Yönetişimi",
+            "onyxLogoBackground": "Onyx Logo Arka Planı",
+            "onyxDecoration": "Onyx dekorasyonu",
+            "selectedText": "Seçili Metin:",
+            "linkText": "Bağlantı Metni:",
+            "url": "URL:",
+            "normal": "Normal",
+            "title1": "Başlık 1",
+            "title2": "Başlık 2",
+            "title3": "Başlık 3",
+            "title4": "Başlık 4"
+        },
+        "events": {
+            "supply": "Tedarik",
+            "stake": "Stake",
+            "transfer": "Transfer",
+            "withdraw": "Çekme",
+            "claim": "Talep",
+            "propose": "Teklif",
+            "vote": "Oy",
+            "approval": "Onay",
+            "redeem": "Geri Ödeme",
+            "borrow": "Borç Alma",
+            "repayborrow": "Borç Ödeme",
+            "liquidateborrow": "Borç Tasfiye",
+            "reservesadded": "Rezerv Eklendi",
+            "reservesreduced": "Rezerv Azaldı"
+        }
+    },
+    "toast": {
+        "copyAddress": {
+            "success": "Adres Kopyalandı!",
+            "successSubtext": "Cüzdan adresi panoya kopyalandı"
+        },
+        "staking": {
+            "approved": "XCN tokenları staking için onaylandı",
+            "stakeSuccess": "{amount} XCN başarıyla stake edildi",
+            "stakeFailed": "Stake Başarısız",
+            "withdrawSuccess": "{amount} XCN başarıyla çekildi",
+            "withdrawFailed": "Çekim Başarısız",
+            "claimSuccess": "Ödüller başarıyla talep edildi!",
+            "claimFailed": "Ödüller talep edilemedi",
+            "rejected": "İşlem Reddedildi",
+            "rejectedSub": "İşlemi cüzdanınızda reddettiniz"
+        },
+        "swapTransaction": {
+            "success": "Takas Başarılı",
+            "successSubtext": "Varlıklarınız başarıyla değiştirildi",
+            "failed": "Takas Başarısız",
+            "failedSubtext": "Gaz ücretini karşılayacak ETH bakiyeniz çok düşüktü",
+            "rejected": "İşlem Reddedildi",
+            "rejectedSubtext": "İşlemi cüzdanınızda reddettiniz",
+            "approvalSuccess": "Onay başarılı. Artık takas yapabilirsiniz"
+        },
+        "transaction": {
+            "failed": "İşlem Başarısız",
+            "rejected": "İşlem Reddedildi",
+            "rejectedSubtext": "İşlemi cüzdanınızda reddettiniz",
+            "insufficientGas": "Yetersiz Gas",
+            "insufficientGasSubtext": "Bu işlem için gas ücretini karşılamak üzere ETH bakiyeniz çok düşük",
+            "defaultError": "İşlem Hatası",
+            "defaultErrorSubtext": "İşleminiz işlenirken bir sorun oluştu. Lütfen tekrar deneyin."
+        },
+        "wallet": {
+            "connected": "Cüzdan Bağlandı",
+            "connectedSuccess": "{walletId} başarıyla bağlandı",
+            "connectionFailed": "Bağlantı Başarısız",
+            "unableToConnect": "Cüzdana bağlanılamadı",
+            "disconnected": "Cüzdan Bağlantısı Kesildi",
+            "disconnectedSuccess": "Cüzdandan başarıyla bağlantı kesildi",
+            "disconnectionFailed": "Cüzdan Bağlantısı Kesme Başarısız",
+            "failedToDisconnect": "Cüzdandan bağlantı kesilemedi"
+        },
+        "network": {
+            "wrongNetwork": "Yanlış Ağ",
+            "wrongNetworkSubtext": "Takas kullanmak için lütfen Ethereum ağına geçin",
+            "wrongNetworkFarmSubtext": "Farm kullanmak için lütfen Ethereum ağına geçin",
+            "wrongNetworkStakingSubtext": "Stake kullanmak için lütfen Ethereum ağına geçin"
+        }
+    },
+    "swap": {
+        "title": "Takas",
+        "description": "Kripto paranızı diğer varlıklar için değiştirin",
+        "settings": "Takas ayarları",
+        "swapButton": "Takas",
+        "swapping": "Takas ediliyor...",
+        "approving": "Onaylanıyor...",
+        "approveXcn": "Onayla",
+        "wrongNetwork": "Yanlış Ağ",
+        "insufficientFunds": "Yetersiz Bakiye",
+        "from": "Gönderen",
+        "to": "Alıcı",
+        "availableBalance": "Mevcut Bakiye:",
+        "placeholder": "0",
+        "info": {
+            "exchangeRate": "Döviz kuru:",
+            "slippageTolerance": "Kayma Toleransı:",
+            "minimumReceived": "Minimum Alınan:",
+            "gasFee": "Gaz Ücreti:",
+            "tooltips": {
+                "exchangeRate": "1 birim gönderilen token için\nalınacak token miktarını gösterir.",
+                "slippageTolerance": "Sipariş ile yürütme arasındaki\nizin verilen maksimum fiyat değişimi.",
+                "gasFee": "Gaz ücretleri ağ trafiğine göre değişir\n— talep arttıkça ücretler yükselir.",
+                "minimumReceived": "Kayma ve ücretler uygulandıktan sonra\nalacağınız tahmini miktarı gösterir."
+            }
+        }
+    },
+    "metadata": {
+        "title": "Onyx Protocol",
+        "description": "Onyx, Onyxcoin (XCN) tarafından desteklenen Web3 ve blockchain altyapısının bel kemiğidir.",
+        "keywords": "onyx, onyx protocol, defi, borç ver, ödünç al, kripto, blockchain, Ethereum Zinciri, merkezi olmayan finans",
+        "openGraph": {
+            "title": "Onyx Protocol",
+            "description": "Onyx, Onyxcoin (XCN) tarafından desteklenen Web3 ve blockchain altyapısının bel kemiğidir.",
+            "siteName": "Onyx Protocol"
+        },
+        "twitter": {
+            "title": "Onyx Protocol",
+            "description": "Onyx, Onyxcoin (XCN) tarafından desteklenen Web3 ve blockchain altyapısının bel kemiğidir."
+        }
+    },
+    "staking": {
+        "title": "Stake Etme",
+        "description": "Tokenlarınızı stake edin veya çekin",
+        "stakedTokensTitle": "Stake Edilen Tokenlar",
+        "stakedTokensDescription": "Stake ödüllerinizi görüntüleyin ve talep edin",
+        "historyTitle": "Stake Geçmişi",
+        "historyDescription": "Stake aktivitelerinizin geçmişi",
+        "dataBoxes": {
+            "stakingAPR": "Stake APR",
+            "dailyEmission": "Günlük Emisyon",
+            "totalStaked": "Toplam Stake",
+            "totalTreasury": "Toplam Hazine",
+            "pointsAPR": "Puan APR"
+        },
+        "stakeComponent": {
+            "amount": "Miktar",
+            "availableBalance": "Mevcut Bakiye:",
+            "stake": "Stake Et",
+            "withdraw": "Çek",
+            "estimatedDailyEarnings": "Tahmini Günlük Kazanç:",
+            "stakingAPR": "Stake APR",
+            "connectWallet": "Cüzdan Bağla",
+            "loading": "Yükleniyor...",
+            "approving": "Onaylanıyor...",
+            "staking": "Stake Ediliyor...",
+            "withdrawing": "Çekiliyor...",
+            "approveXcn": "Token Onayla",
+            "walletNotConnected": "Cüzdan Bağlı Değil",
+            "walletNotConnectedSubtext": "Devam etmek için lütfen cüzdanınızı bağlayın",
+            "invalidAmount": "Geçersiz Miktar",
+            "invalidAmountSubtext": "Lütfen geçerli bir miktar girin",
+            "approvalSuccess": "Token başarıyla onaylandı",
+            "approvalFailed": "Onay Başarısız",
+            "insufficientBalance": "Yetersiz Bakiye",
+            "insufficientBalanceSubtext": "Yeterli XCN tokenınız yok",
+            "insufficientStakedAmount": "Yetersiz Stake Miktarı",
+            "insufficientStakedAmountSubtext": "Yeterli stake edilmiş tokenınız yok",
+            "stakingSuccess": "{amount} XCN başarıyla stake edildi",
+            "stakingFailed": "Stake Başarısız",
+            "withdrawSuccess": "{amount} XCN başarıyla çekildi",
+            "withdrawFailed": "Çekim Başarısız"
+        },
+        "stakedTokens": {
+            "yourStakedTokens": "Stake Edilen Tokenlarınız",
+            "dailyEarnings": "Günlük Kazanç",
+            "toClaim": "Talep Edilecek",
+            "claimRewards": "Ödülleri Talep Et"
+        },
+        "history": {
+            "historyTitle": "Stake Etme Geçmişi",
+            "created": "Oluşturuldu",
+            "txnHash": "İşlem Hash",
+            "block": "Blok",
+            "type": "Tür",
+            "amount": "Miktar",
+            "stake": "Stake",
+            "withdraw": "Çekim"
+        },
+        "governance": {
+            "title": "Yönetişim",
+            "description": "Oluşturulan teklifler için oy verin",
+            "createProposal": "Teklif Oluştur",
+            "createProposalTooltip": "Teklif oluşturmak için 100,000,000 oylama gücüne sahip olmanız gerekir."
+        },
+        "graph": {
+            "staked": "Stake Edilen:",
+            "earnings": "Kazanç:",
+            "dailyEarnings": "Günlük Kazanç",
+            "stakedLabel": "Stake Edilen"
+        },
+        "table": {
+            "type": "Tür",
+            "txnHash": "İşlem Hash",
+            "block": "Blok",
+            "amount": "Miktar",
+            "created": "Oluşturuldu",
+            "empty": {
+                "descriptionLine1": "Geçmişiniz burada görünecek",
+                "descriptionLine2": "ilk stake işleminizi yaptığınızda."
+            }
+        }
+    },
+    "history": {
+        "title": "Tarih",
+        "description": "Platformumuzdaki tüm kullanıcı işlemlerini kontrol edin",
+        "from": "Gönderen",
+        "to": "Alıcı",
+        "txnHash": "İşlem Hash",
+        "block": "Blok",
+        "created": "Oluşturuldu",
+        "search": "Adres girin",
+        "allTransactions": "Tüm İşlemler",
+        "myTransactions": "İşlemlerim",
+        "allTxns": "Tüm İşlemler",
+        "myTxns": "İşlemlerim",
+        "allTypes": "Tüm Türler",
+        "types": {
+            "supply": "Tedarik",
+            "stake": "Stake",
+            "transfer": "Transfer",
+            "withdraw": "Çekme",
+            "claim": "Talep",
+            "propose": "Teklif",
+            "vote": "Oy",
+            "approval": "Onay",
+            "redeem": "Geri Ödeme",
+            "borrow": "Borç Alma",
+            "repayborrow": "Borç Ödeme",
+            "liquidateborrow": "Borç Tasfiye",
+            "reservesadded": "Rezerv Eklendi",
+            "reservesreduced": "Rezerv Azaldı"
+        },
+        "table": {
+            "type": "Tür",
+            "from": "Gönderen",
+            "to": "Alıcı",
+            "txnHash": "İşlem Hash",
+            "block": "Blok",
+            "amount": "Miktar",
+            "created": "Oluşturuldu",
+            "empty": {
+                "title": "Boş Geçmiş",
+                "descriptionLine1": "Geçmişiniz burada görünecek",
+                "descriptionLine2": "ilk işleminizi yaptığınızda."
+            }
+        }
+    },
+    "farms": {
+        "title": "Çiftlikler",
+        "description": "Artırılmış XCN ödülleri kazanmak için LP tokenlarını stake edin",
+        "farmRow": {
+            "stakingAPR": "Staking APR",
+            "dailyEmission": "Günlük Emisyon",
+            "totalStaked": "Toplam Stake"
+        },
+        "addLiquidity": "Likidite Ekle",
+        "approvePair": "Çiftlik Çifti Onayla",
+        "actionPanel": {
+            "stake": "Stake Et",
+            "withdraw": "Çek",
+            "amount": "Miktar",
+            "availableBalance": "Mevcut Bakiye:",
+            "estimatedDailyEarnings": "Tahmini Günlük Kazanç:",
+            "stakingAPR": "Staking APR"
+        },
+        "stats": {
+            "yourStakedTokens": "Stake Edilen LP Tokenlarınız",
+            "dailyEarnings": "Günlük Kazanç",
+            "toClaim": "Talep Edilecek",
+            "claimRewards": "Ödülleri Talep Et"
+        },
+        "action": {
+            "title": "Çiftlik Eylemi",
+            "subtext": "Eylem: {action}, Miktar: {amount}"
+        }
+    },
+    "governance": {
+        "title": "Yönetişim",
+        "description": "Oluşturulan teklifler için oy verin",
+        "createProposal": "Teklif Oluştur",
+        "createProposalTooltip": "Teklif oluşturmak için 100,000,000 oylama gücüne sahip olmanız gerekir.",
+        "cards": {
+            "votingPower": {
+                "title": "Oy Verme Gücüm"
+            },
+            "addVotingPower": "Oy Verme Gücü Ekle",
+            "stakedTokens": {
+                "title": "Stake Edilen Tokenlar"
+            },
+            "totalProposals": {
+                "title": "Toplam Teklif"
+            }
+        },
+        "proposal": {
+            "backToOverview": "Genel Bakışa Dön",
+            "voteFor": "Lehine Oy Ver",
+            "voteAgainst": "Aleyhine Oy Ver",
+            "timeUntilExecutable": "Yürütmeye Kalan Süre",
+            "executionReady": "Yürütmeye Hazır",
+            "votingActive": "Oylama Aktif",
+            "votingPending": "Oylama Bekliyor",
+            "addresses": "Adresler",
+            "votes": "Oylar",
+            "description": "Açıklama",
+            "operation": "Operasyon",
+            "descriptionSubtext": "Bu teklif hakkındaki detayları kontrol edin",
+            "status": {
+                "executed": "Yürütüldü",
+                "expired": "Süresi Doldu",
+                "active": "Aktif",
+                "pending": "Beklemede"
+            },
+            "userVoteStatus": {
+                "youVoted": "Oy Verdiniz",
+                "youNotVoted": "Oy Vermediniz"
+            },
+            "filters": {
+                "allStatuses": "Tüm Durumlar"
+            },
+            "timeline": {
+                "created": "Oluşturuldu",
+                "active": "Aktif",
+                "queued": "Kuyruğa Alındı",
+                "succeed": "Başarılı",
+                "execute": "Yürüt",
+                "canceled": "İptal Edildi"
+            }
+        },
+        "createProposalModal": {
+            "titles": {
+                "proposalInformations": "Teklif Bilgileri",
+                "proposalActions": "Teklif Eylemleri",
+                "confirmation": "Onay",
+                "createProposal": "Teklif Oluştur"
+            },
+            "fields": {
+                "proposalName": "Teklif Adı",
+                "proposalNamePlaceholder": "Teklif Adı",
+                "description": "Açıklama",
+                "descriptionPlaceholder": "Teklif açıklamanızı girin..."
+            },
+            "buttons": {
+                "nextStep": "Sonraki Adım",
+                "previousStep": "Önceki Adım",
+                "confirm": "Onayla",
+                "createProposal": "Teklif Oluştur",
+                "addOneMoreAction": "Bir Eylem Daha Ekle"
+            },
+            "confirmationCards": {
+                "proposalInformations": "Teklif Bilgileri",
+                "actions": "Eylemler",
+                "stepBadges": {
+                    "step1": "Adım 1/2",
+                    "step2": "Adım 2/2"
+                },
+                "labels": {
+                    "proposalName": "Teklif Adı",
+                    "description": "Açıklama",
+                    "action": "Eylem #",
+                    "noSignature": "İmza sağlanmadı"
+                }
+            },
+            "toast": {
+                "success": "Teklif Başarıyla Oluşturuldu",
+                "successSubtext": "Teklifiniz gönderildi ve artık aktif."
+            }
+        }
+    },
+    "points": {
+        "title": "Onyx Puanları",
+        "description": "Puanlarınızı takip edin ve diğer kullanıcılara karşı sıralamanızı görün.",
+        "myPoints": "Puanlarım",
+        "pointsApr": "Puan APR",
+        "position": "Pozisyon",
+        "pointsLeft": "puan kaldı",
+        "pts": "puan",
+        "points": "Puanlar:",
+        "shareYourPoints": "Puanlarınızı Paylaşın",
+        "shareDescription": "Topluluğunuzla paylaşın",
+        "share": "Paylaş",
+        "howToEarnTitle": "Puan Nasıl Kazanılır",
+        "howToEarnDescription": "Uygun aktivitelere katılarak puan kazanın.",
+        "learnMore": "Daha Fazla Öğren",
+        "leaderboardTitle": "Liderlik Tablosu",
+        "leaderboardDescription": "Onyx Puanları katılımcılarının sıralamasını görüntüleyin",
+        "leaderboard": {
+            "place": "Sıra",
+            "userAddress": "Kullanıcı Adresi",
+            "amount": "Miktar",
+            "empty": {
+                "title": "Liderlik Verisi Yok",
+                "descriptionLine1": "Liderlik girdileri burada görünecek",
+                "descriptionLine2": "katılım olduğunda."
+            }
+        },
+        "cards": {
+            "passivePoints": {
+                "title": "Pasif Puanlar",
+                "description": "XCN Ledger'da beyaz listeli varlıkları tutarak PP kazanın.",
+                "exploreAssets": "Varlıkları Keşfet"
+            },
+            "activePoints": {
+                "title": "Aktif Puanlar",
+                "description": "Beyaz listeli varlıklarınızı XCN Ledger'da deploy ederek AP kazanın.",
+                "exploreApps": "Uygulamaları Keşfet"
+            },
+            "appPoints": {
+                "title": "Uygulama Puanları",
+                "description": "Onyx XCN Ledger tabanlı dApp'leri kullanarak APP kazanın.",
+                "exploreApps": "Uygulamaları Keşfet"
+            }
+        },
+        "status": {
+            "active": "Aktif",
+            "comingSoon": "Yakında Geliyor"
+        },
+        "stats": {
+            "person": "kişi",
+            "place": "Sıra",
+            "thePerson": ""
+        },
+        "enroll": {
+            "enrollNow": "Şimdi Kaydol",
+            "enrolling": "Kaydoluyor..."
+        },
+        "bridge": {
+            "bridgeXcn": "XCN Köprüsü",
+            "bridgeDescription": "XCN'inizin zincirini değiştirin",
+            "bridge": "Köprü"
+        }
+    }
+}

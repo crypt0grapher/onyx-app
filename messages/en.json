@@ -1,0 +1,562 @@
+{
+    "sidebar": {
+        "navigation": {
+            "stake": "Stake",
+            "history": "History",
+            "swap": "Swap",
+            "bridge": "Bridge",
+            "farm": "Farm",
+            "governance": "Governance",
+            "ai-agent": "AI Agent",
+            "points": "Points",
+            "card": "Card",
+            "payments": "Payments",
+            "enterprise": "Enterprise"
+        },
+        "footer": {
+            "terms": "Terms",
+            "disclosures": "Disclosures",
+            "docs": "Docs",
+            "accessLedger": "Access XCN Ledger",
+            "addNetwork": "Add XCN Network to wallet",
+            "addNetworkButton": "Add Network",
+            "lastBlock": "Last Block:"
+        },
+        "status": {
+            "new": "New",
+            "soon": "Soon",
+            "aiAgentStatus": "AI Agent status: New",
+            "comingSoonStatus": "{item} status: Soon"
+        },
+        "wallet": {
+            "connect": "Connect Wallet",
+            "connected": "Connected",
+            "disconnect": "Disconnect",
+            "modal": {
+                "title": "Connect Wallet",
+                "termsText": "By connecting a wallet, you agree to Onyx",
+                "termsLink": "Terms of Service",
+                "closeButton": "Close modal",
+                "wallets": {
+                    "onyx": "Onyx Wallet",
+                    "trust": "Trust Wallet",
+                    "metamask": "MetaMask",
+                    "walletconnect": "WalletConnect",
+                    "coinbase": "Coinbase Wallet",
+                    "browser": "Browser Wallet"
+                }
+            },
+            "info": {
+                "title": "Your Wallet",
+                "subtext": "Check your connected wallet and switch chains",
+                "logout": "Logout"
+            }
+        }
+    },
+    "common": {
+        "loading": "Loading...",
+        "error": "Error",
+        "success": "Success",
+        "cancel": "Cancel",
+        "confirm": "Confirm",
+        "close": "Close",
+        "insert": "Insert",
+        "events": {
+            "supply": "Supply",
+            "stake": "Stake",
+            "transfer": "Transfer",
+            "withdraw": "Withdraw",
+            "claim": "Claim",
+            "propose": "Propose",
+            "vote": "Vote",
+            "approval": "Approval",
+            "redeem": "Redeem",
+            "borrow": "Borrow",
+            "repayborrow": "Repay Borrow",
+            "liquidateborrow": "Liquidate Borrow",
+            "reservesadded": "Reserves Added",
+            "reservesreduced": "Reserves Reduced"
+        },
+        "errors": {
+            "wallet": {
+                "notFound": "Wallet Not Found",
+                "notFoundDescription": "No Ethereum wallet detected. Please install MetaMask or another Web3 wallet.",
+                "connectionRejected": "Connection request was rejected",
+                "providerNotAvailable": "Wallet provider not available. Please install or enable your wallet extension.",
+                "connectionInProgress": "Connection already in progress. Please check your wallet.",
+                "networkError": "Network error. Please ensure your wallet is on the correct network.",
+                "walletDisconnected": "Wallet disconnected. Please reconnect your wallet.",
+                "connectionTimeout": "Connection timeout. Please try again.",
+                "connectionFailed": "Failed to connect wallet. Please try again.",
+                "disconnectionFailed": "Failed to disconnect wallet."
+            },
+            "network": {
+                "notFound": "Wallet Not Found",
+                "notFoundDescription": "No Ethereum wallet detected. Please install MetaMask or another Web3 wallet.",
+                "networkAdded": "Network Added",
+                "networkAddedSuccess": "Successfully added {chainName} to your wallet!",
+                "networkAdditionCancelled": "Network Addition Cancelled",
+                "networkAdditionCancelledDescription": "You cancelled adding the network to your wallet.",
+                "networkSwitched": "Network Switched",
+                "networkSwitchedSuccess": "Successfully switched to {chainName}!",
+                "addingNetwork": "Adding Network",
+                "addingNetworkDescription": "Adding {chainName} to your wallet...",
+                "failedToAddNetwork": "Failed to add network",
+                "networkAddedAndSwitched": "Network Added & Switched",
+                "networkAddedAndSwitchedSuccess": "Successfully added and switched to {chainName}!",
+                "failedToAddNetworkDescription": "Failed to add {chainName}. Please add it manually.",
+                "networkSwitchCancelled": "Network Switch Cancelled",
+                "networkSwitchCancelledDescription": "You cancelled switching networks.",
+                "userCancelledNetworkSwitch": "User cancelled network switch",
+                "failedToSwitchNetwork": "Failed to switch to {chainName}",
+                "networkSwitchFailed": "Network Switch Failed"
+            },
+            "validation": {
+                "invalidPath": "Invalid path: identical tokens",
+                "amountMustBeGreaterThanZero": "Amount must be greater than 0"
+            }
+        },
+        "ui": {
+            "search": "Search",
+            "placeholder": "https://example.com",
+            "wallet": "Wallet",
+            "connect": "Connect",
+            "info": "Info",
+            "swap": "Swap",
+            "toggleSection": "Toggle section",
+            "expand": "Expand",
+            "toggleDropdown": "Toggle dropdown",
+            "toggleAction": "Toggle action",
+            "stakingGraph": "Staking and daily earnings graph",
+            "stakedTokens": "Staked Tokens",
+            "totalProposals": "Total Proposals",
+            "votingPower": "Voting Power",
+            "insertLink": "Insert Link",
+            "onyxGovernance": "Onyx Governance",
+            "onyxLogoBackground": "Onyx Logo Background",
+            "onyxDecoration": "Onyx decoration",
+            "selectedText": "Selected Text:",
+            "linkText": "Link Text:",
+            "url": "URL:",
+            "normal": "Normal",
+            "title1": "Title 1",
+            "title2": "Title 2",
+            "title3": "Title 3",
+            "title4": "Title 4"
+        }
+    },
+    "toast": {
+        "copyAddress": {
+            "success": "Address Copied!",
+            "successSubtext": "Wallet address has been copied to clipboard"
+        },
+        "staking": {
+            "approved": "XCN tokens approved for staking",
+            "stakeSuccess": "Successfully staked {amount} XCN",
+            "stakeFailed": "Staking Failed",
+            "withdrawSuccess": "Successfully withdrew {amount} XCN",
+            "withdrawFailed": "Withdrawal Failed",
+            "claimSuccess": "Rewards claimed successfully!",
+            "claimFailed": "Failed to claim rewards",
+            "rejected": "Transaction Rejected",
+            "rejectedSub": "You rejected the transaction in your wallet"
+        },
+        "swapTransaction": {
+            "success": "Swap Succeeded",
+            "successSubtext": "Your assets have been exchanged successfully",
+            "failed": "Swap Failed",
+            "failedSubtext": "Your ETH balance to cover gas fee was too small",
+            "rejected": "Transaction Rejected",
+            "rejectedSubtext": "You rejected the transaction in your wallet",
+            "approvalSuccess": "Approval successful. You can now swap"
+        },
+        "transaction": {
+            "failed": "Transaction Failed",
+            "rejected": "Transaction Rejected",
+            "rejectedSubtext": "You rejected the transaction in your wallet",
+            "insufficientGas": "Insufficient Gas",
+            "insufficientGasSubtext": "Your ETH balance is too low to cover the gas fee for this transaction",
+            "defaultError": "Transaction Error",
+            "defaultErrorSubtext": "Something went wrong while processing your transaction. Please try again."
+        },
+        "wallet": {
+            "connected": "Wallet Connected",
+            "connectedSuccess": "Successfully connected to {walletId}",
+            "connectionFailed": "Connection Failed",
+            "unableToConnect": "Unable to connect wallet",
+            "disconnected": "Wallet Disconnected",
+            "disconnectedSuccess": "Successfully disconnected from wallet",
+            "disconnectionFailed": "Wallet Disconnection Failed",
+            "failedToDisconnect": "Failed to disconnect wallet"
+        },
+        "network": {
+            "wrongNetwork": "Wrong Network",
+            "wrongNetworkSubtext": "Please switch to the Ethereum network to use swap",
+            "wrongNetworkFarmSubtext": "Please switch to the Ethereum network to farm",
+            "wrongNetworkStakingSubtext": "Please switch to the Ethereum network to use staking"
+        }
+    },
+    "swap": {
+        "title": "Swap",
+        "description": "Change your crypto for the other assets",
+        "settings": "Swap settings",
+        "swapButton": "Swap",
+        "swapping": "Swapping...",
+        "approving": "Approving...",
+        "approveXcn": "Approve",
+        "wrongNetwork": "Wrong Network",
+        "insufficientFunds": "Insufficient Funds",
+        "from": "From",
+        "to": "To",
+        "availableBalance": "Available Balance:",
+        "placeholder": "0",
+        "info": {
+            "exchangeRate": "Exchange rate:",
+            "slippageTolerance": "Slippage Tolerance:",
+            "minimumReceived": "Minimum received:",
+            "gasFee": "Gas Fee:",
+            "tooltips": {
+                "exchangeRate": "Shows how much of the to-token you get\nfor 1 unit of the from-token.",
+                "slippageTolerance": "Maximum acceptable price movement\nbetween order submission and execution.",
+                "gasFee": "Gas fees vary with network\ntraffic — higher demand means higher fees.",
+                "minimumReceived": "Estimated amount you’ll get after\nslippage and fees are applied."
+            }
+        }
+    },
+    "metadata": {
+        "title": "Onyx Protocol",
+        "description": "Onyx is the backbone of Web3 and blockchain infrastructure powered by Onyxcoin (XCN).",
+        "keywords": "onyx, onyx protocol, defi, borrow, lend, crypto, blockchain, Ethereum Chain, decentralized finance",
+        "openGraph": {
+            "title": "Onyx Protocol",
+            "description": "Onyx is the backbone of Web3 and blockchain infrastructure powered by Onyxcoin (XCN).",
+            "siteName": "Onyx Protocol"
+        },
+        "twitter": {
+            "title": "Onyx Protocol",
+            "description": "Onyx is the backbone of Web3 and blockchain infrastructure powered by Onyxcoin (XCN)."
+        }
+    },
+    "staking": {
+        "title": "Staking",
+        "description": "Stake or withdraw your tokens",
+        "stakedTokensTitle": "Staked Tokens",
+        "stakedTokensDescription": "View and claim your staking rewards",
+        "historyTitle": "Staking History",
+        "historyDescription": "History of your staking activity",
+        "dataBoxes": {
+            "stakingAPR": "Staking APR",
+            "dailyEmission": "Daily Emission",
+            "totalStaked": "Total Staked",
+            "totalTreasury": "Total Treasury",
+            "pointsAPR": "Points APR"
+        },
+        "stakeComponent": {
+            "amount": "Amount",
+            "availableBalance": "Available Balance:",
+            "stake": "Stake",
+            "withdraw": "Withdraw",
+            "estimatedDailyEarnings": "Estimated Daily Earnings:",
+            "stakingAPR": "Staking APR",
+            "connectWallet": "Connect Wallet",
+            "loading": "Loading...",
+            "approving": "Approving...",
+            "staking": "Staking...",
+            "withdrawing": "Withdrawing...",
+            "approveXcn": "Approve Token",
+            "walletNotConnected": "Wallet Not Connected",
+            "walletNotConnectedSubtext": "Please connect your wallet to continue",
+            "invalidAmount": "Invalid Amount",
+            "invalidAmountSubtext": "Please enter a valid amount",
+            "approvalSuccess": "Token approved successfully",
+            "approvalFailed": "Approval Failed",
+            "insufficientBalance": "Insufficient Balance",
+            "insufficientBalanceSubtext": "You don't have enough XCN tokens",
+            "insufficientStakedAmount": "Insufficient Staked Amount",
+            "insufficientStakedAmountSubtext": "You don't have enough staked tokens",
+            "stakingSuccess": "Successfully staked {amount} XCN",
+            "stakingFailed": "Staking Failed",
+            "withdrawSuccess": "Successfully withdrew {amount} XCN",
+            "withdrawFailed": "Withdrawal Failed"
+        },
+        "stakedTokens": {
+            "yourStakedTokens": "Your Staked Tokens",
+            "dailyEarnings": "Daily Earnings",
+            "toClaim": "To Claim",
+            "claimRewards": "Claim Rewards"
+        },
+        "history": {
+            "historyTitle": "Empty Staking History",
+            "created": "Created",
+            "txnHash": "Txn Hash",
+            "block": "Block",
+            "type": "Type",
+            "amount": "Amount",
+            "stake": "Stake",
+            "withdraw": "Withdraw"
+        },
+        "governance": {
+            "title": "Governance",
+            "description": "Vote for proposals that are created",
+            "createProposal": "Create Proposal",
+            "cards": {
+                "votingPower": {
+                    "title": "My Voting Power"
+                },
+                "addVotingPower": "Add Voting Power",
+                "stakedTokens": {
+                    "title": "Staked Tokens"
+                },
+                "totalProposals": {
+                    "title": "Total Proposals"
+                }
+            }
+        },
+        "graph": {
+            "staked": "Staked:",
+            "earnings": "Earnings:",
+            "dailyEarnings": "Daily Earnings",
+            "stakedLabel": "Staked"
+        },
+        "table": {
+            "type": "Type",
+            "txnHash": "Txn Hash",
+            "block": "Block",
+            "amount": "Amount",
+            "created": "Created",
+            "empty": {
+                "descriptionLine1": "Your history will appear here",
+                "descriptionLine2": "once you make your first stake."
+            }
+        }
+    },
+    "history": {
+        "title": "History",
+        "description": "Check all the users transactions from our platform",
+        "from": "From",
+        "to": "To",
+        "txnHash": "Txn Hash",
+        "block": "Block",
+        "created": "Created",
+        "search": "Enter an address",
+        "allTransactions": "All Transactions",
+        "myTransactions": "My Transactions",
+        "allTxns": "All Txns",
+        "myTxns": "My Txns",
+        "allTypes": "All Types",
+        "types": {
+            "supply": "Supply",
+            "stake": "Stake",
+            "transfer": "Transfer",
+            "withdraw": "Withdraw",
+            "claim": "Claim",
+            "propose": "Propose",
+            "vote": "Vote",
+            "approval": "Approval",
+            "redeem": "Redeem",
+            "borrow": "Borrow",
+            "repayborrow": "Repay Borrow",
+            "liquidateborrow": "Liquidate Borrow",
+            "reservesadded": "Reserves Added",
+            "reservesreduced": "Reserves Reduced"
+        },
+        "table": {
+            "type": "Type",
+            "from": "From",
+            "to": "To",
+            "txnHash": "Txn Hash",
+            "block": "Block",
+            "amount": "Amount",
+            "created": "Created",
+            "empty": {
+                "title": "Empty History",
+                "descriptionLine1": "Your history will appear here",
+                "descriptionLine2": "once you make your first operation."
+            }
+        }
+    },
+    "farms": {
+        "title": "Farms",
+        "description": "Stake LP tokens to earn boosted XCN rewards",
+        "farmRow": {
+            "stakingAPR": "Staking APR",
+            "dailyEmission": "Daily Emission",
+            "totalStaked": "Total Staked"
+        },
+        "addLiquidity": "Add Liquidity",
+        "approvePair": "Approve Farming Pair",
+        "actionPanel": {
+            "stake": "Stake",
+            "withdraw": "Withdraw",
+            "amount": "Amount",
+            "availableBalance": "Available Balance:",
+            "estimatedDailyEarnings": "Estimated Daily Earnings:",
+            "stakingAPR": "Staking APR"
+        },
+        "stats": {
+            "yourStakedTokens": "Your Staked LP Tokens",
+            "dailyEarnings": "Daily Earnings",
+            "toClaim": "To Claim",
+            "claimRewards": "Claim Rewards"
+        },
+        "action": {
+            "title": "Farm Action",
+            "subtext": "Action: {action}, Amount: {amount}"
+        }
+    },
+    "governance": {
+        "title": "Governance",
+        "description": "Vote for proposals that are created",
+        "createProposal": "Create Proposal",
+        "createProposalTooltip": "You need to have 100,000,000 voting power to create a proposal.",
+        "cards": {
+            "votingPower": {
+                "title": "My Voting Power"
+            },
+            "addVotingPower": "Add Voting Power",
+            "stakedTokens": {
+                "title": "Staked Tokens"
+            },
+            "totalProposals": {
+                "title": "Total Proposals"
+            }
+        },
+        "proposal": {
+            "backToOverview": "Back To Overview",
+            "voteFor": "Vote For",
+            "voteAgainst": "Vote Against",
+            "timeUntilExecutable": "Time Until Executable",
+            "executionReady": "Execution Ready",
+            "votingActive": "Voting Active",
+            "votingPending": "Voting Pending",
+            "addresses": "Addresses",
+            "votes": "Votes",
+            "description": "Description",
+            "operation": "Operation",
+            "descriptionSubtext": "Check details about this proposal",
+            "status": {
+                "executed": "Executed",
+                "expired": "Expired",
+                "active": "Active",
+                "pending": "Pending"
+            },
+            "userVoteStatus": {
+                "youVoted": "You Voted",
+                "youNotVoted": "You Not Voted"
+            },
+            "filters": {
+                "allStatuses": "All Statuses"
+            },
+            "timeline": {
+                "created": "Created",
+                "active": "Active",
+                "queued": "Queued",
+                "succeed": "Succeed",
+                "execute": "Execute",
+                "canceled": "Canceled"
+            }
+        },
+        "createProposalModal": {
+            "titles": {
+                "proposalInformations": "Proposal Informations",
+                "proposalActions": "Proposal Actions",
+                "confirmation": "Confirmation",
+                "createProposal": "Create Proposal"
+            },
+            "fields": {
+                "proposalName": "Proposal Name",
+                "proposalNamePlaceholder": "Proposal Name",
+                "description": "Description",
+                "descriptionPlaceholder": "Enter your proposal description..."
+            },
+            "buttons": {
+                "nextStep": "Next Step",
+                "previousStep": "Previous Step",
+                "confirm": "Confirm",
+                "createProposal": "Create Proposal",
+                "addOneMoreAction": "Add One More Action"
+            },
+            "confirmationCards": {
+                "proposalInformations": "Proposal Informations",
+                "actions": "Actions",
+                "stepBadges": {
+                    "step1": "Step 1/2",
+                    "step2": "Step 2/2"
+                },
+                "labels": {
+                    "proposalName": "Proposal Name",
+                    "description": "Description",
+                    "action": "Action #",
+                    "noSignature": "No signature provided"
+                }
+            },
+            "toast": {
+                "success": "Proposal Created Successfully",
+                "successSubtext": "Your proposal has been submitted and is now live."
+            }
+        }
+    },
+    "points": {
+        "title": "Onyx Points",
+        "description": "Track your points and see how you rank against other users.",
+        "myPoints": "My Points",
+        "pointsApr": "Points APR",
+        "position": "Position",
+        "pointsLeft": "pts left",
+        "pts": "pts",
+        "points": "Points:",
+        "shareYourPoints": "Share Your Points",
+        "shareDescription": "Share with your community",
+        "share": "Share",
+        "howToEarnTitle": "How To Earn Points",
+        "howToEarnDescription": "Earn points by participating in eligible activities.",
+        "learnMore": "Learn More",
+        "leaderboardTitle": "Leaderboard",
+        "leaderboardDescription": "View the rankings of Onyx Points participants",
+        "leaderboard": {
+            "place": "Place",
+            "userAddress": "User Address",
+            "amount": "Amount",
+            "empty": {
+                "title": "No Leaderboard Data",
+                "descriptionLine1": "Leaderboard entries will appear here",
+                "descriptionLine2": "once there is participation."
+            }
+        },
+        "cards": {
+            "passivePoints": {
+                "title": "Passive Points",
+                "description": "Earn PP by simply holding whitelisted assets on XCN Ledger.",
+                "exploreAssets": "Explore Assets"
+            },
+            "activePoints": {
+                "title": "Active Points",
+                "description": "Earn AP by deploying your whitelisted assets on XCN Ledger.",
+                "exploreApps": "Explore Apps"
+            },
+            "appPoints": {
+                "title": "App Points",
+                "description": "Earn APP by using Onyx XCN Ledger based dApps.",
+                "exploreApps": "Explore Apps"
+            }
+        },
+        "status": {
+            "active": "Active",
+            "comingSoon": "Coming Soon"
+        },
+        "stats": {
+            "person": "person",
+            "place": "Place",
+            "thePerson": "The"
+        },
+        "enroll": {
+            "enrollNow": "Enroll Now",
+            "enrolling": "Enrolling..."
+        },
+        "bridge": {
+            "bridgeXcn": "Bridge XCN",
+            "bridgeDescription": "Change chain of your XCN",
+            "bridge": "Bridge"
+        }
+    }
+}

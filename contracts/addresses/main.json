@@ -1,0 +1,41 @@
+{
+    "comptroller": {
+        "1": "0xcC53F8fF403824a350885A345ED4dA649e060369"
+    },
+    "oracle": {
+        "1": "0x29d8da61e7620ac4082078c59cA49b84352d6a7b"
+    },
+    "governorBravoDelegator": {
+        "1": "0xdec2F31C3984F3440540DC78Ef21b1369d4eF767"
+    },
+    "xcnLens": {
+        "1": "0x138471b0f92cDA9Ea74b2845858E494Abc670b78"
+    },
+    "maximillion": {
+        "1": "0xfF42a051129a1313F5c907539630238E0c9c233B"
+    },
+    "xcnStaking": {
+        "1": "0x23445c63feef8d85956dc0f19ade87606d0e19a9"
+    },
+    "xcnClaim": {
+        "1": "0x28ca9caae31602d0312ebf6466c9dd57fca5da93"
+    },
+    "wpunks": {
+        "1": "0xb7F7F6C52F2e2fdb1963Eab30438024864c313F6"
+    },
+    "punk": {
+        "1": "0xb47e3cd837ddf8e4c57f05d70ab865de6e193bbb"
+    },
+    "punkData": {
+        "1": "0x16f5a35647d6f03d5d3da7b35409d65ba03af3b2"
+    },
+    "liquidationProxy": {
+        "1": "0x323398DE3C35F96053D930d25FE8d92132F83d44"
+    },
+    "uniSwapRouter": {
+        "1": "0x7a250d5630B4cF539739dF2C5dAcb4c659F2488D"
+    },
+    "masterChef": {
+        "1": "0x3fA642C0bBad64569eb8424af35F518347249216"
+    }
+}

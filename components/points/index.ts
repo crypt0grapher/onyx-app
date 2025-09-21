@@ -1,0 +1,13 @@
+export { default as PointsStats } from "./PointsStats";
+export { default as SharePoints } from "./SharePoints";
+export { default as EnrollButton } from "./EnrollButton";
+export { default as LearnSection } from "./LearnSection";
+export { default as ExploreCard } from "./ExploreCard";
+export { default as PassivePointsCard } from "./PassivePointsCard";
+export { default as ActivePointsCard } from "./ActivePointsCard";
+export { default as TopWinners } from "./TopWinners";
+export { default as LeaderboardTable } from "./LeaderboardTable";
+export { default as PointsPageHeader } from "./PointsPageHeader";
+export { default as PointsStatsSection } from "./PointsStatsSection";
+export { default as PointsCardsSection } from "./PointsCardsSection";
+export { default as PointsLeaderboardSection } from "./PointsLeaderboardSection";
