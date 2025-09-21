@@ -231,17 +231,17 @@
         }
     },
     "metadata": {
-        "title": "Onyx Protocol",
-        "description": "Onyx is the backbone of Web3 and blockchain infrastructure powered by Onyxcoin (XCN).",
+        "title": "Onyx App",
+        "description": "Onyx is an infrastructure for a multi-asset, scalable, and cryptographically secure ledger powered by Onyxcoin (XCN).",
         "keywords": "onyx, onyx protocol, defi, borrow, lend, crypto, blockchain, Ethereum Chain, decentralized finance",
         "openGraph": {
-            "title": "Onyx Protocol",
-            "description": "Onyx is the backbone of Web3 and blockchain infrastructure powered by Onyxcoin (XCN).",
-            "siteName": "Onyx Protocol"
+            "title": "Onyx App",
+            "description": "Onyx is an infrastructure for a multi-asset, scalable, and cryptographically secure ledger powered by Onyxcoin (XCN).",
+            "siteName": "Onyx App"
         },
         "twitter": {
-            "title": "Onyx Protocol",
-            "description": "Onyx is the backbone of Web3 and blockchain infrastructure powered by Onyxcoin (XCN)."
+            "title": "Onyx App",
+            "description": "Onyx is an infrastructure for a multi-asset, scalable, and cryptographically secure ledger powered by Onyxcoin (XCN)."
         }
     },
     "staking": {
