@@ -11,6 +11,7 @@ import type { WalletId } from "@/types/wallet";
 const WalletConnectionHandler: React.FC = () => {
     const { isModalOpen, closeModal, connect, isConnected } = useWallet();
     const t = useTranslations("sidebar.wallet.modal");
+    const tWallet = useTranslations("sidebar.wallet");
 
     const handleWalletSelect = async (walletId: string) => {
         await connect(walletId as WalletId);
@@ -42,7 +43,7 @@ const WalletConnectionHandler: React.FC = () => {
             onClose={closeModal}
             title={t("title")}
             subtext={modalSubtext}
-            ariaLabel="Connect wallet to Onyx Protocol"
+            ariaLabel={tWallet("connect") + " to Onyx Protocol"}
         >
             <WalletModalContent onWalletSelect={handleWalletSelect} />
         </Modal>

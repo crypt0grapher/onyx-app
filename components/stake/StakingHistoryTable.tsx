@@ -26,6 +26,8 @@ const StakingHistoryTable: React.FC = () => {
     const t = useTranslations("staking.history");
     const tableT = useTranslations("staking.table");
     const evT = useTranslations("common.events");
+    const timeT = useTranslations("time");
+
     const {
         items,
         currentPage,
@@ -110,7 +112,7 @@ const StakingHistoryTable: React.FC = () => {
             className: tableHeaders[3].className,
         },
         {
-            content: formatRelativeTimeFromSeconds(event.blockTimestamp),
+            content: formatRelativeTimeFromSeconds(event.blockTimestamp, timeT),
             className: tableHeaders[4].className,
         },
     ];
@@ -118,7 +120,7 @@ const StakingHistoryTable: React.FC = () => {
     const formatMobileRowDetails = (event: HistoryItem) => [
         {
             label: t("created"),
-            value: formatRelativeTimeFromSeconds(event.blockTimestamp),
+            value: formatRelativeTimeFromSeconds(event.blockTimestamp, timeT),
         },
         {
             label: t("txnHash"),

@@ -77,6 +77,13 @@
             "reservesadded": "Reserves Added",
             "reservesreduced": "Reserves Reduced"
         },
+        "percentageOptions": {
+            "0": "0%",
+            "25": "25%",
+            "50": "50%",
+            "75": "75%",
+            "100": "Max"
+        },
         "errors": {
             "wallet": {
                 "notFound": "Wallet Not Found",
@@ -283,7 +290,10 @@
             "yourStakedTokens": "Your Staked Tokens",
             "dailyEarnings": "Daily Earnings",
             "toClaim": "To Claim",
-            "claimRewards": "Claim Rewards"
+            "claimRewards": "Claim Rewards",
+            "claiming": "Claiming...",
+            "noRewards": "No Rewards",
+            "noRewardsSubtext": "You have no rewards to claim"
         },
         "history": {
             "historyTitle": "Empty Staking History",
@@ -316,7 +326,17 @@
             "staked": "Staked:",
             "earnings": "Earnings:",
             "dailyEarnings": "Daily Earnings",
-            "stakedLabel": "Staked"
+            "stakedLabel": "Staked",
+            "connectWalletTitle": "Connect Wallet",
+            "connectWalletDescriptionLine1": "Connect your wallet to",
+            "connectWalletDescriptionLine2": "see your staking data",
+            "loading": "Loading graph data...",
+            "errorTitle": "Error",
+            "errorDescriptionLine1": "Unable to load staking",
+            "errorDescriptionLine2": "performance data",
+            "noDataTitle": "No Data",
+            "noDataDescriptionLine1": "No staking performance",
+            "noDataDescriptionLine2": "data available"
         },
         "table": {
             "type": "Type",
@@ -397,7 +417,24 @@
             "yourStakedTokens": "Your Staked LP Tokens",
             "dailyEarnings": "Daily Earnings",
             "toClaim": "To Claim",
-            "claimRewards": "Claim Rewards"
+            "claimRewards": "Claim Rewards",
+            "claiming": "Claiming..."
+        },
+        "graph": {
+            "staked": "Staked:",
+            "earnings": "Earnings:",
+            "dailyEarnings": "Daily Earnings",
+            "stakedLabel": "Staked",
+            "connectWalletTitle": "Connect Wallet",
+            "connectWalletDescriptionLine1": "Connect your wallet to",
+            "connectWalletDescriptionLine2": "see your farming data",
+            "loading": "Loading graph data...",
+            "errorTitle": "Unable to Load Data",
+            "errorDescriptionLine1": "Unable to load farming",
+            "errorDescriptionLine2": "data. Please try again.",
+            "noDataTitle": "No Data",
+            "noDataDescriptionLine1": "No farming performance",
+            "noDataDescriptionLine2": "data available"
         },
         "action": {
             "title": "Farm Action",
@@ -434,6 +471,7 @@
             "description": "Description",
             "operation": "Operation",
             "descriptionSubtext": "Check details about this proposal",
+            "searchPlaceholder": "Search proposals...",
             "status": {
                 "executed": "Executed",
                 "expired": "Expired",
@@ -467,7 +505,13 @@
                 "proposalName": "Proposal Name",
                 "proposalNamePlaceholder": "Proposal Name",
                 "description": "Description",
-                "descriptionPlaceholder": "Enter your proposal description..."
+                "descriptionPlaceholder": "Enter your proposal description...",
+                "address": "Address",
+                "addressPlaceholder": "Address",
+                "value": "Value",
+                "valuePlaceholder": "Value",
+                "signature": "Signature",
+                "signaturePlaceholder": "Signature"
             },
             "buttons": {
                 "nextStep": "Next Step",
@@ -488,6 +532,17 @@
                     "description": "Description",
                     "action": "Action #",
                     "noSignature": "No signature provided"
+                }
+            },
+            "textEditor": {
+                "linkDialog": {
+                    "cancel": "Cancel",
+                    "insert": "Insert",
+                    "linkTextPlaceholder": "Link Text",
+                    "linkUrlPlaceholder": "https://example.com",
+                    "urlLabel": "URL:",
+                    "selectedTextLabel": "Selected Text:",
+                    "linkTextLabel": "Link Text:"
                 }
             },
             "toast": {
@@ -558,5 +613,32 @@
             "bridgeDescription": "Change chain of your XCN",
             "bridge": "Bridge"
         }
+    },
+    "time": {
+        "lessThanMinute": "less than a minute ago",
+        "minuteAgo": "a minute ago",
+        "hourAgo": "an hour ago",
+        "dayAgo": "a day ago",
+        "weekAgo": "a week ago",
+        "monthAgo": "a month ago",
+        "yearAgo": "a year ago",
+        "minutesAgo": "{minutes} minutes ago",
+        "hoursAgo": "{hours} hours ago",
+        "daysAgo": "{days} days ago",
+        "weeksAgo": "{weeks} weeks ago",
+        "monthsAgo": "{months} months ago",
+        "yearsAgo": "{years} years ago",
+        "inMinute": "in a minute",
+        "inHour": "in an hour",
+        "inDay": "in a day",
+        "inWeek": "in a week",
+        "inMonth": "in a month",
+        "inYear": "in a year",
+        "inMinutes": "in {minutes} minutes",
+        "inHours": "in {hours} hours",
+        "inDays": "in {days} days",
+        "inWeeks": "in {weeks} weeks",
+        "inMonths": "in {months} months",
+        "inYears": "in {years} years"
     }
 }

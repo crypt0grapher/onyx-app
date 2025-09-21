@@ -3,6 +3,7 @@
 import React, { useState, useEffect } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import Image from "next/image";
+import { useTranslations } from "next-intl";
 import StatusBadge from "@/components/ui/pills/StatusBadge";
 import Divider from "@/components/ui/common/Divider";
 import InputField from "@/components/ui/common/InputField";
@@ -30,6 +31,7 @@ const ProposalActionCard: React.FC<ProposalActionCardProps> = ({
 }) => {
     const [isExpanded, setIsExpanded] = useState(isExpandedByDefault);
     const [hasInitiallyRendered, setHasInitiallyRendered] = useState(false);
+    const t = useTranslations("governance.createProposalModal.fields");
 
     useEffect(() => {
         if (isExpandedByDefault && !hasInitiallyRendered) {
@@ -95,8 +97,8 @@ const ProposalActionCard: React.FC<ProposalActionCardProps> = ({
                         <Divider className="mb-4" />
                         <div className="flex flex-col gap-4 w-full px-4">
                             <InputField
-                                label="Address"
-                                placeholder="Address"
+                                label={t("address")}
+                                placeholder={t("addressPlaceholder")}
                                 value={action.address}
                                 onChange={(value) =>
                                     handleFieldChange("address", value)
@@ -104,8 +106,8 @@ const ProposalActionCard: React.FC<ProposalActionCardProps> = ({
                             />
 
                             <InputField
-                                label="Value"
-                                placeholder="Value"
+                                label={t("value")}
+                                placeholder={t("valuePlaceholder")}
                                 value={action.value}
                                 onChange={(value) =>
                                     handleFieldChange("value", value)
@@ -113,8 +115,8 @@ const ProposalActionCard: React.FC<ProposalActionCardProps> = ({
                             />
 
                             <InputField
-                                label="Signature"
-                                placeholder="Signature"
+                                label={t("signature")}
+                                placeholder={t("signaturePlaceholder")}
                                 value={action.signature}
                                 onChange={(value) =>
                                     handleFieldChange("signature", value)

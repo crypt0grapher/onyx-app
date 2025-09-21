@@ -107,16 +107,16 @@ const FarmActionPanel: React.FC = () => {
         if (!isConnected) {
             showToast({
                 variant: "danger",
-                text: "Wallet Not Connected",
-                subtext: "Please connect your wallet to continue",
+                text: tStake("walletNotConnected"),
+                subtext: tStake("walletNotConnectedSubtext"),
             });
             return;
         }
         if (!amount || parseFloat(amount) <= 0) {
             showToast({
                 variant: "danger",
-                text: "Invalid Amount",
-                subtext: "Please enter a valid amount",
+                text: tStake("invalidAmount"),
+                subtext: tStake("invalidAmountSubtext"),
             });
             return;
         }

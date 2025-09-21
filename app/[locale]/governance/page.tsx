@@ -34,7 +34,9 @@ export default function Governance() {
                     <div className="flex flex-col md:flex-row gap-2 mb-4 w-full">
                         <div className="flex-1">
                             <SearchBar
-                                placeholder="Search proposals..."
+                                placeholder={t(
+                                    "governance.proposal.searchPlaceholder"
+                                )}
                                 backgroundColor="bg-[#141414]"
                                 value={searchQuery}
                                 onChange={setSearchQuery}

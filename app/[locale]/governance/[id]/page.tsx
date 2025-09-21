@@ -17,7 +17,7 @@ import useProposalTimeline, {
     type TimelineEvent,
 } from "@/hooks/governance/useProposalTimeline";
 import { useProposalCountdown } from "@/hooks/governance/useProposalCountdown";
-import PageLoader from "@/components/ui/common/PageLoader";
+import ProposalDetailSkeleton from "@/components/governance/ProposalDetailSkeleton";
 import { useCastVote } from "@/hooks/governance/useCastVote";
 import { useProposalState } from "@/hooks/governance/useProposalState";
 
@@ -64,17 +64,7 @@ export default function ProposalDetailPage() {
 
     const isLoading = isProposalLoading || isVotesLoading || isTimelineLoading;
 
-    if (isLoading) {
-        return (
-            <div className="lg:min-h-screen mb-[32px] lg:mb-0 h-full">
-                <main className="lg:ml-[304px] h-full mb-[16px] lg:p-6">
-                    <div className="px-4 lg:px-0">
-                        <PageLoader />
-                    </div>
-                </main>
-            </div>
-        );
-    }
+    if (isLoading) return <ProposalDetailSkeleton />;
 
     return (
         <div className="lg:min-h-screen mb-[32px] lg:mb-0 h-full">

@@ -1,0 +1,644 @@
+{
+    "sidebar": {
+        "navigation": {
+            "stake": "스테이킹",
+            "history": "히스토리",
+            "swap": "스왑",
+            "bridge": "브릿지",
+            "farm": "팜",
+            "governance": "거버넌스",
+            "ai-agent": "AI 에이전트",
+            "points": "포인트",
+            "card": "카드",
+            "payments": "결제",
+            "enterprise": "기업"
+        },
+        "footer": {
+            "terms": "이용약관",
+            "disclosures": "공시",
+            "docs": "문서",
+            "accessLedger": "XCN 원장 접근",
+            "addNetwork": "XCN 네트워크를 지갑에 추가",
+            "addNetworkButton": "네트워크 추가",
+            "lastBlock": "마지막 블록:"
+        },
+        "status": {
+            "new": "새로운",
+            "soon": "곧 출시",
+            "aiAgentStatus": "AI 에이전트 상태: 새로운",
+            "comingSoonStatus": "{item} 상태: 곧 출시"
+        },
+        "wallet": {
+            "connect": "지갑 연결",
+            "connected": "연결됨",
+            "disconnect": "연결 해제",
+            "modal": {
+                "title": "지갑 연결",
+                "termsText": "지갑을 연결하면 Onyx의",
+                "termsLink": "서비스 약관에 동의하는 것입니다",
+                "closeButton": "모달 닫기",
+                "wallets": {
+                    "onyx": "Onyx 지갑",
+                    "trust": "Trust 지갑",
+                    "metamask": "MetaMask",
+                    "walletconnect": "WalletConnect",
+                    "coinbase": "Coinbase 지갑",
+                    "browser": "브라우저 지갑"
+                }
+            },
+            "info": {
+                "title": "당신의 지갑",
+                "subtext": "연결된 지갑을 확인하고 체인을 전환하세요",
+                "logout": "로그아웃"
+            }
+        }
+    },
+    "common": {
+        "loading": "로딩 중...",
+        "error": "오류",
+        "success": "성공",
+        "cancel": "취소",
+        "confirm": "확인",
+        "close": "닫기",
+        "insert": "삽입",
+        "events": {
+            "supply": "공급",
+            "stake": "스테이킹",
+            "transfer": "전송",
+            "withdraw": "출금",
+            "claim": "청구",
+            "propose": "제안",
+            "vote": "투표",
+            "approval": "승인",
+            "redeem": "상환",
+            "borrow": "대출",
+            "repayborrow": "대출 상환",
+            "liquidateborrow": "대출 청산",
+            "reservesadded": "예비금 추가",
+            "reservesreduced": "예비금 감소"
+        },
+        "percentageOptions": {
+            "0": "0%",
+            "25": "25%",
+            "50": "50%",
+            "75": "75%",
+            "100": "최대"
+        },
+        "errors": {
+            "wallet": {
+                "notFound": "지갑을 찾을 수 없음",
+                "notFoundDescription": "이더리움 지갑을 감지할 수 없습니다. MetaMask 또는 다른 Web3 지갑을 설치하세요.",
+                "connectionRejected": "연결 요청이 거부됨",
+                "providerNotAvailable": "지갑 제공자를 사용할 수 없습니다. 지갑 확장 프로그램을 설치하거나 활성화하세요.",
+                "connectionInProgress": "연결이 이미 진행 중입니다. 지갑을 확인하세요.",
+                "networkError": "네트워크 오류. 지갑이 올바른 네트워크에 있는지 확인하세요.",
+                "walletDisconnected": "지갑 연결이 끊어졌습니다. 지갑을 다시 연결하세요.",
+                "connectionTimeout": "연결 시간 초과. 다시 시도하세요.",
+                "connectionFailed": "지갑 연결 실패. 다시 시도하세요.",
+                "disconnectionFailed": "지갑 연결 해제 실패."
+            },
+            "network": {
+                "notFound": "지갑을 찾을 수 없음",
+                "notFoundDescription": "이더리움 지갑을 감지할 수 없습니다. MetaMask 또는 다른 Web3 지갑을 설치하세요.",
+                "networkAdded": "네트워크가 추가됨",
+                "networkAddedSuccess": "{chainName}를 지갑에 성공적으로 추가했습니다!",
+                "networkAdditionCancelled": "네트워크 추가가 취소됨",
+                "networkAdditionCancelledDescription": "지갑에 네트워크 추가를 취소했습니다.",
+                "networkSwitched": "네트워크가 전환됨",
+                "networkSwitchedSuccess": "{chainName}로 성공적으로 전환했습니다!",
+                "addingNetwork": "네트워크 추가 중",
+                "addingNetworkDescription": "지갑에 {chainName}를 추가하는 중...",
+                "failedToAddNetwork": "네트워크 추가 실패",
+                "networkAddedAndSwitched": "네트워크가 추가되고 전환됨",
+                "networkAddedAndSwitchedSuccess": "{chainName}를 성공적으로 추가하고 전환했습니다!",
+                "failedToAddNetworkDescription": "{chainName} 추가 실패. 수동으로 추가하세요.",
+                "networkSwitchCancelled": "네트워크 전환이 취소됨",
+                "networkSwitchCancelledDescription": "네트워크 전환을 취소했습니다.",
+                "userCancelledNetworkSwitch": "사용자가 네트워크 전환을 취소함",
+                "failedToSwitchNetwork": "{chainName}로 전환 실패",
+                "networkSwitchFailed": "네트워크 전환 실패"
+            },
+            "validation": {
+                "invalidPath": "잘못된 경로: 동일한 토큰",
+                "amountMustBeGreaterThanZero": "금액은 0보다 커야 합니다"
+            }
+        },
+        "ui": {
+            "search": "검색",
+            "placeholder": "https://example.com",
+            "wallet": "지갑",
+            "connect": "연결",
+            "info": "정보",
+            "swap": "스왑",
+            "toggleSection": "섹션 토글",
+            "expand": "확장",
+            "toggleDropdown": "드롭다운 토글",
+            "toggleAction": "작업 토글",
+            "stakingGraph": "스테이킹 및 일일 수익 그래프",
+            "stakedTokens": "스테이킹된 토큰",
+            "totalProposals": "총 제안",
+            "votingPower": "투표권",
+            "insertLink": "링크 삽입",
+            "onyxGovernance": "Onyx 거버넌스",
+            "onyxLogoBackground": "Onyx 로고 배경",
+            "onyxDecoration": "Onyx 장식",
+            "selectedText": "선택된 텍스트:",
+            "linkText": "링크 텍스트:",
+            "url": "URL:",
+            "normal": "일반",
+            "title1": "제목 1",
+            "title2": "제목 2",
+            "title3": "제목 3",
+            "title4": "제목 4"
+        }
+    },
+    "toast": {
+        "copyAddress": {
+            "success": "주소 복사 완료!",
+            "successSubtext": "지갑 주소가 클립보드에 복사되었습니다"
+        },
+        "staking": {
+            "approved": "XCN 토큰이 스테이킹에 승인됨",
+            "stakeSuccess": "{amount} XCN 스테이킹 성공",
+            "stakeFailed": "스테이킹 실패",
+            "withdrawSuccess": "{amount} XCN 출금 성공",
+            "withdrawFailed": "출금 실패",
+            "claimSuccess": "보상 청구 성공!",
+            "claimFailed": "보상 청구 실패",
+            "rejected": "거래가 거부됨",
+            "rejectedSub": "지갑에서 거래를 거부했습니다"
+        },
+        "swapTransaction": {
+            "success": "스왑 성공",
+            "successSubtext": "자산이 성공적으로 교환되었습니다",
+            "failed": "스왑 실패",
+            "failedSubtext": "가스비를 충당할 ETH 잔액이 너무 적습니다",
+            "rejected": "거래가 거부됨",
+            "rejectedSubtext": "지갑에서 거래를 거부했습니다",
+            "approvalSuccess": "승인 성공. 이제 스왑할 수 있습니다"
+        },
+        "transaction": {
+            "failed": "거래 실패",
+            "rejected": "거래가 거부됨",
+            "rejectedSubtext": "지갑에서 거래를 거부했습니다",
+            "insufficientGas": "가스비 부족",
+            "insufficientGasSubtext": "이 거래의 가스비를 충당할 ETH 잔액이 너무 낮습니다",
+            "defaultError": "거래 오류",
+            "defaultErrorSubtext": "거래 처리 중 문제가 발생했습니다. 다시 시도하세요."
+        },
+        "wallet": {
+            "connected": "지갑 연결됨",
+            "connectedSuccess": "{walletId}에 성공적으로 연결됨",
+            "connectionFailed": "연결 실패",
+            "unableToConnect": "지갑을 연결할 수 없음",
+            "disconnected": "지갑 연결 해제됨",
+            "disconnectedSuccess": "지갑과의 연결을 성공적으로 해제함",
+            "disconnectionFailed": "지갑 연결 해제 실패",
+            "failedToDisconnect": "지갑 연결 해제 실패"
+        },
+        "network": {
+            "wrongNetwork": "잘못된 네트워크",
+            "wrongNetworkSubtext": "스왑을 사용하려면 이더리움 네트워크로 전환하세요",
+            "wrongNetworkFarmSubtext": "팜 작업을 하려면 이더리움 네트워크로 전환하세요",
+            "wrongNetworkStakingSubtext": "스테이킹을 사용하려면 이더리움 네트워크로 전환하세요"
+        }
+    },
+    "swap": {
+        "title": "스왑",
+        "description": "암호화폐를 다른 자산으로 교환하세요",
+        "settings": "스왑 설정",
+        "swapButton": "스왑",
+        "swapping": "스왑 중...",
+        "approving": "승인 중...",
+        "approveXcn": "승인",
+        "wrongNetwork": "잘못된 네트워크",
+        "insufficientFunds": "자금 부족",
+        "from": "보내기",
+        "to": "받기",
+        "availableBalance": "사용 가능 잔액:",
+        "placeholder": "0",
+        "info": {
+            "exchangeRate": "환율:",
+            "slippageTolerance": "슬리피지 허용 오차:",
+            "minimumReceived": "최소 수량:",
+            "gasFee": "가스비:",
+            "tooltips": {
+                "exchangeRate": "from-token 1단위로 to-token를 얼마나 얻을 수 있는지 보여줍니다.",
+                "slippageTolerance": "주문 제출과 실행 사이에 허용되는 최대 가격 변동입니다.",
+                "gasFee": "가스비는 네트워크 트래픽에 따라 변동됩니다 — 수요가 높을수록 비용이 높아집니다.",
+                "minimumReceived": "슬리피지와 수수료가 적용된 후 얻게 될 추정 금액입니다."
+            }
+        }
+    },
+    "metadata": {
+        "title": "Onyx 프로토콜",
+        "description": "Onyx는 Onyxcoin(XCN)으로 구동되는 Web3 및 블록체인 인프라의 핵심입니다.",
+        "keywords": "onyx, onyx protocol, defi, borrow, lend, crypto, blockchain, Ethereum Chain, decentralized finance",
+        "openGraph": {
+            "title": "Onyx 프로토콜",
+            "description": "Onyx는 Onyxcoin(XCN)으로 구동되는 Web3 및 블록체인 인프라의 핵심입니다.",
+            "siteName": "Onyx 프로토콜"
+        },
+        "twitter": {
+            "title": "Onyx 프로토콜",
+            "description": "Onyx는 Onyxcoin(XCN)으로 구동되는 Web3 및 블록체인 인프라의 핵심입니다."
+        }
+    },
+    "staking": {
+        "title": "스테이킹",
+        "description": "토큰을 스테이킹하거나 출금하세요",
+        "stakedTokensTitle": "스테이킹된 토큰",
+        "stakedTokensDescription": "스테이킹 보상을 확인하고 청구하세요",
+        "historyTitle": "스테이킹 히스토리",
+        "historyDescription": "스테이킹 활동 기록",
+        "dataBoxes": {
+            "stakingAPR": "스테이킹 APR",
+            "dailyEmission": "일일 발행량",
+            "totalStaked": "총 스테이킹량",
+            "totalTreasury": "총 재고",
+            "pointsAPR": "포인트 APR"
+        },
+        "stakeComponent": {
+            "amount": "금액",
+            "availableBalance": "사용 가능 잔액:",
+            "stake": "스테이킹",
+            "withdraw": "출금",
+            "estimatedDailyEarnings": "예상 일일 수익:",
+            "stakingAPR": "스테이킹 APR",
+            "connectWallet": "지갑 연결",
+            "loading": "로딩 중...",
+            "approving": "승인 중...",
+            "staking": "스테이킹 중...",
+            "withdrawing": "출금 중...",
+            "approveXcn": "토큰 승인",
+            "walletNotConnected": "지갑이 연결되지 않음",
+            "walletNotConnectedSubtext": "계속하려면 지갑을 연결하세요",
+            "invalidAmount": "잘못된 금액",
+            "invalidAmountSubtext": "유효한 금액을 입력하세요",
+            "approvalSuccess": "토큰 승인 성공",
+            "approvalFailed": "승인 실패",
+            "insufficientBalance": "잔액 부족",
+            "insufficientBalanceSubtext": "XCN 토큰이 부족합니다",
+            "insufficientStakedAmount": "스테이킹된 금액 부족",
+            "insufficientStakedAmountSubtext": "스테이킹된 토큰이 부족합니다",
+            "stakingSuccess": "{amount} XCN 스테이킹 성공",
+            "stakingFailed": "스테이킹 실패",
+            "withdrawSuccess": "{amount} XCN 출금 성공",
+            "withdrawFailed": "출금 실패"
+        },
+        "stakedTokens": {
+            "yourStakedTokens": "당신의 스테이킹된 토큰",
+            "dailyEarnings": "일일 수익",
+            "toClaim": "청구 가능",
+            "claimRewards": "보상 청구",
+            "claiming": "청구 중...",
+            "noRewards": "보상 없음",
+            "noRewardsSubtext": "청구할 보상이 없습니다"
+        },
+        "history": {
+            "historyTitle": "빈 스테이킹 히스토리",
+            "created": "생성일",
+            "txnHash": "트랜잭션 해시",
+            "block": "블록",
+            "type": "유형",
+            "amount": "금액",
+            "stake": "스테이킹",
+            "withdraw": "출금"
+        },
+        "governance": {
+            "title": "거버넌스",
+            "description": "생성된 제안에 투표하세요",
+            "createProposal": "제안 생성",
+            "cards": {
+                "votingPower": {
+                    "title": "내 투표권"
+                },
+                "addVotingPower": "투표권 추가",
+                "stakedTokens": {
+                    "title": "스테이킹된 토큰"
+                },
+                "totalProposals": {
+                    "title": "총 제안"
+                }
+            }
+        },
+        "graph": {
+            "staked": "스테이킹:",
+            "earnings": "수익:",
+            "dailyEarnings": "일일 수익",
+            "stakedLabel": "스테이킹됨",
+            "connectWalletTitle": "지갑 연결",
+            "connectWalletDescriptionLine1": "지갑을 연결하여",
+            "connectWalletDescriptionLine2": "스테이킹 데이터를 확인하세요",
+            "loading": "그래프 데이터 로딩 중...",
+            "errorTitle": "오류",
+            "errorDescriptionLine1": "스테이킹 성과 데이터를",
+            "errorDescriptionLine2": "불러올 수 없습니다",
+            "noDataTitle": "데이터 없음",
+            "noDataDescriptionLine1": "스테이킹 성과 데이터가",
+            "noDataDescriptionLine2": "없습니다"
+        },
+        "table": {
+            "type": "유형",
+            "txnHash": "트랜잭션 해시",
+            "block": "블록",
+            "amount": "금액",
+            "created": "생성일",
+            "empty": {
+                "descriptionLine1": "히스토리가 여기에 표시됩니다",
+                "descriptionLine2": "첫 번째 스테이킹을 한 후에는."
+            }
+        }
+    },
+    "history": {
+        "title": "히스토리",
+        "description": "우리 플랫폼의 모든 사용자 거래를 확인하세요",
+        "from": "보낸 사람",
+        "to": "받는 사람",
+        "txnHash": "트랜잭션 해시",
+        "block": "블록",
+        "created": "생성일",
+        "search": "주소 입력",
+        "allTransactions": "모든 거래",
+        "myTransactions": "내 거래",
+        "allTxns": "모든 트랜잭션",
+        "myTxns": "내 트랜잭션",
+        "allTypes": "모든 유형",
+        "types": {
+            "supply": "공급",
+            "stake": "스테이킹",
+            "transfer": "전송",
+            "withdraw": "출금",
+            "claim": "청구",
+            "propose": "제안",
+            "vote": "투표",
+            "approval": "승인",
+            "redeem": "상환",
+            "borrow": "대출",
+            "repayborrow": "대출 상환",
+            "liquidateborrow": "대출 청산",
+            "reservesadded": "예비금 추가",
+            "reservesreduced": "예비금 감소"
+        },
+        "table": {
+            "type": "유형",
+            "from": "보낸 사람",
+            "to": "받는 사람",
+            "txnHash": "트랜잭션 해시",
+            "block": "블록",
+            "amount": "금액",
+            "created": "생성일",
+            "empty": {
+                "title": "빈 히스토리",
+                "descriptionLine1": "히스토리가 여기에 표시됩니다",
+                "descriptionLine2": "첫 번째 작업을 한 후에는."
+            }
+        }
+    },
+    "farms": {
+        "title": "팜",
+        "description": "LP 토큰을 스테이킹하여 향상된 XCN 보상을 얻으세요",
+        "farmRow": {
+            "stakingAPR": "스테이킹 APR",
+            "dailyEmission": "일일 발행량",
+            "totalStaked": "총 스테이킹량"
+        },
+        "addLiquidity": "유동성 추가",
+        "approvePair": "팜 페어 승인",
+        "actionPanel": {
+            "stake": "스테이킹",
+            "withdraw": "출금",
+            "amount": "금액",
+            "availableBalance": "사용 가능 잔액:",
+            "estimatedDailyEarnings": "예상 일일 수익:",
+            "stakingAPR": "스테이킹 APR"
+        },
+        "stats": {
+            "yourStakedTokens": "당신의 스테이킹된 LP 토큰",
+            "dailyEarnings": "일일 수익",
+            "toClaim": "청구 가능",
+            "claimRewards": "보상 청구",
+            "claiming": "청구 중..."
+        },
+        "graph": {
+            "staked": "스테이킹:",
+            "earnings": "수익:",
+            "dailyEarnings": "일일 수익",
+            "stakedLabel": "스테이킹됨",
+            "connectWalletTitle": "지갑 연결",
+            "connectWalletDescriptionLine1": "지갑을 연결하여",
+            "connectWalletDescriptionLine2": "팜 데이터를 확인하세요",
+            "loading": "그래프 데이터 로딩 중...",
+            "errorTitle": "데이터 로드 불가",
+            "errorDescriptionLine1": "팜 데이터를",
+            "errorDescriptionLine2": "불러올 수 없습니다. 다시 시도하세요.",
+            "noDataTitle": "데이터 없음",
+            "noDataDescriptionLine1": "팜 성과 데이터가",
+            "noDataDescriptionLine2": "없습니다"
+        },
+        "action": {
+            "title": "팜 작업",
+            "subtext": "작업: {action}, 금액: {amount}"
+        }
+    },
+    "governance": {
+        "title": "거버넌스",
+        "description": "생성된 제안에 투표하세요",
+        "createProposal": "제안 생성",
+        "createProposalTooltip": "제안을 생성하려면 100,000,000 투표권이 필요합니다.",
+        "cards": {
+            "votingPower": {
+                "title": "내 투표권"
+            },
+            "addVotingPower": "투표권 추가",
+            "stakedTokens": {
+                "title": "스테이킹된 토큰"
+            },
+            "totalProposals": {
+                "title": "총 제안"
+            }
+        },
+        "proposal": {
+            "backToOverview": "개요로 돌아가기",
+            "voteFor": "찬성",
+            "voteAgainst": "반대",
+            "timeUntilExecutable": "실행 가능까지 남은 시간",
+            "executionReady": "실행 준비됨",
+            "votingActive": "투표 활성",
+            "votingPending": "투표 보류 중",
+            "addresses": "주소",
+            "votes": "투표",
+            "description": "설명",
+            "operation": "작업",
+            "descriptionSubtext": "이 제안에 대한 세부 정보 확인",
+            "searchPlaceholder": "제안 검색...",
+            "status": {
+                "executed": "실행됨",
+                "expired": "만료됨",
+                "active": "활성",
+                "pending": "보류 중"
+            },
+            "userVoteStatus": {
+                "youVoted": "투표함",
+                "youNotVoted": "투표하지 않음"
+            },
+            "filters": {
+                "allStatuses": "모든 상태"
+            },
+            "timeline": {
+                "created": "생성일",
+                "active": "활성",
+                "queued": "대기 중",
+                "succeed": "성공",
+                "execute": "실행",
+                "canceled": "취소됨"
+            }
+        },
+        "createProposalModal": {
+            "titles": {
+                "proposalInformations": "제안 정보",
+                "proposalActions": "제안 작업",
+                "confirmation": "확인",
+                "createProposal": "제안 생성"
+            },
+            "fields": {
+                "proposalName": "제안 이름",
+                "proposalNamePlaceholder": "제안 이름",
+                "description": "설명",
+                "descriptionPlaceholder": "제안 설명을 입력하세요...",
+                "address": "주소",
+                "addressPlaceholder": "주소",
+                "value": "값",
+                "valuePlaceholder": "값",
+                "signature": "서명",
+                "signaturePlaceholder": "서명"
+            },
+            "buttons": {
+                "nextStep": "다음 단계",
+                "previousStep": "이전 단계",
+                "confirm": "확인",
+                "createProposal": "제안 생성",
+                "addOneMoreAction": "작업 추가"
+            },
+            "confirmationCards": {
+                "proposalInformations": "제안 정보",
+                "actions": "작업",
+                "stepBadges": {
+                    "step1": "단계 1/2",
+                    "step2": "단계 2/2"
+                },
+                "labels": {
+                    "proposalName": "제안 이름",
+                    "description": "설명",
+                    "action": "작업 #",
+                    "noSignature": "서명 제공되지 않음"
+                }
+            },
+            "textEditor": {
+                "linkDialog": {
+                    "cancel": "취소",
+                    "insert": "삽입",
+                    "linkTextPlaceholder": "링크 텍스트",
+                    "linkUrlPlaceholder": "https://example.com",
+                    "urlLabel": "URL:",
+                    "selectedTextLabel": "선택된 텍스트:",
+                    "linkTextLabel": "링크 텍스트:"
+                }
+            },
+            "toast": {
+                "success": "제안 생성 성공",
+                "successSubtext": "제안이 제출되었으며 이제 라이브 상태입니다."
+            }
+        }
+    },
+    "points": {
+        "title": "Onyx 포인트",
+        "description": "포인트를 추적하고 다른 사용자와 비교하여 순위를 확인하세요.",
+        "myPoints": "내 포인트",
+        "pointsApr": "포인트 APR",
+        "position": "위치",
+        "pointsLeft": "남은 포인트",
+        "pts": "포인트",
+        "points": "포인트:",
+        "shareYourPoints": "포인트 공유",
+        "shareDescription": "커뮤니티와 공유",
+        "share": "공유",
+        "howToEarnTitle": "포인트 획득 방법",
+        "howToEarnDescription": "자격 있는 활동에 참여하여 포인트를 획득하세요.",
+        "learnMore": "더 알아보기",
+        "leaderboardTitle": "리더보드",
+        "leaderboardDescription": "Onyx 포인트 참여자 순위 보기",
+        "leaderboard": {
+            "place": "순위",
+            "userAddress": "사용자 주소",
+            "amount": "수량",
+            "empty": {
+                "title": "리더보드 데이터 없음",
+                "descriptionLine1": "리더보드 항목이 여기에 표시됩니다",
+                "descriptionLine2": "참여자가 생기면."
+            }
+        },
+        "cards": {
+            "passivePoints": {
+                "title": "패시브 포인트",
+                "description": "XCN 원장에서 화이트리스트에 등재된 자산을 보유하여 PP를 획득하세요.",
+                "exploreAssets": "자산 탐색"
+            },
+            "activePoints": {
+                "title": "액티브 포인트",
+                "description": "XCN 원장에서 화이트리스트에 등재된 자산을 배포하여 AP를 획득하세요.",
+                "exploreApps": "앱 탐색"
+            },
+            "appPoints": {
+                "title": "앱 포인트",
+                "description": "Onyx XCN 원장 기반 dApp을 사용하여 APP를 획득하세요.",
+                "exploreApps": "앱 탐색"
+            }
+        },
+        "status": {
+            "active": "활성",
+            "comingSoon": "곧 출시"
+        },
+        "stats": {
+            "person": "사람",
+            "place": "위치",
+            "thePerson": "그"
+        },
+        "enroll": {
+            "enrollNow": "지금 등록",
+            "enrolling": "등록 중..."
+        },
+        "bridge": {
+            "bridgeXcn": "XCN 브릿지",
+            "bridgeDescription": "XCN 체인 변경",
+            "bridge": "브릿지"
+        }
+    },
+    "time": {
+        "lessThanMinute": "1분 미만 전",
+        "minuteAgo": "1분 전",
+        "hourAgo": "1시간 전",
+        "dayAgo": "1일 전",
+        "weekAgo": "1주일 전",
+        "monthAgo": "1개월 전",
+        "yearAgo": "1년 전",
+        "minutesAgo": "{minutes}분 전",
+        "hoursAgo": "{hours}시간 전",
+        "daysAgo": "{days}일 전",
+        "weeksAgo": "{weeks}주일 전",
+        "monthsAgo": "{months}개월 전",
+        "yearsAgo": "{years}년 전",
+        "inMinute": "1분 후",
+        "inHour": "1시간 후",
+        "inDay": "1일 후",
+        "inWeek": "1주일 후",
+        "inMonth": "1개월 후",
+        "inYear": "1년 후",
+        "inMinutes": "{minutes}분 후",
+        "inHours": "{hours}시간 후",
+        "inDays": "{days}일 후",
+        "inWeeks": "{weeks}주일 후",
+        "inMonths": "{months}개월 후",
+        "inYears": "{years}년 후"
+    }
+}

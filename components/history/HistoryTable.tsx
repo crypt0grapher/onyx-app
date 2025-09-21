@@ -51,6 +51,7 @@ const HistoryTable: React.FC<HistoryTableProps> = ({
     const t = useTranslations("history");
     const tableT = useTranslations("history.table");
     const evT = useTranslations("common.events");
+    const timeT = useTranslations("time");
 
     const tableHeaders = [
         {
@@ -170,7 +171,10 @@ const HistoryTable: React.FC<HistoryTableProps> = ({
             className: tableHeaders[5].className,
         },
         {
-            content: formatRelativeTimeFromSeconds(transaction.blockTimestamp),
+            content: formatRelativeTimeFromSeconds(
+                transaction.blockTimestamp,
+                timeT
+            ),
             className: tableHeaders[6].className,
         },
     ];
@@ -212,7 +216,10 @@ const HistoryTable: React.FC<HistoryTableProps> = ({
         },
         {
             label: t("created"),
-            value: formatRelativeTimeFromSeconds(transaction.blockTimestamp),
+            value: formatRelativeTimeFromSeconds(
+                transaction.blockTimestamp,
+                timeT
+            ),
         },
     ];
 

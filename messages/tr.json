@@ -143,6 +143,13 @@
             "liquidateborrow": "Borç Tasfiye",
             "reservesadded": "Rezerv Eklendi",
             "reservesreduced": "Rezerv Azaldı"
+        },
+        "percentageOptions": {
+            "0": "0%",
+            "25": "25%",
+            "50": "50%",
+            "75": "75%",
+            "100": "Maks"
         }
     },
     "toast": {
@@ -283,7 +290,10 @@
             "yourStakedTokens": "Stake Edilen Tokenlarınız",
             "dailyEarnings": "Günlük Kazanç",
             "toClaim": "Talep Edilecek",
-            "claimRewards": "Ödülleri Talep Et"
+            "claimRewards": "Ödülleri Talep Et",
+            "claiming": "Talep ediliyor...",
+            "noRewards": "Ödül Yok",
+            "noRewardsSubtext": "Talep edilecek ödülünüz yok"
         },
         "history": {
             "historyTitle": "Stake Etme Geçmişi",
@@ -305,7 +315,17 @@
             "staked": "Stake Edilen:",
             "earnings": "Kazanç:",
             "dailyEarnings": "Günlük Kazanç",
-            "stakedLabel": "Stake Edilen"
+            "stakedLabel": "Stake Edilen",
+            "connectWalletTitle": "Cüzdan Bağla",
+            "connectWalletDescriptionLine1": "Cüzdanınızı bağlayarak",
+            "connectWalletDescriptionLine2": "stake verinizi görün",
+            "loading": "Grafik verileri yükleniyor...",
+            "errorTitle": "Hata",
+            "errorDescriptionLine1": "Stake performans verileri",
+            "errorDescriptionLine2": "yüklenemedi",
+            "noDataTitle": "Veri Yok",
+            "noDataDescriptionLine1": "Stake performans verisi",
+            "noDataDescriptionLine2": "bulunmuyor"
         },
         "table": {
             "type": "Tür",
@@ -386,7 +406,24 @@
             "yourStakedTokens": "Stake Edilen LP Tokenlarınız",
             "dailyEarnings": "Günlük Kazanç",
             "toClaim": "Talep Edilecek",
-            "claimRewards": "Ödülleri Talep Et"
+            "claimRewards": "Ödülleri Talep Et",
+            "claiming": "Talep ediliyor..."
+        },
+        "graph": {
+            "staked": "Stake Edilen:",
+            "earnings": "Kazanç:",
+            "dailyEarnings": "Günlük Kazanç",
+            "stakedLabel": "Stake Edilen",
+            "connectWalletTitle": "Cüzdan Bağla",
+            "connectWalletDescriptionLine1": "Cüzdanınızı bağlayarak",
+            "connectWalletDescriptionLine2": "çiftlik verinizi görün",
+            "loading": "Grafik verileri yükleniyor...",
+            "errorTitle": "Veri Yüklenemedi",
+            "errorDescriptionLine1": "Çiftlik verileri",
+            "errorDescriptionLine2": "yüklenemedi. Lütfen tekrar deneyin.",
+            "noDataTitle": "Veri Yok",
+            "noDataDescriptionLine1": "Çiftlik performans verisi",
+            "noDataDescriptionLine2": "bulunmuyor"
         },
         "action": {
             "title": "Çiftlik Eylemi",
@@ -423,6 +460,7 @@
             "description": "Açıklama",
             "operation": "Operasyon",
             "descriptionSubtext": "Bu teklif hakkındaki detayları kontrol edin",
+            "searchPlaceholder": "Teklif ara...",
             "status": {
                 "executed": "Yürütüldü",
                 "expired": "Süresi Doldu",
@@ -456,7 +494,13 @@
                 "proposalName": "Teklif Adı",
                 "proposalNamePlaceholder": "Teklif Adı",
                 "description": "Açıklama",
-                "descriptionPlaceholder": "Teklif açıklamanızı girin..."
+                "descriptionPlaceholder": "Teklif açıklamanızı girin...",
+                "address": "Adres",
+                "addressPlaceholder": "Adres",
+                "value": "Değer",
+                "valuePlaceholder": "Değer",
+                "signature": "İmza",
+                "signaturePlaceholder": "İmza"
             },
             "buttons": {
                 "nextStep": "Sonraki Adım",
@@ -477,6 +521,17 @@
                     "description": "Açıklama",
                     "action": "Eylem #",
                     "noSignature": "İmza sağlanmadı"
+                }
+            },
+            "textEditor": {
+                "linkDialog": {
+                    "cancel": "İptal",
+                    "insert": "Ekle",
+                    "linkTextPlaceholder": "Bağlantı Metni",
+                    "linkUrlPlaceholder": "https://example.com",
+                    "urlLabel": "URL:",
+                    "selectedTextLabel": "Seçili Metin:",
+                    "linkTextLabel": "Bağlantı Metni:"
                 }
             },
             "toast": {
@@ -547,5 +602,32 @@
             "bridgeDescription": "XCN'inizin zincirini değiştirin",
             "bridge": "Köprü"
         }
+    },
+    "time": {
+        "lessThanMinute": "bir dakikadan az önce",
+        "minuteAgo": "bir dakika önce",
+        "hourAgo": "bir saat önce",
+        "dayAgo": "bir gün önce",
+        "weekAgo": "bir hafta önce",
+        "monthAgo": "bir ay önce",
+        "yearAgo": "bir yıl önce",
+        "minutesAgo": "{minutes} dakika önce",
+        "hoursAgo": "{hours} saat önce",
+        "daysAgo": "{days} gün önce",
+        "weeksAgo": "{weeks} hafta önce",
+        "monthsAgo": "{months} ay önce",
+        "yearsAgo": "{years} yıl önce",
+        "inMinute": "bir dakika içinde",
+        "inHour": "bir saat içinde",
+        "inDay": "bir gün içinde",
+        "inWeek": "bir hafta içinde",
+        "inMonth": "bir ay içinde",
+        "inYear": "bir yıl içinde",
+        "inMinutes": "{minutes} dakika içinde",
+        "inHours": "{hours} saat içinde",
+        "inDays": "{days} gün içinde",
+        "inWeeks": "{weeks} hafta içinde",
+        "inMonths": "{months} ay içinde",
+        "inYears": "{years} yıl içinde"
     }
 }

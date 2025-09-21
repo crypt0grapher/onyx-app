@@ -7,10 +7,12 @@ import { useLocale } from "next-intl";
 import { useRouter, usePathname } from "@/i18n/navigation";
 import usFlag from "@/assets/icons/US.svg";
 import trFlag from "@/assets/icons/TR.svg";
+import krFlag from "@/assets/icons/KR.svg";
+import cnFlag from "@/assets/icons/CN.svg";
 import arrowDown from "@/assets/icons/arrow-down.svg";
 
 interface Language {
-    code: "en" | "tr";
+    code: "en" | "tr" | "kr" | "cn";
     label: string;
     flag: string;
 }
@@ -18,6 +20,8 @@ interface Language {
 const languages: Language[] = [
     { code: "en", label: "ENG", flag: usFlag },
     { code: "tr", label: "TUR", flag: trFlag },
+    { code: "kr", label: "KOR", flag: krFlag },
+    { code: "cn", label: "CHN", flag: cnFlag },
 ];
 
 interface LanguageSelectorProps {
@@ -90,9 +94,9 @@ export default function LanguageSelector({
             <AnimatePresence>
                 {isOpen && (
                     <motion.div
-                        initial={{ opacity: 0, scale: 0.95, y: -10 }}
+                        initial={{ opacity: 0, scale: 0.95, y: 10 }}
                         animate={{ opacity: 1, scale: 1, y: 0 }}
-                        exit={{ opacity: 0, scale: 0.95, y: -10 }}
+                        exit={{ opacity: 0, scale: 0.95, y: 10 }}
                         transition={{
                             duration: 0.2,
                             ease: "easeOut",
@@ -100,7 +104,7 @@ export default function LanguageSelector({
                             stiffness: 300,
                             damping: 30,
                         }}
-                        className="absolute top-full right-0 mt-2 w-[180px] flex flex-col rounded-lg border border-stroke-lines bg-bg-boxes z-50 shadow-lg"
+                        className="absolute bottom-full right-0 mb-2 w-[180px] flex flex-col rounded-lg border border-stroke-lines bg-bg-boxes z-50 shadow-lg origin-bottom"
                     >
                         {languages.map((language, index) => (
                             <motion.button

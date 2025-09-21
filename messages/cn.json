@@ -1,0 +1,644 @@
+{
+    "sidebar": {
+        "navigation": {
+            "stake": "质押",
+            "history": "历史",
+            "swap": "交换",
+            "bridge": "跨链桥",
+            "farm": "农场",
+            "governance": "治理",
+            "ai-agent": "AI代理",
+            "points": "积分",
+            "card": "卡片",
+            "payments": "支付",
+            "enterprise": "企业"
+        },
+        "footer": {
+            "terms": "条款",
+            "disclosures": "披露",
+            "docs": "文档",
+            "accessLedger": "访问XCN账本",
+            "addNetwork": "添加XCN网络到钱包",
+            "addNetworkButton": "添加网络",
+            "lastBlock": "最新区块："
+        },
+        "status": {
+            "new": "新",
+            "soon": "即将推出",
+            "aiAgentStatus": "AI代理状态：新",
+            "comingSoonStatus": "{item}状态：即将推出"
+        },
+        "wallet": {
+            "connect": "连接钱包",
+            "connected": "已连接",
+            "disconnect": "断开连接",
+            "modal": {
+                "title": "连接钱包",
+                "termsText": "连接钱包即表示您同意Onyx",
+                "termsLink": "服务条款",
+                "closeButton": "关闭模态框",
+                "wallets": {
+                    "onyx": "Onyx钱包",
+                    "trust": "Trust钱包",
+                    "metamask": "MetaMask",
+                    "walletconnect": "WalletConnect",
+                    "coinbase": "Coinbase钱包",
+                    "browser": "浏览器钱包"
+                }
+            },
+            "info": {
+                "title": "您的钱包",
+                "subtext": "检查您已连接的钱包并切换链",
+                "logout": "退出"
+            }
+        }
+    },
+    "common": {
+        "loading": "加载中...",
+        "error": "错误",
+        "success": "成功",
+        "cancel": "取消",
+        "confirm": "确认",
+        "close": "关闭",
+        "insert": "插入",
+        "events": {
+            "supply": "供应",
+            "stake": "质押",
+            "transfer": "转账",
+            "withdraw": "提取",
+            "claim": "领取",
+            "propose": "提议",
+            "vote": "投票",
+            "approval": "批准",
+            "redeem": "赎回",
+            "borrow": "借贷",
+            "repayborrow": "偿还借贷",
+            "liquidateborrow": "清算借贷",
+            "reservesadded": "增加储备",
+            "reservesreduced": "减少储备"
+        },
+        "percentageOptions": {
+            "0": "0%",
+            "25": "25%",
+            "50": "50%",
+            "75": "75%",
+            "100": "最大"
+        },
+        "errors": {
+            "wallet": {
+                "notFound": "未找到钱包",
+                "notFoundDescription": "未检测到以太坊钱包。请安装MetaMask或其他Web3钱包。",
+                "connectionRejected": "连接请求被拒绝",
+                "providerNotAvailable": "钱包提供商不可用。请安装或启用您的钱包扩展。",
+                "connectionInProgress": "连接正在进行中。请检查您的钱包。",
+                "networkError": "网络错误。请确保您的钱包在正确的网络上。",
+                "walletDisconnected": "钱包已断开连接。请重新连接您的钱包。",
+                "connectionTimeout": "连接超时。请重试。",
+                "connectionFailed": "连接钱包失败。请重试。",
+                "disconnectionFailed": "断开钱包连接失败。"
+            },
+            "network": {
+                "notFound": "未找到钱包",
+                "notFoundDescription": "未检测到以太坊钱包。请安装MetaMask或其他Web3钱包。",
+                "networkAdded": "网络已添加",
+                "networkAddedSuccess": "成功将{chainName}添加到您的钱包！",
+                "networkAdditionCancelled": "网络添加已取消",
+                "networkAdditionCancelledDescription": "您取消了向钱包添加网络。",
+                "networkSwitched": "网络已切换",
+                "networkSwitchedSuccess": "成功切换到{chainName}！",
+                "addingNetwork": "添加网络中",
+                "addingNetworkDescription": "正在向您的钱包添加{chainName}...",
+                "failedToAddNetwork": "添加网络失败",
+                "networkAddedAndSwitched": "网络已添加并切换",
+                "networkAddedAndSwitchedSuccess": "成功添加并切换到{chainName}！",
+                "failedToAddNetworkDescription": "添加{chainName}失败。请手动添加。",
+                "networkSwitchCancelled": "网络切换已取消",
+                "networkSwitchCancelledDescription": "您取消了网络切换。",
+                "userCancelledNetworkSwitch": "用户取消了网络切换",
+                "failedToSwitchNetwork": "切换到{chainName}失败",
+                "networkSwitchFailed": "网络切换失败"
+            },
+            "validation": {
+                "invalidPath": "无效路径：相同的代币",
+                "amountMustBeGreaterThanZero": "金额必须大于0"
+            }
+        },
+        "ui": {
+            "search": "搜索",
+            "placeholder": "https://example.com",
+            "wallet": "钱包",
+            "connect": "连接",
+            "info": "信息",
+            "swap": "交换",
+            "toggleSection": "切换部分",
+            "expand": "展开",
+            "toggleDropdown": "切换下拉菜单",
+            "toggleAction": "切换操作",
+            "stakingGraph": "质押和每日收益图表",
+            "stakedTokens": "质押代币",
+            "totalProposals": "总提案",
+            "votingPower": "投票权",
+            "insertLink": "插入链接",
+            "onyxGovernance": "Onyx治理",
+            "onyxLogoBackground": "Onyx标志背景",
+            "onyxDecoration": "Onyx装饰",
+            "selectedText": "选中的文本：",
+            "linkText": "链接文本：",
+            "url": "URL：",
+            "normal": "正常",
+            "title1": "标题1",
+            "title2": "标题2",
+            "title3": "标题3",
+            "title4": "标题4"
+        }
+    },
+    "toast": {
+        "copyAddress": {
+            "success": "地址已复制！",
+            "successSubtext": "钱包地址已复制到剪贴板"
+        },
+        "staking": {
+            "approved": "XCN代币已批准用于质押",
+            "stakeSuccess": "成功质押{amount} XCN",
+            "stakeFailed": "质押失败",
+            "withdrawSuccess": "成功提取{amount} XCN",
+            "withdrawFailed": "提取失败",
+            "claimSuccess": "奖励领取成功！",
+            "claimFailed": "领取奖励失败",
+            "rejected": "交易被拒绝",
+            "rejectedSub": "您在钱包中拒绝了交易"
+        },
+        "swapTransaction": {
+            "success": "交换成功",
+            "successSubtext": "您的资产已成功交换",
+            "failed": "交换失败",
+            "failedSubtext": "您的ETH余额不足以支付gas费",
+            "rejected": "交易被拒绝",
+            "rejectedSubtext": "您在钱包中拒绝了交易",
+            "approvalSuccess": "批准成功。现在您可以进行交换"
+        },
+        "transaction": {
+            "failed": "交易失败",
+            "rejected": "交易被拒绝",
+            "rejectedSubtext": "您在钱包中拒绝了交易",
+            "insufficientGas": "Gas费不足",
+            "insufficientGasSubtext": "您的ETH余额太低，无法支付此交易的gas费",
+            "defaultError": "交易错误",
+            "defaultErrorSubtext": "处理交易时出现问题。请重试。"
+        },
+        "wallet": {
+            "connected": "钱包已连接",
+            "connectedSuccess": "成功连接到{walletId}",
+            "connectionFailed": "连接失败",
+            "unableToConnect": "无法连接钱包",
+            "disconnected": "钱包已断开连接",
+            "disconnectedSuccess": "成功断开与钱包的连接",
+            "disconnectionFailed": "断开钱包连接失败",
+            "failedToDisconnect": "断开钱包连接失败"
+        },
+        "network": {
+            "wrongNetwork": "错误网络",
+            "wrongNetworkSubtext": "请切换到以太坊网络以使用交换功能",
+            "wrongNetworkFarmSubtext": "请切换到以太坊网络以进行农场操作",
+            "wrongNetworkStakingSubtext": "请切换到以太坊网络以使用质押功能"
+        }
+    },
+    "swap": {
+        "title": "交换",
+        "description": "将您的加密货币换成其他资产",
+        "settings": "交换设置",
+        "swapButton": "交换",
+        "swapping": "交换中...",
+        "approving": "批准中...",
+        "approveXcn": "批准",
+        "wrongNetwork": "错误网络",
+        "insufficientFunds": "资金不足",
+        "from": "从",
+        "to": "到",
+        "availableBalance": "可用余额：",
+        "placeholder": "0",
+        "info": {
+            "exchangeRate": "汇率：",
+            "slippageTolerance": "滑点容忍度：",
+            "minimumReceived": "最少获得：",
+            "gasFee": "Gas费：",
+            "tooltips": {
+                "exchangeRate": "显示1单位from-token可以获得多少to-token。",
+                "slippageTolerance": "订单提交和执行之间可接受的最大价格变动。",
+                "gasFee": "Gas费随网络流量而变化——需求越高，费用越高。",
+                "minimumReceived": "应用滑点和费用后您将获得的估计金额。"
+            }
+        }
+    },
+    "metadata": {
+        "title": "Onyx协议",
+        "description": "Onyx是由Onyxcoin（XCN）驱动的Web3和区块链基础设施的支柱。",
+        "keywords": "onyx, onyx protocol, defi, borrow, lend, crypto, blockchain, Ethereum Chain, decentralized finance",
+        "openGraph": {
+            "title": "Onyx协议",
+            "description": "Onyx是由Onyxcoin（XCN）驱动的Web3和区块链基础设施的支柱。",
+            "siteName": "Onyx协议"
+        },
+        "twitter": {
+            "title": "Onyx协议",
+            "description": "Onyx是由Onyxcoin（XCN）驱动的Web3和区块链基础设施的支柱。"
+        }
+    },
+    "staking": {
+        "title": "质押",
+        "description": "质押或提取您的代币",
+        "stakedTokensTitle": "质押代币",
+        "stakedTokensDescription": "查看和领取您的质押奖励",
+        "historyTitle": "质押历史",
+        "historyDescription": "您的质押活动历史",
+        "dataBoxes": {
+            "stakingAPR": "质押年化收益率",
+            "dailyEmission": "每日发行",
+            "totalStaked": "总质押量",
+            "totalTreasury": "总金库",
+            "pointsAPR": "积分年化收益率"
+        },
+        "stakeComponent": {
+            "amount": "金额",
+            "availableBalance": "可用余额：",
+            "stake": "质押",
+            "withdraw": "提取",
+            "estimatedDailyEarnings": "预计每日收益：",
+            "stakingAPR": "质押年化收益率",
+            "connectWallet": "连接钱包",
+            "loading": "加载中...",
+            "approving": "批准中...",
+            "staking": "质押中...",
+            "withdrawing": "提取中...",
+            "approveXcn": "批准代币",
+            "walletNotConnected": "钱包未连接",
+            "walletNotConnectedSubtext": "请连接您的钱包以继续",
+            "invalidAmount": "无效金额",
+            "invalidAmountSubtext": "请输入有效金额",
+            "approvalSuccess": "代币批准成功",
+            "approvalFailed": "批准失败",
+            "insufficientBalance": "余额不足",
+            "insufficientBalanceSubtext": "您没有足够的XCN代币",
+            "insufficientStakedAmount": "质押金额不足",
+            "insufficientStakedAmountSubtext": "您没有足够的质押代币",
+            "stakingSuccess": "成功质押{amount} XCN",
+            "stakingFailed": "质押失败",
+            "withdrawSuccess": "成功提取{amount} XCN",
+            "withdrawFailed": "提取失败"
+        },
+        "stakedTokens": {
+            "yourStakedTokens": "您的质押代币",
+            "dailyEarnings": "每日收益",
+            "toClaim": "待领取",
+            "claimRewards": "领取奖励",
+            "claiming": "领取中...",
+            "noRewards": "无奖励",
+            "noRewardsSubtext": "您没有可领取的奖励"
+        },
+        "history": {
+            "historyTitle": "空质押历史",
+            "created": "创建时间",
+            "txnHash": "交易哈希",
+            "block": "区块",
+            "type": "类型",
+            "amount": "金额",
+            "stake": "质押",
+            "withdraw": "提取"
+        },
+        "governance": {
+            "title": "治理",
+            "description": "为已创建的提案投票",
+            "createProposal": "创建提案",
+            "cards": {
+                "votingPower": {
+                    "title": "我的投票权"
+                },
+                "addVotingPower": "增加投票权",
+                "stakedTokens": {
+                    "title": "质押代币"
+                },
+                "totalProposals": {
+                    "title": "总提案"
+                }
+            }
+        },
+        "graph": {
+            "staked": "质押：",
+            "earnings": "收益：",
+            "dailyEarnings": "每日收益",
+            "stakedLabel": "已质押",
+            "connectWalletTitle": "连接钱包",
+            "connectWalletDescriptionLine1": "连接您的钱包以",
+            "connectWalletDescriptionLine2": "查看您的质押数据",
+            "loading": "正在加载图表数据...",
+            "errorTitle": "错误",
+            "errorDescriptionLine1": "无法加载质押",
+            "errorDescriptionLine2": "绩效数据",
+            "noDataTitle": "无数据",
+            "noDataDescriptionLine1": "暂无质押绩效",
+            "noDataDescriptionLine2": "可用数据"
+        },
+        "table": {
+            "type": "类型",
+            "txnHash": "交易哈希",
+            "block": "区块",
+            "amount": "金额",
+            "created": "创建时间",
+            "empty": {
+                "descriptionLine1": "您的历史将在此显示",
+                "descriptionLine2": "一旦您进行首次质押。"
+            }
+        }
+    },
+    "history": {
+        "title": "历史",
+        "description": "查看我们平台上的所有用户交易",
+        "from": "从",
+        "to": "到",
+        "txnHash": "交易哈希",
+        "block": "区块",
+        "created": "创建时间",
+        "search": "输入地址",
+        "allTransactions": "所有交易",
+        "myTransactions": "我的交易",
+        "allTxns": "所有交易",
+        "myTxns": "我的交易",
+        "allTypes": "所有类型",
+        "types": {
+            "supply": "供应",
+            "stake": "质押",
+            "transfer": "转账",
+            "withdraw": "提取",
+            "claim": "领取",
+            "propose": "提议",
+            "vote": "投票",
+            "approval": "批准",
+            "redeem": "赎回",
+            "borrow": "借贷",
+            "repayborrow": "偿还借贷",
+            "liquidateborrow": "清算借贷",
+            "reservesadded": "增加储备",
+            "reservesreduced": "减少储备"
+        },
+        "table": {
+            "type": "类型",
+            "from": "从",
+            "to": "到",
+            "txnHash": "交易哈希",
+            "block": "区块",
+            "amount": "金额",
+            "created": "创建时间",
+            "empty": {
+                "title": "空历史",
+                "descriptionLine1": "您的历史将在此显示",
+                "descriptionLine2": "一旦您进行首次操作。"
+            }
+        }
+    },
+    "farms": {
+        "title": "农场",
+        "description": "质押LP代币以获得增强的XCN奖励",
+        "farmRow": {
+            "stakingAPR": "质押年化收益率",
+            "dailyEmission": "每日发行",
+            "totalStaked": "总质押量"
+        },
+        "addLiquidity": "添加流动性",
+        "approvePair": "批准农场对",
+        "actionPanel": {
+            "stake": "质押",
+            "withdraw": "提取",
+            "amount": "金额",
+            "availableBalance": "可用余额：",
+            "estimatedDailyEarnings": "预计每日收益：",
+            "stakingAPR": "质押年化收益率"
+        },
+        "stats": {
+            "yourStakedTokens": "您的质押LP代币",
+            "dailyEarnings": "每日收益",
+            "toClaim": "待领取",
+            "claimRewards": "领取奖励",
+            "claiming": "领取中..."
+        },
+        "graph": {
+            "staked": "质押：",
+            "earnings": "收益：",
+            "dailyEarnings": "每日收益",
+            "stakedLabel": "已质押",
+            "connectWalletTitle": "连接钱包",
+            "connectWalletDescriptionLine1": "连接您的钱包以",
+            "connectWalletDescriptionLine2": "查看您的农场数据",
+            "loading": "正在加载图表数据...",
+            "errorTitle": "无法加载数据",
+            "errorDescriptionLine1": "无法加载农场",
+            "errorDescriptionLine2": "数据。请重试。",
+            "noDataTitle": "无数据",
+            "noDataDescriptionLine1": "暂无农场绩效",
+            "noDataDescriptionLine2": "可用数据"
+        },
+        "action": {
+            "title": "农场操作",
+            "subtext": "操作：{action}，金额：{amount}"
+        }
+    },
+    "governance": {
+        "title": "治理",
+        "description": "为已创建的提案投票",
+        "createProposal": "创建提案",
+        "createProposalTooltip": "您需要拥有100,000,000投票权才能创建提案。",
+        "cards": {
+            "votingPower": {
+                "title": "我的投票权"
+            },
+            "addVotingPower": "增加投票权",
+            "stakedTokens": {
+                "title": "质押代币"
+            },
+            "totalProposals": {
+                "title": "总提案"
+            }
+        },
+        "proposal": {
+            "backToOverview": "返回概览",
+            "voteFor": "赞成",
+            "voteAgainst": "反对",
+            "timeUntilExecutable": "距离可执行时间",
+            "executionReady": "准备执行",
+            "votingActive": "投票进行中",
+            "votingPending": "投票待定",
+            "addresses": "地址",
+            "votes": "投票",
+            "description": "描述",
+            "operation": "操作",
+            "descriptionSubtext": "查看此提案的详细信息",
+            "searchPlaceholder": "搜索提案...",
+            "status": {
+                "executed": "已执行",
+                "expired": "已过期",
+                "active": "活跃",
+                "pending": "待定"
+            },
+            "userVoteStatus": {
+                "youVoted": "您已投票",
+                "youNotVoted": "您未投票"
+            },
+            "filters": {
+                "allStatuses": "所有状态"
+            },
+            "timeline": {
+                "created": "创建时间",
+                "active": "活跃",
+                "queued": "排队",
+                "succeed": "成功",
+                "execute": "执行",
+                "canceled": "已取消"
+            }
+        },
+        "createProposalModal": {
+            "titles": {
+                "proposalInformations": "提案信息",
+                "proposalActions": "提案操作",
+                "confirmation": "确认",
+                "createProposal": "创建提案"
+            },
+            "fields": {
+                "proposalName": "提案名称",
+                "proposalNamePlaceholder": "提案名称",
+                "description": "描述",
+                "descriptionPlaceholder": "输入您的提案描述...",
+                "address": "地址",
+                "addressPlaceholder": "地址",
+                "value": "值",
+                "valuePlaceholder": "值",
+                "signature": "签名",
+                "signaturePlaceholder": "签名"
+            },
+            "buttons": {
+                "nextStep": "下一步",
+                "previousStep": "上一步",
+                "confirm": "确认",
+                "createProposal": "创建提案",
+                "addOneMoreAction": "添加更多操作"
+            },
+            "confirmationCards": {
+                "proposalInformations": "提案信息",
+                "actions": "操作",
+                "stepBadges": {
+                    "step1": "步骤1/2",
+                    "step2": "步骤2/2"
+                },
+                "labels": {
+                    "proposalName": "提案名称",
+                    "description": "描述",
+                    "action": "操作#",
+                    "noSignature": "未提供签名"
+                }
+            },
+            "textEditor": {
+                "linkDialog": {
+                    "cancel": "取消",
+                    "insert": "插入",
+                    "linkTextPlaceholder": "链接文本",
+                    "linkUrlPlaceholder": "https://example.com",
+                    "urlLabel": "网址：",
+                    "selectedTextLabel": "选定文本：",
+                    "linkTextLabel": "链接文本："
+                }
+            },
+            "toast": {
+                "success": "提案创建成功",
+                "successSubtext": "您的提案已提交并现已上线。"
+            }
+        }
+    },
+    "points": {
+        "title": "Onyx积分",
+        "description": "追踪您的积分，了解您与其他用户的排名。",
+        "myPoints": "我的积分",
+        "pointsApr": "积分年化收益率",
+        "position": "位置",
+        "pointsLeft": "剩余积分",
+        "pts": "积分",
+        "points": "积分：",
+        "shareYourPoints": "分享您的积分",
+        "shareDescription": "与您的社区分享",
+        "share": "分享",
+        "howToEarnTitle": "如何赚取积分",
+        "howToEarnDescription": "通过参与符合条件的活动来赚取积分。",
+        "learnMore": "了解更多",
+        "leaderboardTitle": "排行榜",
+        "leaderboardDescription": "查看Onyx积分参与者的排名",
+        "leaderboard": {
+            "place": "排名",
+            "userAddress": "用户地址",
+            "amount": "数量",
+            "empty": {
+                "title": "无排行榜数据",
+                "descriptionLine1": "排行榜条目将在此显示",
+                "descriptionLine2": "一旦有参与者。"
+            }
+        },
+        "cards": {
+            "passivePoints": {
+                "title": "被动积分",
+                "description": "通过简单地在XCN账本上持有白名单资产来赚取PP。",
+                "exploreAssets": "探索资产"
+            },
+            "activePoints": {
+                "title": "主动积分",
+                "description": "通过在XCN账本上部署您的白名单资产来赚取AP。",
+                "exploreApps": "探索应用"
+            },
+            "appPoints": {
+                "title": "应用积分",
+                "description": "通过使用基于Onyx XCN账本的dApp来赚取APP。",
+                "exploreApps": "探索应用"
+            }
+        },
+        "status": {
+            "active": "活跃",
+            "comingSoon": "即将推出"
+        },
+        "stats": {
+            "person": "人",
+            "place": "位置",
+            "thePerson": "该"
+        },
+        "enroll": {
+            "enrollNow": "立即注册",
+            "enrolling": "注册中..."
+        },
+        "bridge": {
+            "bridgeXcn": "跨链XCN",
+            "bridgeDescription": "更改您的XCN链",
+            "bridge": "跨链"
+        }
+    },
+    "time": {
+        "lessThanMinute": "不到一分钟前",
+        "minuteAgo": "一分钟前",
+        "hourAgo": "一小时前",
+        "dayAgo": "一天前",
+        "weekAgo": "一周前",
+        "monthAgo": "一个月前",
+        "yearAgo": "一年前",
+        "minutesAgo": "{minutes}分钟前",
+        "hoursAgo": "{hours}小时前",
+        "daysAgo": "{days}天前",
+        "weeksAgo": "{weeks}周前",
+        "monthsAgo": "{months}个月前",
+        "yearsAgo": "{years}年前",
+        "inMinute": "一分钟后",
+        "inHour": "一小时后",
+        "inDay": "一天后",
+        "inWeek": "一周后",
+        "inMonth": "一个月后",
+        "inYear": "一年后",
+        "inMinutes": "{minutes}分钟后",
+        "inHours": "{hours}小时后",
+        "inDays": "{days}天后",
+        "inWeeks": "{weeks}周后",
+        "inMonths": "{months}个月后",
+        "inYears": "{years}年后"
+    }
+}

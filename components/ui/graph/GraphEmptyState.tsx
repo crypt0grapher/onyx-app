@@ -3,6 +3,7 @@
 import React from "react";
 import Image from "next/image";
 import ConnectWalletButton from "../../sidebar/ConnectWalletButton";
+import { useTranslations } from "next-intl";
 import onyxLogoShadow from "@/assets/onyx_logo_shadow.svg";
 
 interface GraphEmptyStateProps {
@@ -18,6 +19,7 @@ const GraphEmptyState: React.FC<GraphEmptyStateProps> = ({
     showConnectButton = true,
     className = "",
 }) => {
+    const tSidebarWallet = useTranslations("sidebar.wallet");
     return (
         <div
             className={`flex flex-col pt-4 items-center justify-between h-full ${className}`}
@@ -41,7 +43,7 @@ const GraphEmptyState: React.FC<GraphEmptyStateProps> = ({
             </div>
             {showConnectButton && (
                 <ConnectWalletButton
-                    label="Connect Wallet"
+                    label={tSidebarWallet("connect")}
                     usePrimaryButton={true}
                 />
             )}

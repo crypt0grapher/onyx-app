@@ -100,13 +100,6 @@ export async function generateMetadata({
             statusBarStyle: "default",
             capable: true,
         },
-        alternates: {
-            languages: {
-                en: "/en",
-                tr: "/tr",
-                "x-default": "/en",
-            },
-        },
     };
 }
 
@@ -124,10 +117,28 @@ export default async function LocaleLayout({
 
     const messages = (await import(`@/messages/${locale}.json`)).default;
 
+    const baseFontVars = `${inter.variable} ${geist_Mono.variable}`;
+    const localeFallback =
+        locale === "kr"
+            ? "font-[system-ui]"
+            : locale === "cn"
+            ? "font-[system-ui]"
+            : "font-sans";
+
+    const bodyStyle: React.CSSProperties = {
+        fontFamily:
+            locale === "kr"
+                ? 'Inter, "Noto Sans KR", "Apple SD Gothic Neo", "Malgun Gothic", "Nanum Gothic", system-ui, sans-serif'
+                : locale === "cn"
+                ? 'Inter, "Noto Sans SC", "PingFang SC", "Hiragino Sans GB", "Microsoft YaHei", system-ui, sans-serif'
+                : "Inter, system-ui, sans-serif",
+    };
+
     return (
         <html lang={locale}>
             <body
-                className={`${inter.variable} ${geist_Mono.variable} antialiased font-sans`}
+                className={`${baseFontVars} antialiased ${localeFallback}`}
+                style={bodyStyle}
             >
                 <NextIntlClientProvider messages={messages} locale={locale}>
                     <Web3Providers>
