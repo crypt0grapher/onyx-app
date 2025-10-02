@@ -25,7 +25,7 @@ export const socialItems: SocialItem[] = [
         platform: "telegram",
         label: "Telegram",
         icon: telegramIcon,
-        url: "https://t.me/OnyxOrg",
+        url: "https://t.me/Onyx",
         ariaLabel: "Join our Telegram channel",
     },
     {
