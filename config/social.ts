@@ -32,7 +32,7 @@ export const socialItems: SocialItem[] = [
         platform: "twitter",
         label: "Twitter",
         icon: twitterIcon,
-        url: "https://x.com/OnyxDAO",
+        url: "https://x.com/intent/follow?screen_name=Onyx",
         ariaLabel: "Follow us on Twitter",
     },
     {
