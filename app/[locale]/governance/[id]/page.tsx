@@ -10,6 +10,7 @@ import {
     VoteCard,
     TimelineCard,
     ProposalDescription,
+    ProposalActions,
 } from "@/components/governance";
 import useProposal from "@/hooks/governance/useProposal";
 import useProposalVotes from "@/hooks/governance/useProposalVotes";
@@ -20,6 +21,7 @@ import { useProposalCountdown } from "@/hooks/governance/useProposalCountdown";
 import ProposalDetailSkeleton from "@/components/governance/ProposalDetailSkeleton";
 import { useCastVote } from "@/hooks/governance/useCastVote";
 import { useProposalState } from "@/hooks/governance/useProposalState";
+import { useVoteReceipt } from "@/hooks/governance/useVoteReceipt";
 
 type VoteRow = { address: string; votes: string; href?: string };
 
@@ -35,9 +37,10 @@ export default function ProposalDetailPage() {
     const raw = proposalData?.raw || null;
     const { data: timelineEvents, isLoading: isTimelineLoading } =
         useProposalTimeline(raw);
-    const { message: countdownLabel, countdown } = useProposalCountdown(raw);
-    const { castVote } = useCastVote();
+    const { message: countdownLabel, countdown, isLoading: isCountdownLoading } = useProposalCountdown(raw);
+    const { castVote, isLoading: isCasting } = useCastVote();
     const { state } = useProposalState(uiProposal?.proposalId);
+    const { receipt } = useVoteReceipt(uiProposal?.proposalId);
 
     const txHash = raw?.createdTransactionHash || "";
 
@@ -62,7 +65,7 @@ export default function ProposalDetailPage() {
         );
     }, [timelineEvents, t]);
 
-    const isLoading = isProposalLoading || isVotesLoading || isTimelineLoading;
+    const isLoading = isProposalLoading || isVotesLoading || isTimelineLoading || isCountdownLoading;
 
     if (isLoading) return <ProposalDetailSkeleton />;
 
@@ -74,6 +77,8 @@ export default function ProposalDetailPage() {
                         title={uiProposal?.title || "--"}
                         txHash={txHash}
                     />
+
+                    <ProposalActions proposalId={idParam} raw={raw} />
 
                     <Divider className="my-[24px]" />
 
@@ -93,6 +98,9 @@ export default function ProposalDetailPage() {
                             totalVotes={votes?.totals.forVotes || "--"}
                             rows={forRows}
                             disabled={state !== null && state !== 1}
+                            isLoading={isCasting}
+                            hasVoted={receipt?.hasVoted}
+                            votedFor={receipt?.support}
                             onVote={async (support: boolean) => {
                                 if (uiProposal?.proposalId != null) {
                                     await castVote(
@@ -110,6 +118,9 @@ export default function ProposalDetailPage() {
                             totalVotes={votes?.totals.againstVotes || "--"}
                             rows={againstRows}
                             disabled={state !== null && state !== 1}
+                            isLoading={isCasting}
+                            hasVoted={receipt?.hasVoted}
+                            votedFor={receipt?.support}
                             onVote={async (support: boolean) => {
                                 if (uiProposal?.proposalId != null) {
                                     await castVote(

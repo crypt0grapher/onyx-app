@@ -1,10 +1,45 @@
 import { useMemo } from "react";
 import { useTranslations } from "next-intl";
+import { useQuery } from "@tanstack/react-query";
+import { usePublicClient } from "wagmi";
 import { useCountdown } from "@/hooks";
 import type { RawProposal } from "@/lib/governance/format";
 
+const BLOCK_TIME_MS = 12000;
+
 export const useProposalCountdown = (raw?: RawProposal | null) => {
     const t = useTranslations("governance.proposal");
+    const publicClient = usePublicClient();
+
+    const {
+        data: startBlockData,
+        isPending: isPendingBlock,
+        isFetching: isFetchingBlock,
+    } = useQuery({
+        queryKey: ["startBlock", raw?.startBlock],
+        enabled: Boolean(
+            raw?.startBlock &&
+                publicClient &&
+                !raw?.executedBlockTimestamp &&
+                !raw?.canceledBlockTimestamp
+        ),
+        queryFn: async () => {
+            if (!raw?.startBlock || !publicClient) return null;
+            try {
+                const block = await publicClient.getBlock({
+                    blockNumber: BigInt(raw.startBlock),
+                });
+                return {
+                    timestamp: Number(block.timestamp),
+                };
+            } catch (error) {
+                console.error("Error fetching start block:", error);
+                return null;
+            }
+        },
+        staleTime: Infinity,
+    });
+
     const countdownData = useMemo(() => {
         if (!raw) return { message: "--", targetDate: null };
 
@@ -38,22 +73,49 @@ export const useProposalCountdown = (raw?: RawProposal | null) => {
         }
 
         const endBlock = bn(raw.endBlock);
+        const startBlock = bn(raw.startBlock);
+
+        if (endBlock > BigInt(0) && startBlock > BigInt(0) && startBlockData) {
+            const blockInterval =
+                Number(endBlock - startBlock) * (BLOCK_TIME_MS / 1000);
+            const startDate = new Date(startBlockData.timestamp * 1000);
+            const activeUntilDate = new Date(startDate);
+            activeUntilDate.setSeconds(startDate.getSeconds() + blockInterval);
+
+            return {
+                message: t("votingActive"),
+                targetDate: activeUntilDate,
+            };
+        }
+
         if (endBlock > BigInt(0)) {
             return { message: t("votingActive"), targetDate: null };
         }
 
-        const startBlock = bn(raw.startBlock);
         if (startBlock > BigInt(0)) {
             return { message: t("votingPending"), targetDate: null };
         }
 
         return { message: t("votingActive"), targetDate: null };
-    }, [raw, t]);
+    }, [raw, t, startBlockData]);
 
     const countdown = useCountdown(countdownData.targetDate);
+
+    const needsBlockData = Boolean(
+        raw?.startBlock &&
+            raw?.endBlock &&
+            !raw?.executedBlockTimestamp &&
+            !raw?.canceledBlockTimestamp &&
+            BigInt(raw.endBlock || 0) > BigInt(0) &&
+            BigInt(raw.startBlock || 0) > BigInt(0)
+    );
+
+    const isLoadingCountdown =
+        needsBlockData && (!publicClient || isPendingBlock || isFetchingBlock);
 
     return {
         message: countdownData.message,
         countdown: countdownData.targetDate ? countdown : "",
+        isLoading: isLoadingCountdown,
     };
 };

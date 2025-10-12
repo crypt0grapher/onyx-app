@@ -23,7 +23,7 @@ export const useProposalVotes = (id?: string) => {
         enabled: Boolean(id),
         queryFn: async () => {
             const service = new SubgraphService();
-            const { proposalVotes } = await service.getProposalVotes({ id });
+            const { proposalVotes } = await service.getProposalVotes({ id, limit: 1000 });
             return proposalVotes;
         },
         staleTime: 15000,

@@ -194,13 +194,39 @@
             "disconnected": "Wallet Disconnected",
             "disconnectedSuccess": "Successfully disconnected from wallet",
             "disconnectionFailed": "Wallet Disconnection Failed",
-            "failedToDisconnect": "Failed to disconnect wallet"
+            "failedToDisconnect": "Failed to disconnect wallet",
+            "needsConnection": "Wallet Not Connected",
+            "needsConnectionSubtext": "Please connect your wallet to continue"
         },
         "network": {
             "wrongNetwork": "Wrong Network",
             "wrongNetworkSubtext": "Please switch to the Ethereum network to use swap",
             "wrongNetworkFarmSubtext": "Please switch to the Ethereum network to farm",
-            "wrongNetworkStakingSubtext": "Please switch to the Ethereum network to use staking"
+            "wrongNetworkStakingSubtext": "Please switch to the Ethereum network to use staking",
+            "wrongNetworkGovernanceSubtext": "Please switch to the Ethereum network to vote"
+        },
+        "governance": {
+            "proposalCreated": "Proposal Created Successfully",
+            "proposalCreatedSubtext": "Please allow a few minutes for your transaction to be confirmed",
+            "proposalFailed": "Proposal Creation Failed",
+            "proposalFailedSubtext": "There was an error creating your proposal",
+            "voteSuccess": "Vote Submitted Successfully",
+            "voteSuccessSubtext": "Your vote has been recorded",
+            "voteFailed": "Vote Submission Failed",
+            "voteFailedSubtext": "There was an error submitting your vote",
+            "alreadyHasActiveProposal": "Active Proposal Exists",
+            "alreadyHasActiveProposalSubtext": "You already have a pending or active proposal. Please wait for it to complete before creating a new one.",
+            "cancelSuccess": "Proposal Cancelled",
+            "cancelSuccessSubtext": "The proposal has been cancelled successfully",
+            "cancelFailed": "Cancellation Failed",
+            "queueSuccess": "Proposal Queued",
+            "queueSuccessSubtext": "The proposal has been queued for execution",
+            "queueFailed": "Queue Failed",
+            "executeSuccess": "Proposal Executed",
+            "executeSuccessSubtext": "The proposal has been executed successfully",
+            "executeFailed": "Execution Failed",
+            "insufficientVotingPower": "Insufficient Voting Power",
+            "insufficientVotingPowerSubtext": "You need enough votes at proposal start block to cancel"
         }
     },
     "swap": {
@@ -231,17 +257,17 @@
         }
     },
     "metadata": {
-        "title": "Onyx App",
-        "description": "Onyx is an infrastructure for a multi-asset, scalable, and cryptographically secure ledger powered by Onyxcoin (XCN).",
-        "keywords": "onyx, onyx protocol, defi, crypto, blockchain, onyx ledger, onyx app, onyxcoin, xcn, layer 1, layer 3, decentralized finance",
+        "title": "Onyx Protocol",
+        "description": "Onyx is the backbone of Web3 and blockchain infrastructure powered by Onyxcoin (XCN).",
+        "keywords": "onyx, onyx protocol, defi, borrow, lend, crypto, blockchain, Ethereum Chain, decentralized finance",
         "openGraph": {
-            "title": "Onyx App",
-            "description": "Onyx is an infrastructure for a multi-asset, scalable, and cryptographically secure ledger powered by Onyxcoin (XCN).",
-            "siteName": "Onyx App"
+            "title": "Onyx Protocol",
+            "description": "Onyx is the backbone of Web3 and blockchain infrastructure powered by Onyxcoin (XCN).",
+            "siteName": "Onyx Protocol"
         },
         "twitter": {
-            "title": "Onyx App",
-            "description": "Onyx is an infrastructure for a multi-asset, scalable, and cryptographically secure ledger powered by Onyxcoin (XCN)."
+            "title": "Onyx Protocol",
+            "description": "Onyx is the backbone of Web3 and blockchain infrastructure powered by Onyxcoin (XCN)."
         }
     },
     "staking": {
@@ -462,6 +488,9 @@
             "backToOverview": "Back To Overview",
             "voteFor": "Vote For",
             "voteAgainst": "Vote Against",
+            "casting": "Casting...",
+            "votedFor": "You Voted For",
+            "votedAgainst": "You Voted Against",
             "timeUntilExecutable": "Time Until Executable",
             "executionReady": "Execution Ready",
             "votingActive": "Voting Active",
@@ -473,14 +502,18 @@
             "descriptionSubtext": "Check details about this proposal",
             "searchPlaceholder": "Search proposals...",
             "status": {
-                "executed": "Executed",
-                "expired": "Expired",
+                "pending": "Pending",
                 "active": "Active",
-                "pending": "Pending"
+                "canceled": "Canceled",
+                "defeated": "Defeated",
+                "succeeded": "Succeeded",
+                "queued": "Queued",
+                "expired": "Expired",
+                "executed": "Executed"
             },
             "userVoteStatus": {
-                "youVoted": "You Voted",
-                "youNotVoted": "You Not Voted"
+                "youVoted": "You Have Voted",
+                "youNotVoted": "You Have Not Voted"
             },
             "filters": {
                 "allStatuses": "All Statuses"
@@ -492,6 +525,16 @@
                 "succeed": "Succeed",
                 "execute": "Execute",
                 "canceled": "Canceled"
+            },
+            "actions": {
+                "cancel": "Cancel Proposal",
+                "cancelling": "Cancelling...",
+                "queue": "Queue Proposal",
+                "queueing": "Queueing...",
+                "execute": "Execute Proposal",
+                "executing": "Executing...",
+                "timeUntilExecutable": "Executable in {time}",
+                "cannotCancel": "You don't have enough voting power to cancel this proposal"
             }
         },
         "createProposalModal": {
@@ -507,17 +550,30 @@
                 "description": "Description",
                 "descriptionPlaceholder": "Enter your proposal description...",
                 "address": "Address",
-                "addressPlaceholder": "Address",
+                "addressPlaceholder": "0x...",
                 "value": "Value",
-                "valuePlaceholder": "Value",
+                "valuePlaceholder": "0",
                 "signature": "Signature",
-                "signaturePlaceholder": "Signature"
+                "signaturePlaceholder": "functionName(type1,type2)",
+                "callData": "Call Data",
+                "callDataPlaceholder": "Enter value"
+            },
+            "errors": {
+                "addressRequired": "Address is required",
+                "addressInvalid": "Invalid Ethereum address",
+                "valueInvalid": "Value must be a number",
+                "signatureRequired": "Signature is required",
+                "signatureInvalid": "Invalid function signature",
+                "callDataRequired": "Call data is required",
+                "callDataInvalid": "Invalid call data for this type",
+                "maxActionsReached": "Maximum 30 actions allowed"
             },
             "buttons": {
                 "nextStep": "Next Step",
                 "previousStep": "Previous Step",
                 "confirm": "Confirm",
                 "createProposal": "Create Proposal",
+                "creating": "Creating...",
                 "addOneMoreAction": "Add One More Action"
             },
             "confirmationCards": {

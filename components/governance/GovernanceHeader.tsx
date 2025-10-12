@@ -8,13 +8,23 @@ import plusIcon from "@/assets/icons/plus_white.svg";
 import infoIcon from "@/assets/icons/info.svg";
 import { useProposalThreshold } from "@/hooks/governance/useProposalThreshold";
 import { useVotingPower } from "@/hooks/governance/useVotingPower";
+import { useLatestProposalIdByProposer } from "@/hooks/governance/useLatestProposalIdByProposer";
+import { useProposalState } from "@/hooks/governance/useProposalState";
+import { useToast } from "@/hooks";
 
 const GovernanceHeader = () => {
     const t = useTranslations("governance");
+    const tToast = useTranslations("toast.governance");
     const [isModalOpen, setIsModalOpen] = useState(false);
     const { thresholdWei } = useProposalThreshold();
     const { votesWei } = useVotingPower();
-    const canCreate = (() => {
+    const { latestProposalId } = useLatestProposalIdByProposer();
+    const { state: latestProposalState } = useProposalState(
+        latestProposalId ?? undefined
+    );
+    const { showDangerToast } = useToast();
+
+    const hasEnoughVotes = (() => {
         if (thresholdWei === null || votesWei === null) return false;
         try {
             return votesWei >= thresholdWei;
@@ -23,7 +33,25 @@ const GovernanceHeader = () => {
         }
     })();
 
+    const hasActiveProposal =
+        latestProposalState !== null &&
+        (latestProposalState === 0 || latestProposalState === 1);
+
+    const canCreate = hasEnoughVotes && !hasActiveProposal;
+
     const handleCreateProposal = () => {
+        if (!hasEnoughVotes) {
+            return;
+        }
+
+        if (hasActiveProposal) {
+            showDangerToast(
+                tToast("alreadyHasActiveProposal"),
+                tToast("alreadyHasActiveProposalSubtext")
+            );
+            return;
+        }
+
         setIsModalOpen(true);
     };
 

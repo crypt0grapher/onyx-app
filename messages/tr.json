@@ -194,13 +194,39 @@
             "disconnected": "Cüzdan Bağlantısı Kesildi",
             "disconnectedSuccess": "Cüzdandan başarıyla bağlantı kesildi",
             "disconnectionFailed": "Cüzdan Bağlantısı Kesme Başarısız",
-            "failedToDisconnect": "Cüzdandan bağlantı kesilemedi"
+            "failedToDisconnect": "Cüzdandan bağlantı kesilemedi",
+            "needsConnection": "Cüzdan Bağlı Değil",
+            "needsConnectionSubtext": "Devam etmek için lütfen cüzdanınızı bağlayın"
         },
         "network": {
             "wrongNetwork": "Yanlış Ağ",
             "wrongNetworkSubtext": "Takas kullanmak için lütfen Ethereum ağına geçin",
             "wrongNetworkFarmSubtext": "Farm kullanmak için lütfen Ethereum ağına geçin",
-            "wrongNetworkStakingSubtext": "Stake kullanmak için lütfen Ethereum ağına geçin"
+            "wrongNetworkStakingSubtext": "Stake kullanmak için lütfen Ethereum ağına geçin",
+            "wrongNetworkGovernanceSubtext": "Oy vermek için lütfen Ethereum ağına geçin"
+        },
+        "governance": {
+            "proposalCreated": "Teklif Başarıyla Oluşturuldu",
+            "proposalCreatedSubtext": "İşleminizin onaylanması için lütfen birkaç dakika bekleyin",
+            "proposalFailed": "Teklif Oluşturma Başarısız",
+            "proposalFailedSubtext": "Teklifinizi oluştururken bir hata oluştu",
+            "voteSuccess": "Oy Başarıyla Gönderildi",
+            "voteSuccessSubtext": "Oyunuz kaydedildi",
+            "voteFailed": "Oy Gönderme Başarısız",
+            "voteFailedSubtext": "Oyunuzu gönderirken bir hata oluştu",
+            "alreadyHasActiveProposal": "Aktif Teklif Mevcut",
+            "alreadyHasActiveProposalSubtext": "Zaten beklemede veya aktif bir teklifiniz var. Yeni bir teklif oluşturmadan önce tamamlanmasını bekleyin.",
+            "cancelSuccess": "Teklif İptal Edildi",
+            "cancelSuccessSubtext": "Teklif başarıyla iptal edildi",
+            "cancelFailed": "İptal Başarısız",
+            "queueSuccess": "Teklif Kuyruğa Alındı",
+            "queueSuccessSubtext": "Teklif yürütme için kuyruğa alındı",
+            "queueFailed": "Kuyruğa Alma Başarısız",
+            "executeSuccess": "Teklif Yürütüldü",
+            "executeSuccessSubtext": "Teklif başarıyla yürütüldü",
+            "executeFailed": "Yürütme Başarısız",
+            "insufficientVotingPower": "Yetersiz Oy Gücü",
+            "insufficientVotingPowerSubtext": "İptal etmek için teklif başlangıç bloğunda yeterli oy gücüne ihtiyacınız var"
         }
     },
     "swap": {
@@ -309,6 +335,18 @@
             "title": "Yönetişim",
             "description": "Oluşturulan teklifler için oy verin",
             "createProposal": "Teklif Oluştur",
+            "cards": {
+                "votingPower": {
+                    "title": "Oy Verme Gücüm"
+                },
+                "addVotingPower": "Oy Verme Gücü Ekle",
+                "stakedTokens": {
+                    "title": "Stake Edilen Tokenlar"
+                },
+                "totalProposals": {
+                    "title": "Toplam Teklif"
+                }
+            },
             "createProposalTooltip": "Teklif oluşturmak için 100,000,000 oylama gücüne sahip olmanız gerekir."
         },
         "graph": {
@@ -449,12 +487,15 @@
         },
         "proposal": {
             "backToOverview": "Genel Bakışa Dön",
-            "voteFor": "Lehine Oy Ver",
-            "voteAgainst": "Aleyhine Oy Ver",
+            "voteFor": "Lehte Oy Ver",
+            "voteAgainst": "Aleyhte Oy Ver",
+            "casting": "Oy Veriliyor...",
+            "votedFor": "Lehte Oy Verdiniz",
+            "votedAgainst": "Aleyhte Oy Verdiniz",
             "timeUntilExecutable": "Yürütmeye Kalan Süre",
             "executionReady": "Yürütmeye Hazır",
             "votingActive": "Oylama Aktif",
-            "votingPending": "Oylama Bekliyor",
+            "votingPending": "Oylama Beklemede",
             "addresses": "Adresler",
             "votes": "Oylar",
             "description": "Açıklama",
@@ -462,10 +503,14 @@
             "descriptionSubtext": "Bu teklif hakkındaki detayları kontrol edin",
             "searchPlaceholder": "Teklif ara...",
             "status": {
-                "executed": "Yürütüldü",
-                "expired": "Süresi Doldu",
+                "pending": "Beklemede",
                 "active": "Aktif",
-                "pending": "Beklemede"
+                "canceled": "İptal Edildi",
+                "defeated": "Reddedildi",
+                "succeeded": "Başarılı",
+                "queued": "Kuyruğa Alındı",
+                "expired": "Süresi Doldu",
+                "executed": "Yürütüldü"
             },
             "userVoteStatus": {
                 "youVoted": "Oy Verdiniz",
@@ -481,6 +526,16 @@
                 "succeed": "Başarılı",
                 "execute": "Yürüt",
                 "canceled": "İptal Edildi"
+            },
+            "actions": {
+                "cancel": "Teklifi İptal Et",
+                "cancelling": "İptal Ediliyor...",
+                "queue": "Teklifi Kuyruğa Al",
+                "queueing": "Kuyruğa Alınıyor...",
+                "execute": "Teklifi Yürüt",
+                "executing": "Yürütülüyor...",
+                "timeUntilExecutable": "{time} içinde yürütülebilir",
+                "cannotCancel": "Bu teklifi iptal etmek için yeterli oy gücünüz yok"
             }
         },
         "createProposalModal": {
@@ -496,17 +551,30 @@
                 "description": "Açıklama",
                 "descriptionPlaceholder": "Teklif açıklamanızı girin...",
                 "address": "Adres",
-                "addressPlaceholder": "Adres",
+                "addressPlaceholder": "0x...",
                 "value": "Değer",
-                "valuePlaceholder": "Değer",
+                "valuePlaceholder": "0",
                 "signature": "İmza",
-                "signaturePlaceholder": "İmza"
+                "signaturePlaceholder": "functionName(type1,type2)",
+                "callData": "Çağrı Verisi",
+                "callDataPlaceholder": "Değer girin"
+            },
+            "errors": {
+                "addressRequired": "Adres gerekli",
+                "addressInvalid": "Geçersiz Ethereum adresi",
+                "valueInvalid": "Değer bir sayı olmalıdır",
+                "signatureRequired": "İmza gerekli",
+                "signatureInvalid": "Geçersiz fonksiyon imzası",
+                "callDataRequired": "Çağrı verisi gerekli",
+                "callDataInvalid": "Bu tür için geçersiz çağrı verisi",
+                "maxActionsReached": "Maksimum 30 eylem izin verilir"
             },
             "buttons": {
                 "nextStep": "Sonraki Adım",
                 "previousStep": "Önceki Adım",
                 "confirm": "Onayla",
                 "createProposal": "Teklif Oluştur",
+                "creating": "Oluşturuluyor...",
                 "addOneMoreAction": "Bir Eylem Daha Ekle"
             },
             "confirmationCards": {

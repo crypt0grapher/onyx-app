@@ -19,6 +19,7 @@ const useTCommon = () => useTranslations("common");
 const StakeStats: React.FC = () => {
     const t = useTranslations("staking.stakedTokens");
     const tt = useTranslations("toast");
+    const ttNetwork = useTranslations("toast.network");
     const tc = useTCommon();
     const { isOnEthereum } = useNetworkCheck();
     const {
@@ -59,8 +60,8 @@ const StakeStats: React.FC = () => {
         if (!isOnEthereum) {
             showToast({
                 variant: "danger",
-                text: tt("wrongNetwork"),
-                subtext: tt("wrongNetworkStakingSubtext"),
+                text: ttNetwork("wrongNetwork"),
+                subtext: ttNetwork("wrongNetworkStakingSubtext"),
             });
             return;
         }

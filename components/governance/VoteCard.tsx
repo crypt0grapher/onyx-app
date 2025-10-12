@@ -3,6 +3,7 @@ import { useTranslations } from "next-intl";
 import Divider from "@/components/ui/common/Divider";
 import PrimaryButton from "@/components/ui/buttons/PrimaryButton";
 import StatusIcon from "@/components/ui/common/StatusIcon";
+import ProgressBar from "@/components/ui/common/ProgressBar";
 import VotingTable from "./VotingTable";
 import MobileVoteCard from "./MobileVoteCard";
 import voteIcon from "@/assets/icons/vote.svg";
@@ -20,6 +21,9 @@ interface VoteCardProps {
     totalVotes: string;
     rows: VoteRow[];
     disabled?: boolean;
+    isLoading?: boolean;
+    hasVoted?: boolean;
+    votedFor?: boolean;
     onVote?: (support: boolean) => void;
 }
 
@@ -30,11 +34,29 @@ const VoteCard: React.FC<VoteCardProps> = ({
     totalVotes,
     rows,
     disabled = false,
+    isLoading = false,
+    hasVoted = false,
+    votedFor,
     onVote,
 }) => {
     const t = useTranslations("governance.proposal");
     const variant = type === "for" ? "success" : "danger";
-    const buttonLabel = type === "for" ? t("voteFor") : t("voteAgainst");
+
+    let buttonLabel: string;
+    if (isLoading) {
+        buttonLabel = t("casting");
+    } else if (hasVoted && votedFor !== undefined) {
+        if (type === "for" && votedFor === true) {
+            buttonLabel = t("votedFor");
+        } else if (type === "against" && votedFor === false) {
+            buttonLabel = t("votedAgainst");
+        } else {
+            buttonLabel = type === "for" ? t("voteFor") : t("voteAgainst");
+        }
+    } else {
+        buttonLabel = type === "for" ? t("voteFor") : t("voteAgainst");
+    }
+
     const handleVote = async () => {
         try {
             if (onVote) onVote(type === "for");
@@ -59,6 +81,11 @@ const VoteCard: React.FC<VoteCardProps> = ({
                     </div>
                 </div>
 
+                <ProgressBar
+                    value={parseFloat(percentage) || 0}
+                    variant={variant}
+                />
+
                 <Divider />
 
                 <VotingTable
@@ -74,7 +101,7 @@ const VoteCard: React.FC<VoteCardProps> = ({
                             label={buttonLabel}
                             icon={voteIcon}
                             onClick={handleVote}
-                            disabled={disabled}
+                            disabled={disabled || isLoading || hasVoted}
                         />
                     </div>
                 </div>
@@ -88,6 +115,9 @@ const VoteCard: React.FC<VoteCardProps> = ({
                     totalVotes={totalVotes}
                     rows={rows}
                     disabled={disabled}
+                    isLoading={isLoading}
+                    hasVoted={hasVoted}
+                    votedFor={votedFor}
                     onVote={onVote}
                 />
             </div>

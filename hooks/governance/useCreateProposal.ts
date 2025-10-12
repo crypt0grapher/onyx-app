@@ -1,9 +1,11 @@
 "use client";
 
 import { useAccount, useWriteContract } from "wagmi";
+import { useTranslations } from "next-intl";
 import { CONTRACTS } from "@/contracts";
-import { useTransactionExecutor } from "@/hooks";
+import { useTransactionExecutor, useToast } from "@/hooks";
 import { useQueryClient } from "@tanstack/react-query";
+import { encodeCallData } from "@/lib/governance/encoding";
 
 export type CreateProposalParams = {
     title: string;
@@ -12,13 +14,8 @@ export type CreateProposalParams = {
         address: string;
         value?: string;
         signature?: string;
-        callData?: string;
+        callData?: string[];
     }>;
-};
-
-const normalizeHex = (data?: string) => {
-    if (!data) return "0x";
-    return data.startsWith("0x") ? data : `0x${data}`;
 };
 
 export const useCreateProposal = () => {
@@ -26,22 +23,40 @@ export const useCreateProposal = () => {
     const { writeContractAsync } = useWriteContract();
     const { executeTransaction } = useTransactionExecutor();
     const queryClient = useQueryClient();
+    const { showDangerToast } = useToast();
+    const tToast = useTranslations("toast.governance");
+    const tToastWallet = useTranslations("toast.wallet");
+    const tToastNetwork = useTranslations("toast.network");
 
     const createProposal = async ({
         title,
         description,
         actions,
     }: CreateProposalParams) => {
-        if (!address || chainId !== CONTRACTS.governorBravoDelegator.chainId) {
-            throw new Error("Wrong network or wallet not connected");
+        if (!address) {
+            showDangerToast(
+                tToastWallet("needsConnection"),
+                tToastWallet("needsConnectionSubtext")
+            );
+            return null;
+        }
+
+        if (chainId !== CONTRACTS.governorBravoDelegator.chainId) {
+            showDangerToast(
+                tToastNetwork("wrongNetwork"),
+                tToastNetwork("wrongNetworkGovernanceSubtext")
+            );
+            return null;
         }
 
         const targets = actions.map((a) => a.address);
         const values = actions.map((a) =>
             a.value && a.value !== "" ? a.value : "0"
         );
-        const signatures = actions.map((a) => a.signature || "");
-        const callDatas = actions.map((a) => normalizeHex(a.callData));
+        const signatures = actions.map((a) => (a.signature || "").trim());
+        const callDatas = actions.map((a) =>
+            encodeCallData(a.signature || "", a.callData || [])
+        );
 
         const descriptionPayload = JSON.stringify({
             version: 1,
@@ -63,7 +78,9 @@ export const useCreateProposal = () => {
                         descriptionPayload,
                     ],
                 }),
-            successText: "Proposal created",
+            successText: tToast("proposalCreated"),
+            successSubtext: tToast("proposalCreatedSubtext"),
+            errorText: tToast("proposalFailed"),
         });
 
         if (tx) {

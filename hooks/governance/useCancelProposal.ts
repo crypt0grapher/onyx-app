@@ -7,7 +7,7 @@ import { CONTRACTS } from "@/contracts";
 import { useTransactionExecutor, useToast } from "@/hooks";
 import { useQueryClient } from "@tanstack/react-query";
 
-export const useCastVote = () => {
+export const useCancelProposal = () => {
     const { address, chainId } = useAccount();
     const { writeContractAsync } = useWriteContract();
     const { executeTransaction } = useTransactionExecutor();
@@ -18,9 +18,8 @@ export const useCastVote = () => {
     const tToastGovernance = useTranslations("toast.governance");
     const [isLoading, setIsLoading] = useState(false);
 
-    const castVote = async (
+    const cancelProposal = async (
         proposalId: number | string,
-        support: boolean,
         opts?: { onSuccess?: () => void }
     ) => {
         if (!address) {
@@ -39,7 +38,7 @@ export const useCastVote = () => {
             showDangerToast(
                 tToastNetwork("wrongNetwork"),
                 tToastNetwork("wrongNetworkGovernanceSubtext", {
-                    default: "Please switch to the Ethereum network to vote",
+                    default: "Please switch to the Ethereum network",
                 })
             );
             return null;
@@ -54,12 +53,16 @@ export const useCastVote = () => {
                     await writeContractAsync({
                         address: CONTRACTS.governorBravoDelegator.address,
                         abi: CONTRACTS.governorBravoDelegator.abi as never,
-                        functionName: "castVote",
-                        args: [pid, support],
+                        functionName: "cancel",
+                        args: [pid],
                     }),
-                successText: tToastGovernance("voteSuccess"),
-                successSubtext: tToastGovernance("voteSuccessSubtext"),
-                errorText: tToastGovernance("voteFailed"),
+                successText:
+                    tToastGovernance("cancelSuccess") || "Proposal Cancelled",
+                successSubtext:
+                    tToastGovernance("cancelSuccessSubtext") ||
+                    "The proposal has been cancelled successfully",
+                errorText:
+                    tToastGovernance("cancelFailed") || "Cancellation Failed",
             });
 
             if (hashResult) {
@@ -68,10 +71,10 @@ export const useCastVote = () => {
                     queryKey: ["gov-proposal", String(pid)],
                 });
                 queryClient.invalidateQueries({
-                    queryKey: ["gov-proposal-votes", String(pid)],
+                    queryKey: ["gov-proposal-state", String(pid)],
                 });
                 queryClient.invalidateQueries({
-                    queryKey: ["gov-vote-receipt", address, String(pid)],
+                    queryKey: ["gov-proposal-votes", String(pid)],
                 });
                 if (opts?.onSuccess) opts.onSuccess();
             }
@@ -82,7 +85,7 @@ export const useCastVote = () => {
         }
     };
 
-    return { castVote, isLoading };
+    return { cancelProposal, isLoading };
 };
 
-export default useCastVote;
+export default useCancelProposal;

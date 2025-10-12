@@ -19,12 +19,19 @@ import grayCheckmark from "@/assets/icons/gray_checkmark.svg";
 import { useCreateProposal } from "@/hooks/governance/useCreateProposal";
 import { useProposalThreshold } from "@/hooks/governance/useProposalThreshold";
 import { useVotingPower } from "@/hooks/governance/useVotingPower";
+import {
+    parseFunctionSignature,
+    isValidAddress,
+    isValidValue,
+    isValidSignature,
+} from "@/lib/governance/validation";
 
 interface ProposalAction {
     id: string;
     address: string;
     value: string;
     signature: string;
+    callData: string[];
 }
 
 interface CreateProposalModalProps {
@@ -42,7 +49,7 @@ const CreateProposalModal: React.FC<CreateProposalModalProps> = ({
     const [description, setDescription] = useState("");
     const [modalKey, setModalKey] = useState(0);
     const [actions, setActions] = useState<ProposalAction[]>([
-        { id: "1", address: "", value: "", signature: "" },
+        { id: "1", address: "", value: "", signature: "", callData: [] },
     ]);
     const { createProposal } = useCreateProposal();
     const { thresholdWei } = useProposalThreshold();
@@ -61,7 +68,15 @@ const CreateProposalModal: React.FC<CreateProposalModalProps> = ({
             setCurrentStep(1);
             setProposalName("");
             setDescription("");
-            setActions([{ id: "1", address: "", value: "", signature: "" }]);
+            setActions([
+                {
+                    id: "1",
+                    address: "",
+                    value: "",
+                    signature: "",
+                    callData: [],
+                },
+            ]);
             setModalKey((prev) => prev + 1);
         }
     }, [isOpen]);
@@ -89,15 +104,49 @@ const CreateProposalModal: React.FC<CreateProposalModalProps> = ({
     };
 
     const handleAddAction = () => {
+        if (actions.length >= 30) return;
         const newId = (actions.length + 1).toString();
         setActions((prev) => [
             ...prev,
-            { id: newId, address: "", value: "", signature: "" },
+            { id: newId, address: "", value: "", signature: "", callData: [] },
         ]);
     };
 
+    const handleDeleteAction = (actionId: string) => {
+        if (actions.length === 1) return;
+        setActions((prev) => prev.filter((action) => action.id !== actionId));
+    };
+
+    const validateActions = (): boolean => {
+        for (const action of actions) {
+            if (!action.address || !action.signature) return false;
+
+            if (!isValidAddress(action.address)) return false;
+
+            if (action.value && !isValidValue(action.value)) return false;
+
+            if (!isValidSignature(action.signature)) return false;
+
+            const fragment = parseFunctionSignature(action.signature);
+            if (fragment) {
+                const expectedParams = fragment.inputs.length;
+                if (action.callData.length !== expectedParams) return false;
+
+                for (let i = 0; i < expectedParams; i++) {
+                    if (
+                        !action.callData[i] ||
+                        action.callData[i].trim() === ""
+                    ) {
+                        return false;
+                    }
+                }
+            }
+        }
+        return true;
+    };
+
     const handleConfirm = () => {
-        if (currentStep === 2) {
+        if (currentStep === 2 && validateActions()) {
             setCurrentStep(3);
         }
     };
@@ -113,7 +162,7 @@ const CreateProposalModal: React.FC<CreateProposalModalProps> = ({
                     address: a.address,
                     value: a.value,
                     signature: a.signature,
-                    callData: "0x",
+                    callData: a.callData,
                 })),
             });
             onClose();
@@ -195,6 +244,10 @@ const CreateProposalModal: React.FC<CreateProposalModalProps> = ({
                                     action={action}
                                     actionNumber={index + 1}
                                     onActionChange={handleActionChange}
+                                    onDelete={() =>
+                                        handleDeleteAction(action.id)
+                                    }
+                                    canDelete={actions.length > 1}
                                     isExpandedByDefault={index === 0}
                                 />
                             ))}
@@ -207,6 +260,7 @@ const CreateProposalModal: React.FC<CreateProposalModalProps> = ({
                                 onClick={handleAddAction}
                                 className="w-full"
                                 backgroundColor="#141414"
+                                disabled={actions.length >= 30}
                             />
                         </div>
                     </div>
@@ -225,6 +279,7 @@ const CreateProposalModal: React.FC<CreateProposalModalProps> = ({
                             label={t("buttons.confirm")}
                             icon={grayCheckmark}
                             onClick={handleConfirm}
+                            disabled={!validateActions()}
                         />
                     </div>
                 </>
@@ -270,7 +325,13 @@ const CreateProposalModal: React.FC<CreateProposalModalProps> = ({
                             className="w-full"
                         />
                         <PrimaryButton
-                            label={t("buttons.createProposal")}
+                            label={
+                                submitting
+                                    ? t("buttons.creating", {
+                                          default: "Creating...",
+                                      })
+                                    : t("buttons.createProposal")
+                            }
                             icon={plus}
                             onClick={handleCreateProposal}
                             disabled={submitting || !canCreate}

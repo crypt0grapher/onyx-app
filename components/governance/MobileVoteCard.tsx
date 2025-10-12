@@ -4,6 +4,7 @@ import { motion, AnimatePresence } from "framer-motion";
 import Divider from "@/components/ui/common/Divider";
 import PrimaryButton from "@/components/ui/buttons/PrimaryButton";
 import StatusIcon from "@/components/ui/common/StatusIcon";
+import ProgressBar from "@/components/ui/common/ProgressBar";
 import ExternalLink from "@/components/ui/common/ExternalLink";
 import voteIcon from "@/assets/icons/vote.svg";
 import arrowDownIcon from "@/assets/icons/arrow-down.svg";
@@ -22,6 +23,9 @@ interface MobileVoteCardProps {
     totalVotes: string;
     rows: VoteRow[];
     disabled?: boolean;
+    isLoading?: boolean;
+    hasVoted?: boolean;
+    votedFor?: boolean;
     onVote?: (support: boolean) => void;
 }
 
@@ -44,6 +48,9 @@ const MobileVoteCard: React.FC<MobileVoteCardProps> = ({
     totalVotes,
     rows,
     disabled = false,
+    isLoading = false,
+    hasVoted = false,
+    votedFor,
     onVote,
 }) => {
     const t = useTranslations("governance.proposal");
@@ -54,7 +61,21 @@ const MobileVoteCard: React.FC<MobileVoteCardProps> = ({
     };
 
     const variant = type === "for" ? "success" : "danger";
-    const buttonLabel = type === "for" ? t("voteFor") : t("voteAgainst");
+
+    let buttonLabel: string;
+    if (isLoading) {
+        buttonLabel = t("casting");
+    } else if (hasVoted && votedFor !== undefined) {
+        if (type === "for" && votedFor === true) {
+            buttonLabel = t("votedFor");
+        } else if (type === "against" && votedFor === false) {
+            buttonLabel = t("votedAgainst");
+        } else {
+            buttonLabel = type === "for" ? t("voteFor") : t("voteAgainst");
+        }
+    } else {
+        buttonLabel = type === "for" ? t("voteFor") : t("voteAgainst");
+    }
 
     const handleVote = () => {
         try {
@@ -84,6 +105,11 @@ const MobileVoteCard: React.FC<MobileVoteCardProps> = ({
                     <ExpandIcon isExpanded={isExpanded} />
                 </div>
             </div>
+
+            <ProgressBar
+                value={parseFloat(percentage) || 0}
+                variant={variant}
+            />
 
             <Divider className="w-full" />
 
@@ -153,7 +179,7 @@ const MobileVoteCard: React.FC<MobileVoteCardProps> = ({
                 <PrimaryButton
                     label={buttonLabel}
                     icon={voteIcon}
-                    disabled={disabled}
+                    disabled={disabled || isLoading || hasVoted}
                     onClick={handleVote}
                 />
             </div>

@@ -194,13 +194,39 @@
             "disconnected": "钱包已断开连接",
             "disconnectedSuccess": "成功断开与钱包的连接",
             "disconnectionFailed": "断开钱包连接失败",
-            "failedToDisconnect": "断开钱包连接失败"
+            "failedToDisconnect": "断开钱包连接失败",
+            "needsConnection": "钱包未连接",
+            "needsConnectionSubtext": "请连接您的钱包以继续"
         },
         "network": {
             "wrongNetwork": "错误网络",
             "wrongNetworkSubtext": "请切换到以太坊网络以使用交换功能",
             "wrongNetworkFarmSubtext": "请切换到以太坊网络以进行农场操作",
-            "wrongNetworkStakingSubtext": "请切换到以太坊网络以使用质押功能"
+            "wrongNetworkStakingSubtext": "请切换到以太坊网络以使用质押功能",
+            "wrongNetworkGovernanceSubtext": "请切换到以太坊网络以进行投票"
+        },
+        "governance": {
+            "proposalCreated": "提案创建成功",
+            "proposalCreatedSubtext": "请等待几分钟以确认您的交易",
+            "proposalFailed": "提案创建失败",
+            "proposalFailedSubtext": "创建提案时出错",
+            "voteSuccess": "投票提交成功",
+            "voteSuccessSubtext": "您的投票已被记录",
+            "voteFailed": "投票提交失败",
+            "voteFailedSubtext": "提交投票时出错",
+            "alreadyHasActiveProposal": "存在活跃提案",
+            "alreadyHasActiveProposalSubtext": "您已有待处理或活跃的提案。请等待其完成后再创建新提案。",
+            "cancelSuccess": "提案已取消",
+            "cancelSuccessSubtext": "提案已成功取消",
+            "cancelFailed": "取消失败",
+            "queueSuccess": "提案已排队",
+            "queueSuccessSubtext": "提案已排队等待执行",
+            "queueFailed": "排队失败",
+            "executeSuccess": "提案已执行",
+            "executeSuccessSubtext": "提案已成功执行",
+            "executeFailed": "执行失败",
+            "insufficientVotingPower": "投票权不足",
+            "insufficientVotingPowerSubtext": "您需要在提案开始区块拥有足够的投票权才能取消"
         }
     },
     "swap": {
@@ -460,23 +486,30 @@
         },
         "proposal": {
             "backToOverview": "返回概览",
-            "voteFor": "赞成",
-            "voteAgainst": "反对",
-            "timeUntilExecutable": "距离可执行时间",
-            "executionReady": "准备执行",
+            "voteFor": "赞成票",
+            "voteAgainst": "反对票",
+            "casting": "投票中...",
+            "votedFor": "您投了赞成票",
+            "votedAgainst": "您投了反对票",
+            "timeUntilExecutable": "距执行时间",
+            "executionReady": "可执行",
             "votingActive": "投票进行中",
-            "votingPending": "投票待定",
+            "votingPending": "投票待开始",
             "addresses": "地址",
-            "votes": "投票",
+            "votes": "票数",
             "description": "描述",
             "operation": "操作",
             "descriptionSubtext": "查看此提案的详细信息",
             "searchPlaceholder": "搜索提案...",
             "status": {
-                "executed": "已执行",
-                "expired": "已过期",
+                "pending": "待定",
                 "active": "活跃",
-                "pending": "待定"
+                "canceled": "已取消",
+                "defeated": "未通过",
+                "succeeded": "已通过",
+                "queued": "已排队",
+                "expired": "已过期",
+                "executed": "已执行"
             },
             "userVoteStatus": {
                 "youVoted": "您已投票",
@@ -492,6 +525,16 @@
                 "succeed": "成功",
                 "execute": "执行",
                 "canceled": "已取消"
+            },
+            "actions": {
+                "cancel": "取消提案",
+                "cancelling": "取消中...",
+                "queue": "排队提案",
+                "queueing": "排队中...",
+                "execute": "执行提案",
+                "executing": "执行中...",
+                "timeUntilExecutable": "可在 {time} 后执行",
+                "cannotCancel": "您没有足够的投票权来取消此提案"
             }
         },
         "createProposalModal": {
@@ -507,17 +550,30 @@
                 "description": "描述",
                 "descriptionPlaceholder": "输入您的提案描述...",
                 "address": "地址",
-                "addressPlaceholder": "地址",
+                "addressPlaceholder": "0x...",
                 "value": "值",
-                "valuePlaceholder": "值",
+                "valuePlaceholder": "0",
                 "signature": "签名",
-                "signaturePlaceholder": "签名"
+                "signaturePlaceholder": "functionName(type1,type2)",
+                "callData": "调用数据",
+                "callDataPlaceholder": "输入值"
+            },
+            "errors": {
+                "addressRequired": "地址是必需的",
+                "addressInvalid": "无效的以太坊地址",
+                "valueInvalid": "值必须是数字",
+                "signatureRequired": "签名是必需的",
+                "signatureInvalid": "无效的函数签名",
+                "callDataRequired": "调用数据是必需的",
+                "callDataInvalid": "此类型的调用数据无效",
+                "maxActionsReached": "最多允许30个操作"
             },
             "buttons": {
                 "nextStep": "下一步",
                 "previousStep": "上一步",
                 "confirm": "确认",
                 "createProposal": "创建提案",
+                "creating": "创建中...",
                 "addOneMoreAction": "添加更多操作"
             },
             "confirmationCards": {

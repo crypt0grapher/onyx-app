@@ -7,7 +7,7 @@ import { CONTRACTS } from "@/contracts";
 import { useTransactionExecutor, useToast } from "@/hooks";
 import { useQueryClient } from "@tanstack/react-query";
 
-export const useCastVote = () => {
+export const useQueueProposal = () => {
     const { address, chainId } = useAccount();
     const { writeContractAsync } = useWriteContract();
     const { executeTransaction } = useTransactionExecutor();
@@ -18,9 +18,8 @@ export const useCastVote = () => {
     const tToastGovernance = useTranslations("toast.governance");
     const [isLoading, setIsLoading] = useState(false);
 
-    const castVote = async (
+    const queueProposal = async (
         proposalId: number | string,
-        support: boolean,
         opts?: { onSuccess?: () => void }
     ) => {
         if (!address) {
@@ -39,7 +38,7 @@ export const useCastVote = () => {
             showDangerToast(
                 tToastNetwork("wrongNetwork"),
                 tToastNetwork("wrongNetworkGovernanceSubtext", {
-                    default: "Please switch to the Ethereum network to vote",
+                    default: "Please switch to the Ethereum network",
                 })
             );
             return null;
@@ -54,12 +53,15 @@ export const useCastVote = () => {
                     await writeContractAsync({
                         address: CONTRACTS.governorBravoDelegator.address,
                         abi: CONTRACTS.governorBravoDelegator.abi as never,
-                        functionName: "castVote",
-                        args: [pid, support],
+                        functionName: "queue",
+                        args: [pid],
                     }),
-                successText: tToastGovernance("voteSuccess"),
-                successSubtext: tToastGovernance("voteSuccessSubtext"),
-                errorText: tToastGovernance("voteFailed"),
+                successText:
+                    tToastGovernance("queueSuccess") || "Proposal Queued",
+                successSubtext:
+                    tToastGovernance("queueSuccessSubtext") ||
+                    "The proposal has been queued for execution",
+                errorText: tToastGovernance("queueFailed") || "Queue Failed",
             });
 
             if (hashResult) {
@@ -68,10 +70,13 @@ export const useCastVote = () => {
                     queryKey: ["gov-proposal", String(pid)],
                 });
                 queryClient.invalidateQueries({
+                    queryKey: ["gov-proposal-state", String(pid)],
+                });
+                queryClient.invalidateQueries({
                     queryKey: ["gov-proposal-votes", String(pid)],
                 });
                 queryClient.invalidateQueries({
-                    queryKey: ["gov-vote-receipt", address, String(pid)],
+                    queryKey: ["gov-proposal-eta", String(pid)],
                 });
                 if (opts?.onSuccess) opts.onSuccess();
             }
@@ -82,7 +87,7 @@ export const useCastVote = () => {
         }
     };
 
-    return { castVote, isLoading };
+    return { queueProposal, isLoading };
 };
 
-export default useCastVote;
+export default useQueueProposal;

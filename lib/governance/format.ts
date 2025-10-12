@@ -2,116 +2,191 @@ import { CONTRACTS } from "@/contracts";
 import { Address, PublicClient } from "viem";
 
 export type RawProposal = {
-    id: string;
-    proposer: Address;
-    targets: Address[];
-    values: string[];
-    signatures: string[];
-    callDatas: string[];
-    startBlock: string;
-    endBlock: string;
-    description: string;
-    state?: string;
-    eta?: string | null;
-    forVotes: string;
-    againstVotes: string;
-    createdBlockNumber: string;
-    createdBlockTimestamp: string;
-    createdTransactionHash: string;
-    queuedBlockNumber?: string | null;
-    queuedBlockTimestamp?: string | null;
-    executedBlockNumber?: string | null;
-    executedBlockTimestamp?: string | null;
-    canceledBlockNumber?: string | null;
-    canceledBlockTimestamp?: string | null;
+  id: string;
+  proposer: Address;
+  targets: Address[];
+  values: string[];
+  signatures: string[];
+  callDatas: string[];
+  startBlock: string;
+  endBlock: string;
+  description: string;
+  state?: string;
+  eta?: string | null;
+  forVotes: string;
+  againstVotes: string;
+  createdBlockNumber: string;
+  createdBlockTimestamp: string;
+  createdTransactionHash: string;
+  queuedBlockNumber?: string | null;
+  queuedBlockTimestamp?: string | null;
+  executedBlockNumber?: string | null;
+  executedBlockTimestamp?: string | null;
+  canceledBlockNumber?: string | null;
+  canceledBlockTimestamp?: string | null;
 };
 
 export type UiProposal = {
-    id: string;
-    proposalId: number;
-    title: string;
-    description: string;
-    status: "Executed" | "Expired" | "Active" | "Pending";
-    userVoteStatus: "You Voted" | "You Not Voted";
-    created: string;
-    type: string;
+  id: string;
+  proposalId: number;
+  title: string;
+  description: string;
+  status:
+    | "Pending"
+    | "Active"
+    | "Canceled"
+    | "Defeated"
+    | "Succeeded"
+    | "Queued"
+    | "Expired"
+    | "Executed";
+  userVoteStatus: "You Have Voted" | "You Have Not Voted";
+  created: string;
+  type: string;
+  forVotes: string;
+  againstVotes: string;
 };
 
-const stripMarkdown = (s: string) => s.replace(/\*|_|~|`|#+|>\s?/g, "").trim();
+const stripMarkdown = (s: string) =>
+  s
+    .replace(/^#{1,6}\s+/gm, "")
+    .replace(/(\*\*|__)(.*?)\1/g, "$2")
+    .replace(/(\*|_)(.*?)\1/g, "$2")
+    .replace(/~~(.*?)~~/g, "$1")
+    .replace(/`([^`]+)`/g, "$1")
+    .replace(/```[\s\S]*?```/g, "")
+    .replace(/\[([^\]]+)\]\([^)]+\)/g, "$1")
+    .replace(/!\[([^\]]*)\]\([^)]+\)/g, "$1")
+    .replace(/^>\s+/gm, "")
+    .replace(/^[\s]*[-*+]\s+/gm, "")
+    .replace(/^[\s]*\d+\.\s+/gm, "")
+    .replace(/^[\s]*[-*_]{3,}[\s]*$/gm, "")
+    .replace(/\n{3,}/g, "\n\n")
+    .trim();
 
 export const parseDescription = (
-    desc: string
+  desc: string
 ): { title: string; body: string } => {
-    try {
-        const json = JSON.parse(desc) as {
-            title?: string;
-            description?: string;
-        };
-        if (json && (json.title || json.description)) {
-            return {
-                title: stripMarkdown(json.title ?? "Untitled"),
-                body: json.description ?? "",
-            };
-        }
-    } catch {}
-    const [first, ...rest] = desc.split("\n");
-    return { title: stripMarkdown(first || "Untitled"), body: rest.join("\n") };
+  try {
+    const json = JSON.parse(desc) as {
+      title?: string;
+      description?: string;
+    };
+    if (json && (json.title || json.description)) {
+      return {
+        title: stripMarkdown(json.title ?? "Untitled"),
+        body: stripMarkdown(json.description ?? ""),
+      };
+    }
+  } catch {}
+  const [first, ...rest] = desc.split("\n");
+  return {
+    title: stripMarkdown(first || "Untitled"),
+    body: stripMarkdown(rest.join("\n")),
+  };
+};
+
+export const extractDescriptionBody = (desc: string): string => {
+  try {
+    const json = JSON.parse(desc) as {
+      title?: string;
+      description?: string;
+    };
+    if (json && (json.title || json.description)) {
+      return json.description ?? "";
+    }
+  } catch {}
+  const [, ...rest] = desc.split("\n");
+  return rest.join("\n");
 };
 
 export const deriveState = async (
-    raw: RawProposal,
-    publicClient: PublicClient
-): Promise<"Pending" | "Active" | "Executed" | "Expired"> => {
-    const start = BigInt(raw.startBlock);
-    const end = BigInt(raw.endBlock);
-    const latestBlock = await publicClient.getBlockNumber();
+  raw: RawProposal,
+  publicClient: PublicClient
+): Promise<UiProposal["status"]> => {
+  const start = BigInt(raw.startBlock);
+  const end = BigInt(raw.endBlock);
+  const latestBlock = await publicClient.getBlockNumber();
+  const currentTimestamp = Math.floor(Date.now() / 1000);
 
-    if (latestBlock < start) return "Pending";
-    if (latestBlock <= end) return "Active";
+  if (raw.canceledBlockTimestamp) return "Canceled";
 
-    const governor = CONTRACTS.governorBravoDelegator;
-    try {
-        const executed = await publicClient.readContract({
-            address: governor.address,
-            abi: governor.abi as never,
-            functionName: "proposals",
-            args: [BigInt(raw.id)],
-        });
-        const executedFlag = (
-            executed as { executed?: boolean } | unknown as unknown[]
-        )[8] as boolean | undefined;
-        if (executedFlag) return "Executed";
-    } catch {}
+  if (latestBlock < start) return "Pending";
+  if (latestBlock <= end) return "Active";
 
+  const governor = CONTRACTS.governorBravoDelegator;
+
+  let quorumVotes: bigint;
+  try {
+    quorumVotes = (await publicClient.readContract({
+      address: governor.address,
+      abi: governor.abi as never,
+      functionName: "quorumVotes",
+    })) as bigint;
+  } catch {
+    quorumVotes = BigInt(0);
+  }
+
+  const forVotes = BigInt(raw.forVotes || "0");
+  const againstVotes = BigInt(raw.againstVotes || "0");
+
+  if (forVotes <= againstVotes || forVotes < quorumVotes) {
+    return "Defeated";
+  }
+
+  const eta = raw.eta ? Number(raw.eta) : 0;
+
+  if (eta === 0) return "Succeeded";
+
+  try {
+    const executed = await publicClient.readContract({
+      address: governor.address,
+      abi: governor.abi as never,
+      functionName: "proposals",
+      args: [BigInt(raw.id)],
+    });
+    const executedFlag = (
+      executed as { executed?: boolean } | unknown as unknown[]
+    )[8] as boolean | undefined;
+    if (executedFlag) return "Executed";
+  } catch {}
+
+  const EXPIRATION_PERIOD = 14 * 24 * 60 * 60;
+  if (currentTimestamp >= eta + EXPIRATION_PERIOD) {
     return "Expired";
+  }
+
+  return "Queued";
 };
 
 export const formatToUiProposal = async (
-    raw: RawProposal,
-    publicClient: PublicClient
+  raw: RawProposal,
+  publicClient: PublicClient
 ): Promise<UiProposal> => {
-    const { title, body } = parseDescription(raw.description);
-    const state = await deriveState(raw, publicClient);
-    const created = Number(raw.createdBlockTimestamp) * 1000;
-    const createdStr = Number.isFinite(created)
-        ? new Date(created).toLocaleString(undefined, {
-              day: "2-digit",
-              month: "short",
-              year: "numeric",
-              hour: "numeric",
-              minute: "2-digit",
-              hour12: true,
-          })
-        : "--";
+  const { title, body } = parseDescription(raw.description);
+  const state = await deriveState(raw, publicClient);
+  const created = Number(raw.createdBlockTimestamp) * 1000;
+  const createdStr = Number.isFinite(created)
+    ? new Date(created).toLocaleString(undefined, {
+        day: "2-digit",
+        month: "short",
+        year: "numeric",
+        hour: "numeric",
+        minute: "2-digit",
+        hour12: true,
+      })
+    : "--";
 
-    return {
-        id: raw.id,
-        proposalId: Number(raw.id),
-        title,
-        description: body,
-        status: state,
-        userVoteStatus: "You Not Voted",
-        created: createdStr,
-        type: "Protocol",
-    };
+  return {
+    id: raw.id,
+    proposalId: Number(raw.id),
+    title,
+    description: body,
+    status: state,
+    userVoteStatus: "You Have Not Voted",
+    created: createdStr,
+    type: "Protocol",
+    forVotes: raw.forVotes,
+    againstVotes: raw.againstVotes,
+  };
 };

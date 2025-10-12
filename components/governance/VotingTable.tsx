@@ -120,7 +120,7 @@ const VotingTable: React.FC<VotingTableProps> = ({
             <div
                 ref={scrollRef}
                 className={`relative overflow-y-auto scrollbar-hide ${maxHeight} ${
-                    hasOverflow ? "pb-[30px]" : ""
+                    hasOverflow ? "pb-[58px]" : ""
                 }`}
             >
                 {sortedRows.map((row, i) => (

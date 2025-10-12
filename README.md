@@ -11,6 +11,7 @@ Make sure your project code is uploaded to a GitHub, GitLab, or Bitbucket accoun
 Your application requires the following environment variables to be set:
 
 -   `NEXT_PUBLIC_WALLETCONNECT_PROJECT_ID`: Required for WalletConnect functionality. Get this from [WalletConnect Cloud](https://cloud.walletconnect.com/).
+-   `NEXT_PUBLIC_INFURA_API_KEY`: Required for Ethereum network connectivity. Get this from [Infura](https://infura.io/).
 -   `NEXT_PUBLIC_POINTS_API_URL`: Optional. URL for the points API. Defaults to `https://pnt.onyx.org/api/v1` if not set.
 -   `NEXT_PUBLIC_POINTS_SQUID_URL`: Optional. URL for the points Squid GraphQL endpoint. Defaults to `https://pnt-squid.onyx.org/graphql` if not set.
 
@@ -18,6 +19,7 @@ Create a `.env.local` file in your project root with these variables:
 
 ```
 NEXT_PUBLIC_WALLETCONNECT_PROJECT_ID=your_walletconnect_project_id
+NEXT_PUBLIC_INFURA_API_KEY=your_infura_api_key
 NEXT_PUBLIC_POINTS_API_URL=https://pnt.onyx.org/api/v1
 NEXT_PUBLIC_POINTS_SQUID_URL=https://pnt-squid.onyx.org/graphql
 ```

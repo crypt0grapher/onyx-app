@@ -2,6 +2,7 @@
 
 import { useEffect, useMemo, useState } from "react";
 import { useAccount, usePublicClient } from "wagmi";
+import { mainnet } from "wagmi/chains";
 import { useQuery } from "@tanstack/react-query";
 import {
     formatToUiProposal,
@@ -25,7 +26,7 @@ type ProposalsResponse = {
 
 export const useProposals = (params: UseProposalsParams = {}) => {
     const { address } = useAccount();
-    const publicClient = usePublicClient();
+    const publicClient = usePublicClient({ chainId: mainnet.id });
 
     const page = params.page ?? 1;
     const limit = params.limit ?? 4;
@@ -93,15 +94,27 @@ export const useProposals = (params: UseProposalsParams = {}) => {
         return filteredAll.slice(clampedOffset, clampedOffset + limit);
     }, [filteredAll, page, limit]);
 
-    const [enrichedPage, setEnrichedPage] = useState<UiProposal[]>([]);
-
-    useEffect(() => {
-        setEnrichedPage(pageSlice);
-    }, [pageSlice]);
+    const [enrichedData, setEnrichedData] = useState<{
+        forPageSlice: UiProposal[];
+        forAddress: string | undefined;
+        enriched: UiProposal[];
+    }>({
+        forPageSlice: [],
+        forAddress: undefined,
+        enriched: [],
+    });
 
     useEffect(() => {
         const enrichVotes = async () => {
-            if (!publicClient || !address || pageSlice.length === 0) return;
+            if (!publicClient || !address || pageSlice.length === 0) {
+                setEnrichedData({
+                    forPageSlice: pageSlice,
+                    forAddress: address,
+                    enriched: pageSlice,
+                });
+                return;
+            }
+
             try {
                 const calls = pageSlice.map((p) => ({
                     address: CONTRACTS.governorBravoDelegator.address,
@@ -109,39 +122,70 @@ export const useProposals = (params: UseProposalsParams = {}) => {
                     functionName: "getReceipt",
                     args: [BigInt(p.proposalId), address],
                 }));
-                const { results } = await publicClient.multicall({
+
+                const results = await publicClient.multicall({
                     contracts: calls as never,
                     allowFailure: true,
                 });
-                setEnrichedPage((prev) =>
-                    prev.map((p, i) => {
-                        const receipt = (
-                            results?.[i] as { result?: unknown } | undefined
-                        )?.result as
-                            | {
-                                  hasVoted?: boolean;
-                                  support?: boolean;
-                                  votes?: bigint;
-                              }
-                            | undefined;
-                        const voted = receipt?.hasVoted;
-                        return {
-                            ...p,
-                            userVoteStatus: voted
-                                ? "You Voted"
-                                : "You Not Voted",
-                        };
-                    })
-                );
-            } catch {}
+
+                type MulticallResult =
+                    | { status: "success"; result?: unknown }
+                    | { status: "failure"; error: Error };
+
+                const enriched: UiProposal[] = pageSlice.map((p, i) => {
+                    const multicallResult = results[i] as MulticallResult;
+
+                    if (multicallResult.status !== "success") {
+                        console.warn(
+                            `Failed to get vote receipt for proposal ${p.proposalId}`
+                        );
+                        return p;
+                    }
+
+                    const receipt = multicallResult.result as
+                        | {
+                              hasVoted?: boolean;
+                              support?: boolean;
+                              votes?: bigint;
+                          }
+                        | undefined;
+
+                    const voted = receipt?.hasVoted ?? false;
+
+                    return {
+                        ...p,
+                        userVoteStatus: (voted
+                            ? "You Have Voted"
+                            : "You Have Not Voted") as UiProposal["userVoteStatus"],
+                    };
+                });
+
+                setEnrichedData({
+                    forPageSlice: pageSlice,
+                    forAddress: address,
+                    enriched: enriched,
+                });
+            } catch (error) {
+                console.error("Error enriching vote statuses:", error);
+                setEnrichedData({
+                    forPageSlice: pageSlice,
+                    forAddress: address,
+                    enriched: pageSlice,
+                });
+            }
         };
+
         enrichVotes();
     }, [publicClient, address, pageSlice]);
 
+    const needsReEnrichment =
+        enrichedData.forPageSlice !== pageSlice ||
+        enrichedData.forAddress !== address;
+
     return {
-        proposals: enrichedPage,
+        proposals: needsReEnrichment ? [] : enrichedData.enriched,
         total: filteredAll.length,
-        isLoading: isLoading || isFetching || hydrating,
+        isLoading: isLoading || isFetching || hydrating || needsReEnrichment,
         isError,
         refetch,
     };

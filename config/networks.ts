@@ -37,7 +37,7 @@ export const SUPPORTED_NETWORKS: Network[] = [
         icon: etcIcon,
         chainId: 1,
         chainIdHex: "0x1",
-        rpcUrl: "https://mainnet.infura.io/v3/54af4f71d6c44e0ea83badb0886458f9",
+        rpcUrl: `https://mainnet.infura.io/v3/${process.env.NEXT_PUBLIC_INFURA_API_KEY}`,
         blockExplorerUrl: "https://etherscan.io",
         nativeCurrency: {
             name: "Ether",

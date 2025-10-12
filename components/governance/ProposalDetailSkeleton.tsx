@@ -56,7 +56,10 @@ const ProposalDetailSkeleton: React.FC = () => {
                     <div className="grid grid-cols-1 2xl:grid-cols-[0.5fr_0.5fr_27%] gap-4">
                         <div className="hidden 2xl:flex 2xl:order-3">
                             <Card className="h-[440px] w-full">
-                                <Skel className="h-5 w-44" />
+                                <div className="flex flex-row items-center justify-between w-full">
+                                    <Skel className="h-4 w-32" />
+                                    <Skel className="h-6 w-40" />
+                                </div>
                                 <div className="flex flex-col gap-3 mt-1 overflow-hidden">
                                     {Array.from({ length: 6 }).map((_, i) => (
                                         <div
@@ -88,6 +91,7 @@ const ProposalDetailSkeleton: React.FC = () => {
                                     </div>
                                     <Skel className="h-6 w-20 ml-auto" />
                                 </div>
+                                <Skel className="h-[12px] w-full rounded-[8px]" />
                                 <div className="h-px w-full bg-[#1F1F1F]" />
                                 <div className="flex flex-col gap-2 flex-1 w-full overflow-hidden">
                                     {Array.from({ length: 5 }).map((_, i) => (
@@ -118,6 +122,7 @@ const ProposalDetailSkeleton: React.FC = () => {
                                     </div>
                                     <Skel className="h-6 w-20 ml-auto" />
                                 </div>
+                                <Skel className="h-[12px] w-full rounded-[8px]" />
                                 <div className="h-px w-full bg-[#1F1F1F]" />
                                 <div className="flex flex-col gap-2 flex-1 w-full overflow-hidden">
                                     {Array.from({ length: 5 }).map((_, i) => (
@@ -140,8 +145,10 @@ const ProposalDetailSkeleton: React.FC = () => {
 
                         <div className="block 2xl:hidden space-y-4">
                             <Card>
-                                <Skel className="h-5 w-40" />
-                                <Skel className="h-4 w-32" />
+                                <div className="flex flex-row items-center justify-between w-full">
+                                    <Skel className="h-4 w-32" />
+                                    <Skel className="h-6 w-40" />
+                                </div>
                                 <div className="flex flex-col gap-3 mt-2">
                                     {Array.from({ length: 4 }).map((_, i) => (
                                         <div
@@ -168,6 +175,7 @@ const ProposalDetailSkeleton: React.FC = () => {
                                         </div>
                                         <Skel className="h-6 w-16 ml-auto" />
                                     </div>
+                                    <Skel className="h-[12px] w-full rounded-[8px]" />
                                     <div className="h-px w-full bg-[#1F1F1F]" />
                                     <div className="flex flex-col gap-2">
                                         {Array.from({ length: 3 }).map(

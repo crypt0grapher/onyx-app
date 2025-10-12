@@ -14,5 +14,6 @@ export { default as CreateProposalModal } from "./CreateProposalModal";
 export { default as ConfirmationCard } from "./ConfirmationCard";
 export { default as ProposalActionCard } from "./ProposalActionCard";
 export { default as ProposalDescription } from "./ProposalDescription";
+export { default as ProposalActions } from "./ProposalActions";
 export { default as VotingTable } from "./VotingTable";
 export { default as OperationSection } from "./OperationSection";

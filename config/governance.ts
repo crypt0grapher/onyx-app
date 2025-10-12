@@ -3,10 +3,12 @@ export interface Proposal {
     proposalId: number;
     title: string;
     description: string;
-    status: "Executed" | "Expired" | "Active" | "Pending";
-    userVoteStatus: "You Voted" | "You Not Voted";
+    status: "Pending" | "Active" | "Canceled" | "Defeated" | "Succeeded" | "Queued" | "Expired" | "Executed";
+    userVoteStatus: "You Have Voted" | "You Have Not Voted";
     created: string;
     type: string;
+    forVotes?: string | number;
+    againstVotes?: string | number;
 }
 
 export interface ProposalStatusConfig {
@@ -21,30 +23,46 @@ export interface DropdownOption {
 }
 
 export const proposalStatusConfig: Record<string, ProposalStatusConfig> = {
-    Executed: {
-        labelKey: "governance.proposal.status.executed",
-        variant: "success",
-    },
-    Expired: {
-        labelKey: "governance.proposal.status.expired",
-        variant: "danger",
+    Pending: {
+        labelKey: "governance.proposal.status.pending",
+        variant: "normal",
     },
     Active: {
         labelKey: "governance.proposal.status.active",
         variant: "normal",
     },
-    Pending: {
-        labelKey: "governance.proposal.status.pending",
+    Canceled: {
+        labelKey: "governance.proposal.status.canceled",
+        variant: "danger",
+    },
+    Defeated: {
+        labelKey: "governance.proposal.status.defeated",
+        variant: "danger",
+    },
+    Succeeded: {
+        labelKey: "governance.proposal.status.succeeded",
+        variant: "success",
+    },
+    Queued: {
+        labelKey: "governance.proposal.status.queued",
         variant: "normal",
+    },
+    Expired: {
+        labelKey: "governance.proposal.status.expired",
+        variant: "danger",
+    },
+    Executed: {
+        labelKey: "governance.proposal.status.executed",
+        variant: "success",
     },
 };
 
 export const userVoteStatusConfig: Record<string, ProposalStatusConfig> = {
-    "You Voted": {
+    "You Have Voted": {
         labelKey: "governance.proposal.userVoteStatus.youVoted",
         variant: "success",
     },
-    "You Not Voted": {
+    "You Have Not Voted": {
         labelKey: "governance.proposal.userVoteStatus.youNotVoted",
         variant: "normal",
     },
@@ -76,9 +94,11 @@ export const mockProposals: Proposal[] = [
         description:
             "Activate Onyx Points System • Enhance Liquidity Management • Deploy Gas-Free Smart Wallet",
         status: "Executed",
-        userVoteStatus: "You Voted",
+        userVoteStatus: "You Have Voted",
         created: "10 Jul 2025 6:09 PM",
         type: "Protocol Enhancement",
+        forVotes: "15000000000000000000000000",
+        againstVotes: "2000000000000000000000000",
     },
     {
         id: "2",
@@ -87,9 +107,11 @@ export const mockProposals: Proposal[] = [
         description:
             "Adopt Goliath Framework • Advance Protocol Scalability & Economic Alignment",
         status: "Executed",
-        userVoteStatus: "You Not Voted",
+        userVoteStatus: "You Have Not Voted",
         created: "02 Jul 2025 4:45 PM",
         type: "Protocol Framework",
+        forVotes: "12500000000000000000000000",
+        againstVotes: "3500000000000000000000000",
     },
     {
         id: "3",
@@ -98,7 +120,7 @@ export const mockProposals: Proposal[] = [
         description:
             "Extend the Onyx Protocol Gas Refund Program to incentivize voting",
         status: "Executed",
-        userVoteStatus: "You Not Voted",
+        userVoteStatus: "You Have Not Voted",
         created: "23 Jun 2025 11:31 PM",
         type: "Incentive Program",
     },
@@ -108,7 +130,7 @@ export const mockProposals: Proposal[] = [
         title: "Provide XCN Liquidity for BNB Chain Phase 1",
         description: "Phase One: Provide liquidity for XCN/USDT",
         status: "Expired",
-        userVoteStatus: "You Not Voted",
+        userVoteStatus: "You Have Not Voted",
         created: "15 Jun 2025 11:47 PM",
         type: "Liquidity Management",
     },
@@ -119,9 +141,11 @@ export const mockProposals: Proposal[] = [
         description:
             "Deploy governance contracts across Ethereum, BSC, and Polygon networks",
         status: "Active",
-        userVoteStatus: "You Voted",
+        userVoteStatus: "You Have Voted",
         created: "08 Jun 2025 3:22 PM",
         type: "Multi-Chain Expansion",
+        forVotes: "8000000000000000000000000",
+        againstVotes: "1500000000000000000000000",
     },
     {
         id: "6",
@@ -130,7 +154,7 @@ export const mockProposals: Proposal[] = [
         description:
             "Implement automated treasury rebalancing and yield optimization strategies",
         status: "Pending",
-        userVoteStatus: "You Not Voted",
+        userVoteStatus: "You Have Not Voted",
         created: "01 Jun 2025 9:15 AM",
         type: "Treasury Management",
     },
@@ -141,7 +165,7 @@ export const mockProposals: Proposal[] = [
         description:
             "Enable NFT collateral support for lending and borrowing operations",
         status: "Executed",
-        userVoteStatus: "You Voted",
+        userVoteStatus: "You Have Voted",
         created: "25 May 2025 7:33 PM",
         type: "NFT Integration",
     },
@@ -152,7 +176,7 @@ export const mockProposals: Proposal[] = [
         description:
             "Create dedicated committee for protocol risk assessment and mitigation",
         status: "Expired",
-        userVoteStatus: "You Not Voted",
+        userVoteStatus: "You Have Not Voted",
         created: "18 May 2025 2:47 PM",
         type: "Risk Management",
     },
@@ -163,7 +187,7 @@ export const mockProposals: Proposal[] = [
         description:
             "Enable seamless asset transfers between supported blockchain networks",
         status: "Active",
-        userVoteStatus: "You Voted",
+        userVoteStatus: "You Have Voted",
         created: "12 May 2025 6:18 AM",
         type: "Bridge Protocol",
     },
@@ -174,7 +198,7 @@ export const mockProposals: Proposal[] = [
         description:
             "Implement market-responsive interest rates based on utilization and demand",
         status: "Executed",
-        userVoteStatus: "You Not Voted",
+        userVoteStatus: "You Have Not Voted",
         created: "05 May 2025 11:42 PM",
         type: "Interest Rate Model",
     },
@@ -184,7 +208,7 @@ export const mockProposals: Proposal[] = [
         title: "Launch Onyx Mobile Application",
         description: "Deploy native mobile apps for iOS and Android platforms",
         status: "Pending",
-        userVoteStatus: "You Voted",
+        userVoteStatus: "You Have Voted",
         created: "28 Apr 2025 4:56 PM",
         type: "Mobile Development",
     },
@@ -195,7 +219,7 @@ export const mockProposals: Proposal[] = [
         description:
             "Add advanced security measures against flash loan attacks",
         status: "Executed",
-        userVoteStatus: "You Voted",
+        userVoteStatus: "You Have Voted",
         created: "21 Apr 2025 8:29 AM",
         type: "Security Enhancement",
     },
@@ -206,7 +230,7 @@ export const mockProposals: Proposal[] = [
         description:
             "Create funding program for ecosystem development and research initiatives",
         status: "Active",
-        userVoteStatus: "You Not Voted",
+        userVoteStatus: "You Have Not Voted",
         created: "14 Apr 2025 1:13 PM",
         type: "Grant Program",
     },
@@ -217,7 +241,7 @@ export const mockProposals: Proposal[] = [
         description:
             "Launch professional trading platform for institutional users",
         status: "Expired",
-        userVoteStatus: "You Voted",
+        userVoteStatus: "You Have Voted",
         created: "07 Apr 2025 10:37 PM",
         type: "Institutional Services",
     },
@@ -228,7 +252,7 @@ export const mockProposals: Proposal[] = [
         description:
             "Add decentralized oracle support for enhanced price accuracy",
         status: "Executed",
-        userVoteStatus: "You Not Voted",
+        userVoteStatus: "You Have Not Voted",
         created: "31 Mar 2025 5:21 AM",
         type: "Oracle Integration",
     },
@@ -239,7 +263,7 @@ export const mockProposals: Proposal[] = [
         description:
             "Create comprehensive educational resources for DeFi and protocol usage",
         status: "Pending",
-        userVoteStatus: "You Voted",
+        userVoteStatus: "You Have Voted",
         created: "24 Mar 2025 3:44 PM",
         type: "Educational Initiative",
     },
@@ -250,7 +274,7 @@ export const mockProposals: Proposal[] = [
         description:
             "Deploy AMM functionality for improved liquidity and trading efficiency",
         status: "Active",
-        userVoteStatus: "You Not Voted",
+        userVoteStatus: "You Have Not Voted",
         created: "17 Mar 2025 12:08 PM",
         type: "AMM Implementation",
     },
@@ -261,7 +285,7 @@ export const mockProposals: Proposal[] = [
         description:
             "Diversify treasury holdings across multiple assets and protocols",
         status: "Executed",
-        userVoteStatus: "You Voted",
+        userVoteStatus: "You Have Voted",
         created: "10 Mar 2025 9:52 AM",
         type: "Treasury Diversification",
     },
@@ -272,7 +296,7 @@ export const mockProposals: Proposal[] = [
         description:
             "Implement Optimistic Rollup technology for reduced transaction costs",
         status: "Expired",
-        userVoteStatus: "You Not Voted",
+        userVoteStatus: "You Have Not Voted",
         created: "03 Mar 2025 7:16 PM",
         type: "Layer 2 Scaling",
     },
@@ -283,7 +307,7 @@ export const mockProposals: Proposal[] = [
         description:
             "Upgrade staking mechanism with enhanced rewards and delegation features",
         status: "Active",
-        userVoteStatus: "You Voted",
+        userVoteStatus: "You Have Voted",
         created: "25 Feb 2025 2:39 PM",
         type: "Staking Upgrade",
     },

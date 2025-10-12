@@ -512,7 +512,7 @@ export class SubgraphService extends BaseApiService {
     return { proposal };
   }
 
-  async getProposalVotes(filter?: { id?: string; address?: string }): Promise<{
+  async getProposalVotes(filter?: { id?: string; address?: string; limit?: number }): Promise<{
     proposalVotes: Array<{
       id: string;
       proposal: string;
@@ -530,9 +530,12 @@ export class SubgraphService extends BaseApiService {
     const where =
       whereParts.length > 0 ? `where: { ${whereParts.join(", ")} }` : "";
 
+    const limit = filter?.limit ?? 1000;
+
     const query = `
       query proposalVotesQuery {
         proposalVotes(
+          first: ${limit}
           ${where}
         ) {
           id

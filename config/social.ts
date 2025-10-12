@@ -25,14 +25,14 @@ export const socialItems: SocialItem[] = [
         platform: "telegram",
         label: "Telegram",
         icon: telegramIcon,
-        url: "https://t.me/Onyx",
+        url: "https://t.me/OnyxOrg",
         ariaLabel: "Join our Telegram channel",
     },
     {
         platform: "twitter",
         label: "Twitter",
         icon: twitterIcon,
-        url: "https://x.com/intent/follow?screen_name=Onyx",
+        url: "https://x.com/OnyxDAO",
         ariaLabel: "Follow us on Twitter",
     },
     {
