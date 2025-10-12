@@ -18,7 +18,7 @@ import { useStakingHistory } from "@/hooks/staking/useStakingHistory";
 import type { HistoryItem } from "@/lib/api/services/subgraph";
 import { formatXcnAmountFromWei } from "@/utils/amount";
 import { formatRelativeTimeFromSeconds } from "@/utils/time";
-import { buildExplorerUrl } from "@/utils/explorer";
+import { buildEtherscanUrl } from "@/utils/explorer";
 import { capitalizeType } from "@/utils/string";
 import TableEmptyState from "@/components/ui/table/TableEmptyState";
 
@@ -95,7 +95,7 @@ const StakingHistoryTable: React.FC = () => {
         {
             content: (
                 <ExternalLink
-                    href={buildExplorerUrl(event.transactionHash, "tx")}
+                    href={buildEtherscanUrl(event.transactionHash, "tx")}
                 >
                     <span>{truncateAddress(event.transactionHash)}</span>
                 </ExternalLink>
@@ -126,7 +126,7 @@ const StakingHistoryTable: React.FC = () => {
             label: t("txnHash"),
             value: (
                 <ExternalLink
-                    href={buildExplorerUrl(event.transactionHash, "tx")}
+                    href={buildEtherscanUrl(event.transactionHash, "tx")}
                 >
                     <span>{truncateAddress(event.transactionHash)}</span>
                 </ExternalLink>

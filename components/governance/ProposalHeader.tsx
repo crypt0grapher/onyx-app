@@ -4,7 +4,7 @@ import { useRouter } from "@/i18n/navigation";
 import { useTranslations } from "next-intl";
 import SecondaryButton from "@/components/ui/buttons/SecondaryButton";
 import ExternalLink from "@/components/ui/common/ExternalLink";
-import { buildExplorerUrl } from "@/utils/explorer";
+import { buildEtherscanUrl } from "@/utils/explorer";
 import arrowBackIcon from "@/assets/icons/arrow_back.svg";
 import governanceSmall from "@/assets/governance/onyx_governance_small.svg";
 
@@ -32,7 +32,7 @@ const ProposalHeader: React.FC<ProposalHeaderProps> = ({ title, txHash }) => {
                 </h1>
                 <div className="mt-1">
                     <ExternalLink
-                        href={txHash ? buildExplorerUrl(txHash, "tx") : "#"}
+                        href={txHash ? buildEtherscanUrl(txHash, "tx") : "#"}
                         className="text-secondary"
                         allowWrap
                     >

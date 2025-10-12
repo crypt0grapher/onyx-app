@@ -16,7 +16,7 @@ import { capitalizeType } from "@/utils/string";
 import type { HistoryItem } from "@/lib/api/services/subgraph";
 import { formatXcnAmountFromWei } from "@/utils/amount";
 import { formatRelativeTimeFromSeconds } from "@/utils/time";
-import { buildExplorerUrl } from "@/utils/explorer";
+import { buildEtherscanUrl } from "@/utils/explorer";
 import TableEmptyState from "@/components/ui/table/TableEmptyState";
 
 const ITEMS_PER_PAGE = 15;
@@ -134,7 +134,7 @@ const HistoryTable: React.FC<HistoryTableProps> = ({
         {
             content: (
                 <ExternalLink
-                    href={buildExplorerUrl(transaction.transactionHash, "tx")}
+                    href={buildEtherscanUrl(transaction.transactionHash, "tx")}
                 >
                     <span>{truncateAddress(transaction.transactionHash)}</span>
                 </ExternalLink>
@@ -148,7 +148,7 @@ const HistoryTable: React.FC<HistoryTableProps> = ({
         {
             content: (
                 <ExternalLink
-                    href={buildExplorerUrl(transaction.from, "address")}
+                    href={buildEtherscanUrl(transaction.from, "address")}
                 >
                     <span>{truncateAddress(transaction.from)}</span>
                 </ExternalLink>
@@ -158,7 +158,7 @@ const HistoryTable: React.FC<HistoryTableProps> = ({
         {
             content: (
                 <ExternalLink
-                    href={buildExplorerUrl(transaction.to, "address")}
+                    href={buildEtherscanUrl(transaction.to, "address")}
                 >
                     <span>{truncateAddress(transaction.to)}</span>
                 </ExternalLink>
@@ -184,7 +184,7 @@ const HistoryTable: React.FC<HistoryTableProps> = ({
             label: t("from"),
             value: (
                 <ExternalLink
-                    href={buildExplorerUrl(transaction.from, "address")}
+                    href={buildEtherscanUrl(transaction.from, "address")}
                 >
                     <span>{truncateAddress(transaction.from)}</span>
                 </ExternalLink>
@@ -194,7 +194,7 @@ const HistoryTable: React.FC<HistoryTableProps> = ({
             label: t("to"),
             value: (
                 <ExternalLink
-                    href={buildExplorerUrl(transaction.to, "address")}
+                    href={buildEtherscanUrl(transaction.to, "address")}
                 >
                     <span>{truncateAddress(transaction.to)}</span>
                 </ExternalLink>
@@ -204,7 +204,7 @@ const HistoryTable: React.FC<HistoryTableProps> = ({
             label: t("txnHash"),
             value: (
                 <ExternalLink
-                    href={buildExplorerUrl(transaction.transactionHash, "tx")}
+                    href={buildEtherscanUrl(transaction.transactionHash, "tx")}
                 >
                     <span>{truncateAddress(transaction.transactionHash)}</span>
                 </ExternalLink>

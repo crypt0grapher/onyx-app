@@ -32,4 +32,23 @@ export const buildExplorerUrl = (
     }
 };
 
+// Force Etherscan for stake and history components
+export const buildEtherscanUrl = (
+    value: string | number,
+    kind: ExplorerKind
+) => {
+    const base = "https://etherscan.io";
+    const val = typeof value === "number" ? String(value) : value;
+    switch (kind) {
+        case "tx":
+            return `${base}/tx/${val}`;
+        case "address":
+            return `${base}/address/${val}`;
+        case "block":
+            return `${base}/block/${val}`;
+        default:
+            return base;
+    }
+};
+
 export type { ExplorerKind };

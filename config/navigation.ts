@@ -73,5 +73,5 @@ export const footerLinks: FooterLink[] = [
         label: "Disclosures",
         href: "https://docs.onyx.org/token-distribution",
     },
-    { key: "docs", label: "Docs", href: "#" },
+    { key: "docs", label: "Docs", href: "https://docs.onyx.org" },
 ];

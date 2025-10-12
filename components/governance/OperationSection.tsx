@@ -8,7 +8,7 @@ import {
     type Hex,
 } from "viem";
 import { useTranslations } from "next-intl";
-import { buildExplorerUrl } from "@/utils/explorer";
+import { buildEtherscanUrl } from "@/utils/explorer";
 import Link from "next/link";
 
 interface OperationSectionProps {
@@ -106,7 +106,7 @@ const OperationSection: React.FC<OperationSectionProps> = ({ raw }) => {
                 >
                     <Link
                         target="_blank"
-                        href={buildExplorerUrl(raw.targets[idx], "address")}
+                        href={buildEtherscanUrl(raw.targets[idx], "address")}
                         className={`underline text-primary font-sans text-sm font-normal leading-5 overflow-wrap-anywhere break-words ${featureSettings}`}
                     >
                         {op.label}
