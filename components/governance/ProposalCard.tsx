@@ -42,7 +42,11 @@ const ProposalCard: React.FC<ProposalCardProps> = ({ proposal }) => {
           <div className="flex flex-col items-start gap-2 flex-1">
             <div className="flex items-center gap-[8px]">
               <StatusBadge variant="normal">#{proposal.proposalId}</StatusBadge>
-              <StatusBadge variant={statusConfig.variant}>
+              <StatusBadge 
+                variant={statusConfig.variant}
+                customBgColor={statusConfig.customBgColor}
+                customTextColor={statusConfig.customTextColor}
+              >
                 {t(statusConfig.labelKey)}
               </StatusBadge>
               <StatusBadge variant={voteConfig.variant}>
@@ -92,7 +96,11 @@ const ProposalCard: React.FC<ProposalCardProps> = ({ proposal }) => {
       <div className="flex md:hidden flex-col items-start gap-2 w-full">
         <div className="flex items-center gap-[8px]">
           <StatusBadge variant="normal">#{proposal.proposalId}</StatusBadge>
-          <StatusBadge variant={statusConfig.variant}>
+          <StatusBadge 
+            variant={statusConfig.variant}
+            customBgColor={statusConfig.customBgColor}
+            customTextColor={statusConfig.customTextColor}
+          >
             {t(statusConfig.labelKey)}
           </StatusBadge>
           <StatusBadge variant={voteConfig.variant}>

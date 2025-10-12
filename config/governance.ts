@@ -14,6 +14,8 @@ export interface Proposal {
 export interface ProposalStatusConfig {
     labelKey: string;
     variant: "success" | "normal" | "danger";
+    customBgColor?: string;
+    customTextColor?: string;
 }
 
 export interface DropdownOption {
@@ -46,6 +48,8 @@ export const proposalStatusConfig: Record<string, ProposalStatusConfig> = {
     Queued: {
         labelKey: "governance.proposal.status.queued",
         variant: "normal",
+        customBgColor: "#F7CB73",
+        customTextColor: "#1B1B1B",
     },
     Expired: {
         labelKey: "governance.proposal.status.expired",

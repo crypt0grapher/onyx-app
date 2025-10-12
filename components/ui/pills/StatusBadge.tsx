@@ -8,12 +8,16 @@ type StatusBadgeProps = {
     variant: StatusType;
     children: ReactNode;
     className?: string;
+    customBgColor?: string;
+    customTextColor?: string;
 };
 
 const StatusBadge = ({
     variant,
     children,
     className = "",
+    customBgColor,
+    customTextColor,
 }: StatusBadgeProps) => {
     const baseClasses = [
         "inline-flex px-[8px] py-[2px] justify-center items-center gap-[8px] rounded-full",
@@ -30,11 +34,16 @@ const StatusBadge = ({
 
     const allClasses = [
         ...baseClasses,
-        ...(variantClasses[variant] || variantClasses.normal),
+        ...(customBgColor || customTextColor ? [] : (variantClasses[variant] || variantClasses.normal)),
         className,
     ].join(" ");
 
-    return <span className={allClasses}>{children}</span>;
+    const customStyles = (customBgColor || customTextColor) ? {
+        backgroundColor: customBgColor,
+        color: customTextColor,
+    } : {};
+
+    return <span className={allClasses} style={customStyles}>{children}</span>;
 };
 
 export default StatusBadge;
