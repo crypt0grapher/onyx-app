@@ -98,7 +98,7 @@ const ProposalActions: React.FC<ProposalActionsProps> = ({
 
   if (state === 1 && address && hasSufficientPower) {
     return (
-      <div className="flex items-center gap-4 mt-6">
+      <div className="flex flex-col sm:flex-row sm:items-center gap-4 mt-6">
         <SecondaryButton
           label={
             isCancelling
@@ -127,7 +127,7 @@ const ProposalActions: React.FC<ProposalActionsProps> = ({
 
   if (state === 4 && hasSufficientPower) {
     return (
-      <div className="flex items-center gap-4 mt-6">
+      <div className="flex flex-col sm:flex-row sm:items-center gap-4 mt-6">
         <PrimaryButton
           label={
             isQueueing
@@ -136,7 +136,7 @@ const ProposalActions: React.FC<ProposalActionsProps> = ({
           }
           onClick={handleQueue}
           disabled={isQueueing}
-          className={`!w-auto ${isQueueing ? "opacity-60 cursor-wait" : ""}`}
+          className={`!w-full sm:!w-auto ${isQueueing ? "opacity-60 cursor-wait" : ""}`}
         />
       </div>
     );
@@ -145,7 +145,7 @@ const ProposalActions: React.FC<ProposalActionsProps> = ({
   if (state === 5 && hasSufficientPower) {
     if (canExecute) {
       return (
-        <div className="flex items-center gap-4 mt-6">
+        <div className="flex flex-col sm:flex-row sm:items-center gap-4 mt-6">
           <PrimaryButton
             label={
               isExecuting
@@ -154,7 +154,7 @@ const ProposalActions: React.FC<ProposalActionsProps> = ({
             }
             onClick={handleExecute}
             disabled={isExecuting}
-            className={`!w-auto ${
+            className={`!w-full sm:!w-auto ${
               isExecuting
                 ? "opacity-60 cursor-wait"
                 : "bg-green-600 hover:bg-green-700"
@@ -166,7 +166,7 @@ const ProposalActions: React.FC<ProposalActionsProps> = ({
 
     if (timeUntilExecution) {
       return (
-        <div className="flex items-center gap-4 mt-6">
+        <div className="flex flex-col sm:flex-row sm:items-center gap-4 mt-6">
           <PrimaryButton
             label={
               t("timeUntilExecutable", {
@@ -174,7 +174,7 @@ const ProposalActions: React.FC<ProposalActionsProps> = ({
               }) || `Executable in ${timeUntilExecution}`
             }
             disabled={true}
-            className="!w-auto bg-green-600/50"
+            className="!w-full sm:!w-auto bg-green-600/50"
           />
         </div>
       );

@@ -257,16 +257,16 @@
         }
     },
     "metadata": {
-        "title": "Onyx Protocol",
+        "title": "Onyx App",
         "description": "Onyx, Onyxcoin (XCN) tarafından desteklenen Web3 ve blockchain altyapısının bel kemiğidir.",
         "keywords": "onyx, onyx protocol, defi, borç ver, ödünç al, kripto, blockchain, Ethereum Zinciri, merkezi olmayan finans",
         "openGraph": {
-            "title": "Onyx Protocol",
+            "title": "Onyx App",
             "description": "Onyx, Onyxcoin (XCN) tarafından desteklenen Web3 ve blockchain altyapısının bel kemiğidir.",
-            "siteName": "Onyx Protocol"
+            "siteName": "Onyx App"
         },
         "twitter": {
-            "title": "Onyx Protocol",
+            "title": "Onyx App",
             "description": "Onyx, Onyxcoin (XCN) tarafından desteklenen Web3 ve blockchain altyapısının bel kemiğidir."
         }
     },
