@@ -314,7 +314,7 @@
         },
         "stakedTokens": {
             "yourStakedTokens": "Your Staked Tokens",
-            "dailyEarnings": "Daily Earnings",
+            "dailyEarnings": "Est. Daily Earnings",
             "toClaim": "To Claim",
             "claimRewards": "Claim Rewards",
             "claiming": "Claiming...",
@@ -351,7 +351,7 @@
         "graph": {
             "staked": "Staked:",
             "earnings": "Earnings:",
-            "dailyEarnings": "Daily Earnings",
+            "dailyEarnings": "Est. Daily Earnings",
             "stakedLabel": "Staked",
             "connectWalletTitle": "Connect Wallet",
             "connectWalletDescriptionLine1": "Connect your wallet to",
@@ -441,7 +441,7 @@
         },
         "stats": {
             "yourStakedTokens": "Your Staked LP Tokens",
-            "dailyEarnings": "Daily Earnings",
+            "dailyEarnings": "Est. Daily Earnings",
             "toClaim": "To Claim",
             "claimRewards": "Claim Rewards",
             "claiming": "Claiming..."
@@ -449,7 +449,7 @@
         "graph": {
             "staked": "Staked:",
             "earnings": "Earnings:",
-            "dailyEarnings": "Daily Earnings",
+            "dailyEarnings": "Est. Daily Earnings",
             "stakedLabel": "Staked",
             "connectWalletTitle": "Connect Wallet",
             "connectWalletDescriptionLine1": "Connect your wallet to",
