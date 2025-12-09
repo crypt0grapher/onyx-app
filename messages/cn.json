@@ -641,9 +641,9 @@
                 "exploreAssets": "探索资产"
             },
             "activePoints": {
-                "title": "主动积分",
-                "description": "通过在XCN账本上部署您的白名单资产来赚取AP。",
-                "exploreApps": "探索应用"
+                "title": "质押积分",
+                "description": "通过在以太坊区块链上质押您的XCN来赚取SP。",
+                "exploreApps": "质押 XCN"
             },
             "appPoints": {
                 "title": "应用积分",

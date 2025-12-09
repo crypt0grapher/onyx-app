@@ -641,9 +641,9 @@
                 "exploreAssets": "자산 탐색"
             },
             "activePoints": {
-                "title": "액티브 포인트",
-                "description": "XCN 원장에서 화이트리스트에 등재된 자산을 배포하여 AP를 획득하세요.",
-                "exploreApps": "앱 탐색"
+                "title": "스테이킹 포인트",
+                "description": "이더리움 블록체인에서 XCN을 스테이킹하여 SP를 획득하세요.",
+                "exploreApps": "XCN 스테이크"
             },
             "appPoints": {
                 "title": "앱 포인트",

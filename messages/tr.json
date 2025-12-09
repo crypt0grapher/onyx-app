@@ -642,9 +642,9 @@
                 "exploreAssets": "Varlıkları Keşfet"
             },
             "activePoints": {
-                "title": "Aktif Puanlar",
-                "description": "Beyaz listeli varlıklarınızı XCN Ledger'da deploy ederek AP kazanın.",
-                "exploreApps": "Uygulamaları Keşfet"
+                "title": "Stake Puanları",
+                "description": "Ethereum blok zincirinde XCN'nizi stake ederek SP kazanın.",
+                "exploreApps": "XCN Stake Et"
             },
             "appPoints": {
                 "title": "Uygulama Puanları",

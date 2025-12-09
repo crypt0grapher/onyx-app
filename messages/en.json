@@ -641,9 +641,9 @@
                 "exploreAssets": "Explore Assets"
             },
             "activePoints": {
-                "title": "Active Points",
-                "description": "Earn AP by deploying your whitelisted assets on XCN Ledger.",
-                "exploreApps": "Explore Apps"
+                "title": "Staking Points",
+                "description": "Earn SP by staking your XCN on the Ethereum blockchain.",
+                "exploreApps": "Stake XCN"
             },
             "appPoints": {
                 "title": "App Points",

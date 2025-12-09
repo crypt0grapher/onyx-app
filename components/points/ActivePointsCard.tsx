@@ -4,15 +4,14 @@ import Image from "next/image";
 import { useTranslations } from "next-intl";
 import SecondaryButton from "@/components/ui/buttons/SecondaryButton";
 import StatusBadge from "@/components/ui/pills/StatusBadge";
-import ExploreIcon from "@/assets/icons/explore.svg";
+import StakeIcon from "@/assets/icons/stake.svg";
 import onyxLogoBackground from "@/assets/points/onyx-logo-points.svg";
 import { type ImageLikeSrc } from "@/utils/image";
-import { openPointsDocumentation } from "@/config/points";
 
 const ActivePointsCard = () => {
     const t = useTranslations("points");
     const handleExploreAppsClick = () => {
-        openPointsDocumentation("active");
+        window.open("https://app.onyx.org/en", "_blank");
     };
 
     return (
@@ -30,8 +29,8 @@ const ActivePointsCard = () => {
 
             <div className="flex flex-col z-10 relative w-full">
                 <div className="mb-3">
-                    <StatusBadge variant="normal">
-                        {t("status.comingSoon")}
+                    <StatusBadge variant="success">
+                        {t("status.active")}
                     </StatusBadge>
                 </div>
 
@@ -46,7 +45,7 @@ const ActivePointsCard = () => {
                 <div className="w-fit">
                     <SecondaryButton
                         label={t("cards.activePoints.exploreApps")}
-                        icon={ExploreIcon as ImageLikeSrc}
+                        icon={StakeIcon as ImageLikeSrc}
                         onClick={handleExploreAppsClick}
                     />
                 </div>
