@@ -7,7 +7,7 @@ import {
 } from "wagmi";
 import { CONTRACTS, STAKING_CONSTANTS } from "@/contracts/config";
 import { convertWeiToTokens } from "@/utils/format";
-import { Address, parseEther } from "viem";
+import { Address, parseEther, maxUint256 } from "viem";
 import { useStakingData } from "./useStakingData";
 
 export const useUserStakingInfo = () => {
@@ -138,7 +138,7 @@ export const useUserStakingInfo = () => {
             false
         );
 
-        const hasAllowance = allowance >= parseEther("1000000");
+        const hasAllowance = allowance >= parseEther("1");
 
         return {
             userStaked,
@@ -178,7 +178,7 @@ export const useApproveXcn = () => {
     );
 
     const approve = (amount?: bigint): Promise<`0x${string}`> => {
-        const approveAmount = amount || parseEther("1000000");
+        const approveAmount = amount || maxUint256;
 
         return writeContractAsync({
             address: CONTRACTS.xcnToken.address,
