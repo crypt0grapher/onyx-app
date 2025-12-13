@@ -27,6 +27,8 @@ NEXT_PUBLIC_POINTS_SQUID_URL=https://pnt-squid.onyx.org/graphql
 For Vercel deployment, you can set these in your Vercel project settings under "Environment Variables".
 
 ---
+Patched for CVE-2025-55183 & CVE-2025-55184
+---
 
 ## Option 1: Deploying with Vercel (Recommended)
 
