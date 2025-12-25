@@ -125,18 +125,23 @@ export const useUserStakingInfo = () => {
             2,
             false
         );
-
-        const stakingAPRValue = parseFloat(stakingAPR.replace("%", "")) || 0;
+        
+        const stakingAPRValue = parseFloat(stakingAPR.replace('%', '')) || 0;
         const dailyRate = stakingAPRValue / 365 / 100;
+        
+        const PRECISION = 1_000_000_000;
+        
         const dailyEarningsRaw =
-            (userStakedRaw * BigInt(Math.floor(dailyRate * 10000))) /
-            BigInt(10000);
+          (userStakedRaw * BigInt(Math.floor(dailyRate * PRECISION))) /
+          BigInt(PRECISION);
+        
         const dailyEarnings = convertWeiToTokens(
-            dailyEarningsRaw.toString(),
-            STAKING_CONSTANTS.XCN_DECIMALS,
-            2,
-            false
+          dailyEarningsRaw.toString(),
+          STAKING_CONSTANTS.XCN_DECIMALS,
+          2,
+          false
         );
+
 
         const hasAllowance = allowance >= parseEther("1");
 
