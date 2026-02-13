@@ -2,6 +2,7 @@ import React from "react";
 import ReactMarkdown from "react-markdown";
 import remarkGfm from "remark-gfm";
 import remarkBreaks from "remark-breaks";
+import rehypeRaw from "rehype-raw";
 import rehypeSanitize from "rehype-sanitize";
 
 interface MarkdownRendererProps {
@@ -65,9 +66,8 @@ const MarkdownRenderer: React.FC<MarkdownRendererProps> = ({
     return (
         <div className={className}>
             <ReactMarkdown
-                skipHtml
                 remarkPlugins={[remarkGfm, remarkBreaks]}
-                rehypePlugins={[rehypeSanitize]}
+                rehypePlugins={[rehypeRaw, rehypeSanitize]}
                 allowedElements={allowedElements}
                 unwrapDisallowed
                 components={{
