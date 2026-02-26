@@ -125,7 +125,7 @@ const ProposalActions: React.FC<ProposalActionsProps> = ({
     );
   }
 
-  if (state === 4 && hasSufficientPower) {
+  if (state === 4 && address) {
     return (
       <div className="flex flex-col sm:flex-row sm:items-center gap-4 mt-6">
         <PrimaryButton
@@ -142,7 +142,7 @@ const ProposalActions: React.FC<ProposalActionsProps> = ({
     );
   }
 
-  if (state === 5 && hasSufficientPower) {
+  if (state === 5 && address) {
     if (canExecute) {
       return (
         <div className="flex flex-col sm:flex-row sm:items-center gap-4 mt-6">
