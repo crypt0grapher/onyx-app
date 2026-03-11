@@ -123,63 +123,38 @@ export const extractDescriptionBody = (desc: string): string => {
   return rest.join("\n");
 };
 
+const STATE_MAP: Record<number, UiProposal["status"]> = {
+  0: "Pending",
+  1: "Active",
+  2: "Canceled",
+  3: "Defeated",
+  4: "Succeeded",
+  5: "Queued",
+  6: "Expired",
+  7: "Executed",
+};
+
 export const deriveState = async (
   raw: RawProposal,
   publicClient: PublicClient
 ): Promise<UiProposal["status"]> => {
-  const start = BigInt(raw.startBlock);
-  const end = BigInt(raw.endBlock);
-  const latestBlock = await publicClient.getBlockNumber();
-  const currentTimestamp = Math.floor(Date.now() / 1000);
-
-  if (raw.canceledBlockTimestamp) return "Canceled";
-
-  if (latestBlock < start) return "Pending";
-  if (latestBlock <= end) return "Active";
-
   const governor = CONTRACTS.governorBravoDelegator;
 
-  let quorumVotes: bigint;
   try {
-    quorumVotes = (await publicClient.readContract({
+    const stateNum = (await publicClient.readContract({
       address: governor.address,
       abi: governor.abi as never,
-      functionName: "quorumVotes",
-    })) as bigint;
-  } catch {
-    quorumVotes = BigInt(0);
-  }
-
-  const forVotes = BigInt(raw.forVotes || "0");
-  const againstVotes = BigInt(raw.againstVotes || "0");
-
-  if (forVotes <= againstVotes || forVotes < quorumVotes) {
-    return "Defeated";
-  }
-
-  const eta = raw.eta ? Number(raw.eta) : 0;
-
-  if (eta === 0) return "Succeeded";
-
-  try {
-    const executed = await publicClient.readContract({
-      address: governor.address,
-      abi: governor.abi as never,
-      functionName: "proposals",
+      functionName: "state",
       args: [BigInt(raw.id)],
-    });
-    const executedFlag = (
-      executed as { executed?: boolean } | unknown as unknown[]
-    )[8] as boolean | undefined;
-    if (executedFlag) return "Executed";
-  } catch {}
+    })) as number;
 
-  const EXPIRATION_PERIOD = 14 * 24 * 60 * 60;
-  if (currentTimestamp >= eta + EXPIRATION_PERIOD) {
-    return "Expired";
+    return STATE_MAP[stateNum] ?? "Pending";
+  } catch {
+    if (raw.executedBlockTimestamp) return "Executed";
+    if (raw.canceledBlockTimestamp) return "Canceled";
+    if (raw.queuedBlockTimestamp) return "Queued";
+    return "Pending";
   }
-
-  return "Queued";
 };
 
 export const formatToUiProposal = async (
