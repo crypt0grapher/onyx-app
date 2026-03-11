@@ -6,6 +6,7 @@ import { mainnet } from "wagmi/chains";
 import { useQuery } from "@tanstack/react-query";
 import {
     formatToUiProposal,
+    readOnChainStates,
     type RawProposal,
     type UiProposal,
 } from "@/lib/governance/format";
@@ -55,8 +56,18 @@ export const useProposals = (params: UseProposalsParams = {}) => {
             if (!data || !publicClient) return;
             setHydrating(true);
             const raws = data.proposals;
+            const stateMap = await readOnChainStates(
+                raws as unknown as RawProposal[],
+                publicClient
+            );
             const formatted = await Promise.all(
-                raws.map((p) => formatToUiProposal(p, publicClient))
+                raws.map((p) =>
+                    formatToUiProposal(
+                        p as unknown as RawProposal,
+                        publicClient,
+                        stateMap.get(p.id as string)
+                    )
+                )
             );
             setAllUiProposals(formatted);
             setHydrating(false);

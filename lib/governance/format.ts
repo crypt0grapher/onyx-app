@@ -134,35 +134,55 @@ const STATE_MAP: Record<number, UiProposal["status"]> = {
   7: "Executed",
 };
 
-export const deriveState = async (
-  raw: RawProposal,
+export const readOnChainState = async (
+  proposalId: string | number,
   publicClient: PublicClient
 ): Promise<UiProposal["status"]> => {
   const governor = CONTRACTS.governorBravoDelegator;
+  const stateNum = (await publicClient.readContract({
+    address: governor.address,
+    abi: governor.abi as never,
+    functionName: "state",
+    args: [BigInt(proposalId)],
+  })) as number;
+  return STATE_MAP[stateNum] ?? "Pending";
+};
 
-  try {
-    const stateNum = (await publicClient.readContract({
+export const readOnChainStates = async (
+  proposals: RawProposal[],
+  publicClient: PublicClient
+): Promise<Map<string, UiProposal["status"]>> => {
+  const governor = CONTRACTS.governorBravoDelegator;
+  const results = await publicClient.multicall({
+    contracts: proposals.map((p) => ({
       address: governor.address,
       abi: governor.abi as never,
       functionName: "state",
-      args: [BigInt(raw.id)],
-    })) as number;
+      args: [BigInt(p.id)],
+    })),
+    allowFailure: true,
+  });
 
-    return STATE_MAP[stateNum] ?? "Pending";
-  } catch {
-    if (raw.executedBlockTimestamp) return "Executed";
-    if (raw.canceledBlockTimestamp) return "Canceled";
-    if (raw.queuedBlockTimestamp) return "Queued";
-    return "Pending";
-  }
+  const stateMap = new Map<string, UiProposal["status"]>();
+  proposals.forEach((p, i) => {
+    const r = results[i];
+    if (r.status === "success") {
+      stateMap.set(p.id, STATE_MAP[Number(r.result)] ?? "Pending");
+    } else {
+      stateMap.set(p.id, "Pending");
+    }
+  });
+  return stateMap;
 };
 
 export const formatToUiProposal = async (
   raw: RawProposal,
-  publicClient: PublicClient
+  publicClient: PublicClient,
+  precomputedStatus?: UiProposal["status"]
 ): Promise<UiProposal> => {
   const { title, body } = parseDescription(raw.description);
-  const state = await deriveState(raw, publicClient);
+  const state =
+    precomputedStatus ?? (await readOnChainState(raw.id, publicClient));
   const created = Number(raw.createdBlockTimestamp) * 1000;
   const createdStr = Number.isFinite(created)
     ? new Date(created).toLocaleString(undefined, {
