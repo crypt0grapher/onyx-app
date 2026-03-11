@@ -13,11 +13,14 @@ export type TimelineEventType =
 
 export type TimelineEvent = { type: TimelineEventType; date: Date };
 
-export const useProposalTimeline = (raw?: RawProposal | null) => {
+export const useProposalTimeline = (
+    raw?: RawProposal | null,
+    onChainStatus?: string | null
+) => {
     const publicClient = usePublicClient();
 
     return useQuery({
-        queryKey: ["gov-proposal-timeline", raw?.id],
+        queryKey: ["gov-proposal-timeline", raw?.id, onChainStatus],
         enabled: Boolean(raw && publicClient),
         queryFn: async () => {
             if (!raw || !publicClient) return [] as TimelineEvent[];
@@ -96,14 +99,14 @@ export const useProposalTimeline = (raw?: RawProposal | null) => {
                 });
             }
 
-            if (raw.executedBlockTimestamp) {
+            if (onChainStatus === "Executed" && raw.executedBlockTimestamp) {
                 events.push({
                     type: "execute",
                     date: new Date(num(raw.executedBlockTimestamp) * 1000),
                 });
             }
 
-            if (raw.canceledBlockTimestamp) {
+            if (onChainStatus === "Canceled" && raw.canceledBlockTimestamp) {
                 events.push({
                     type: "canceled",
                     date: new Date(num(raw.canceledBlockTimestamp) * 1000),

@@ -35,9 +35,10 @@ export default function ProposalDetailPage() {
     const { votes, isLoading: isVotesLoading } = useProposalVotes(idParam);
     const uiProposal = proposalData?.ui || null;
     const raw = proposalData?.raw || null;
+    const onChainStatus = uiProposal?.status ?? null;
     const { data: timelineEvents, isLoading: isTimelineLoading } =
-        useProposalTimeline(raw);
-    const { message: countdownLabel, countdown, isLoading: isCountdownLoading } = useProposalCountdown(raw);
+        useProposalTimeline(raw, onChainStatus);
+    const { message: countdownLabel, countdown, isLoading: isCountdownLoading } = useProposalCountdown(raw, onChainStatus);
     const { castVote, isLoading: isCasting } = useCastVote();
     const { state } = useProposalState(uiProposal?.proposalId);
     const { receipt } = useVoteReceipt(uiProposal?.proposalId);

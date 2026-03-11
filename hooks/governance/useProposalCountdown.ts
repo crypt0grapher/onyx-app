@@ -7,9 +7,15 @@ import type { RawProposal } from "@/lib/governance/format";
 
 const BLOCK_TIME_MS = 12000;
 
-export const useProposalCountdown = (raw?: RawProposal | null) => {
+export const useProposalCountdown = (
+    raw?: RawProposal | null,
+    onChainStatus?: string | null
+) => {
     const t = useTranslations("governance.proposal");
     const publicClient = usePublicClient();
+
+    const isTerminal =
+        onChainStatus === "Executed" || onChainStatus === "Canceled";
 
     const {
         data: startBlockData,
@@ -18,10 +24,7 @@ export const useProposalCountdown = (raw?: RawProposal | null) => {
     } = useQuery({
         queryKey: ["startBlock", raw?.startBlock],
         enabled: Boolean(
-            raw?.startBlock &&
-                publicClient &&
-                !raw?.executedBlockTimestamp &&
-                !raw?.canceledBlockTimestamp
+            raw?.startBlock && publicClient && !isTerminal
         ),
         queryFn: async () => {
             if (!raw?.startBlock || !publicClient) return null;
@@ -52,11 +55,11 @@ export const useProposalCountdown = (raw?: RawProposal | null) => {
             }
         };
 
-        if (raw.executedBlockTimestamp) {
+        if (onChainStatus === "Executed") {
             return { message: t("status.executed"), targetDate: null };
         }
 
-        if (raw.canceledBlockTimestamp) {
+        if (onChainStatus === "Canceled") {
             return { message: t("timeline.canceled"), targetDate: null };
         }
 
@@ -97,15 +100,14 @@ export const useProposalCountdown = (raw?: RawProposal | null) => {
         }
 
         return { message: t("votingActive"), targetDate: null };
-    }, [raw, t, startBlockData]);
+    }, [raw, t, startBlockData, onChainStatus]);
 
     const countdown = useCountdown(countdownData.targetDate);
 
     const needsBlockData = Boolean(
         raw?.startBlock &&
             raw?.endBlock &&
-            !raw?.executedBlockTimestamp &&
-            !raw?.canceledBlockTimestamp &&
+            !isTerminal &&
             BigInt(raw.endBlock || 0) > BigInt(0) &&
             BigInt(raw.startBlock || 0) > BigInt(0)
     );
