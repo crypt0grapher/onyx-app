@@ -24,8 +24,6 @@ tsconfig.tsbuildinfo
 # OS
 .DS_Store
 Thumbs.db
-
-# Claude Code
 .memory-bank/
 .docs/
 
