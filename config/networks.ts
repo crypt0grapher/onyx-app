@@ -30,7 +30,7 @@ export interface ChainConfig {
 }
 
 const goliathChainId = Number(
-    process.env.NEXT_PUBLIC_GOLIATH_CHAIN_ID || "8901"
+    process.env.NEXT_PUBLIC_GOLIATH_CHAIN_ID || "327"
 );
 
 export const SUPPORTED_NETWORKS: Network[] = [
@@ -41,7 +41,9 @@ export const SUPPORTED_NETWORKS: Network[] = [
         icon: etcIcon,
         chainId: 1,
         chainIdHex: "0x1",
-        rpcUrl: `https://mainnet.infura.io/v3/${process.env.NEXT_PUBLIC_INFURA_API_KEY}`,
+        rpcUrl: process.env.NEXT_PUBLIC_INFURA_API_KEY
+            ? `https://mainnet.infura.io/v3/${process.env.NEXT_PUBLIC_INFURA_API_KEY}`
+            : "https://ethereum-rpc.publicnode.com",
         blockExplorerUrl: "https://etherscan.io",
         nativeCurrency: {
             name: "Ether",
@@ -73,10 +75,10 @@ export const SUPPORTED_NETWORKS: Network[] = [
         chainIdHex: "0x" + goliathChainId.toString(16),
         rpcUrl:
             process.env.NEXT_PUBLIC_GOLIATH_RPC_URL ||
-            "https://rpc.testnet.goliath.net",
+            "https://rpc.goliath.net",
         blockExplorerUrl:
             process.env.NEXT_PUBLIC_GOLIATH_EXPLORER_URL ||
-            "https://testnet.explorer.goliath.net",
+            "https://validators.goliath.net",
         nativeCurrency: {
             name: "XCN",
             symbol: "XCN",
