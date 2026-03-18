@@ -11,7 +11,7 @@ import GoliathYieldPanel from "@/components/goliath-yield/GoliathYieldPanel";
 import GoliathDataBoxes from "@/components/goliath-yield/GoliathDataBoxes";
 import GoliathUserStats from "@/components/goliath-yield/GoliathUserStats";
 import GoliathStakingHistory from "@/components/goliath-yield/GoliathStakingHistory";
-import OnyxBackground from "@/components/ui/common/OnyxBackground";
+import GoliathBackground from "@/components/ui/common/GoliathBackground";
 
 export default function Home() {
     const stakeVariant = useStakeVariant();
@@ -39,7 +39,7 @@ function GoliathStakePage() {
                 <div className="flex flex-col 2xl:flex-row gap-[24px] lg:gap-4 px-4 lg:px-0">
                     <Divider className="mt-[24px] mb-[25px] block md:hidden" />
 
-                    {/* Left Column: Staking Panel with OnyxBackground */}
+                    {/* Left Column: Staking Panel with GoliathBackground */}
                     <div className="flex-1 flex flex-col">
                         <h2 className="text-primary text-[24px] font-medium leading-[32px] mb-[4px]">
                             {t("title")}
@@ -52,7 +52,7 @@ function GoliathStakePage() {
                                 <GoliathYieldPanel />
                             </div>
                             <div className="absolute -bottom-16 left-1/2 -translate-x-1/2 -z-0 opacity-30 pointer-events-none">
-                                <OnyxBackground
+                                <GoliathBackground
                                     marginTop="mt-0"
                                     visibility="hidden md:block"
                                 />

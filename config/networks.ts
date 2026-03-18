@@ -1,5 +1,6 @@
 import etcIcon from "@/assets/icons/etc.png";
 import xcnIcon from "@/assets/icons/XCN.svg";
+import goliathIcon from "@/assets/icons/goliath.svg";
 
 export interface Network {
     id: string;
@@ -70,7 +71,7 @@ export const SUPPORTED_NETWORKS: Network[] = [
         id: "goliath",
         name: "Goliath",
         network: "Goliath Network",
-        icon: xcnIcon,
+        icon: goliathIcon,
         chainId: goliathChainId,
         chainIdHex: "0x" + goliathChainId.toString(16),
         rpcUrl:

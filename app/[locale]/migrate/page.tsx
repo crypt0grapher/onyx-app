@@ -121,6 +121,7 @@ export default function Migrate() {
                                 duration: 0.5,
                                 ease: "easeOut",
                             }}
+                            className="text-center"
                         >
                             <h2 className="text-[28px] font-semibold leading-[36px] text-white mb-1">
                                 {t("title")}
