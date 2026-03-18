@@ -1,7 +1,7 @@
 {
     "sidebar": {
         "navigation": {
-            "stake": "Stake",
+            "stake": "Goliath Liquid Staking",
             "history": "History",
             "swap": "Swap",
             "bridge": "Bridge",
@@ -12,7 +12,7 @@
             "card": "Card",
             "payments": "Payments",
             "enterprise": "Enterprise",
-            "stake-home": "Stake",
+            "stake-home": "Goliath Liquid Staking",
             "migrate": "Migrate to Goliath",
             "goliath-bridge": "Goliath Bridge",
             "legacy-bridge": "Legacy Bridge"
@@ -694,7 +694,7 @@
         }
     },
     "goliathYield": {
-        "title": "Goliath Staking",
+        "title": "Goliath Liquid Staking",
         "description": "Stake XCN to receive stXCN and earn yield",
         "statsTitle": "Protocol Stats",
         "statsDescription": "View protocol metrics and your staked position",
@@ -732,6 +732,31 @@
             "amount": "Amount",
             "receive": "You will receive",
             "fee": "Fee"
+        },
+        "dataBoxes": {
+            "stakingAPR": "Staking APR",
+            "protocolFee": "Protocol Fee",
+            "totalSupply": "Total stXCN Supply",
+            "contractBalance": "Contract Balance"
+        },
+        "userStatsTitle": "Your Position",
+        "userStatsDescription": "View your staked position and earnings",
+        "yourStXcnBalance": "Your stXCN Balance",
+        "yourUnderlyingXcn": "Underlying XCN Value",
+        "currentApr": "Current APR",
+        "historyTitle": "Staking History",
+        "historyDescription": "View your staking and unstaking transaction history on Goliath network",
+        "history": {
+            "type": "Type",
+            "txnHash": "Txn Hash",
+            "block": "Block",
+            "amount": "Amount",
+            "created": "Created",
+            "staked": "Staked",
+            "unstaked": "Unstaked",
+            "emptyTitle": "No History",
+            "emptyDescription": "Your staking transactions will appear here",
+            "emptyDescriptionLine2": "Stake or unstake XCN to get started"
         }
     },
     "time": {
@@ -774,6 +799,10 @@
         "empty": "No XCN available to migrate",
         "disabled": "Migration is currently disabled",
         "switchNetwork": "Switch to {network}",
+        "migrateButton": "Migrate",
+        "migrating": "Migrating...",
+        "migrationComplete": "Migration Complete",
+        "retryMigration": "Retry",
         "steps": {
             "claim": "Claim Rewards",
             "claimDesc": "Claim your pending staking rewards",
