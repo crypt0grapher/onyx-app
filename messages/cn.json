@@ -11,7 +11,11 @@
             "points": "积分",
             "card": "卡片",
             "payments": "支付",
-            "enterprise": "企业"
+            "enterprise": "企业",
+            "stake-home": "质押",
+            "migrate": "迁移至 Goliath",
+            "goliath-bridge": "Goliath 跨链桥",
+            "legacy-bridge": "旧版跨链桥"
         },
         "footer": {
             "terms": "条款",
@@ -64,6 +68,7 @@
         "events": {
             "supply": "供应",
             "stake": "质押",
+            "unstake": "解除质押",
             "transfer": "转账",
             "withdraw": "提取",
             "claim": "领取",
@@ -75,7 +80,10 @@
             "repayborrow": "偿还借贷",
             "liquidateborrow": "清算借贷",
             "reservesadded": "增加储备",
-            "reservesreduced": "减少储备"
+            "reservesreduced": "减少储备",
+            "bridge": "跨链桥",
+            "swap": "交换",
+            "migrate": "迁移"
         },
         "percentageOptions": {
             "0": "0%",
@@ -390,9 +398,16 @@
         "allTxns": "所有交易",
         "myTxns": "我的交易",
         "allTypes": "所有类型",
+        "filters": {
+            "network": "网络",
+            "allNetworks": "所有网络",
+            "type": "类型",
+            "allTypes": "所有类型"
+        },
         "types": {
             "supply": "供应",
             "stake": "质押",
+            "unstake": "解除质押",
             "transfer": "转账",
             "withdraw": "提取",
             "claim": "领取",
@@ -404,7 +419,15 @@
             "repayborrow": "偿还借贷",
             "liquidateborrow": "清算借贷",
             "reservesadded": "增加储备",
-            "reservesreduced": "减少储备"
+            "reservesreduced": "减少储备",
+            "bridge": "跨链桥",
+            "swap": "交换",
+            "migrate": "迁移"
+        },
+        "status": {
+            "confirmed": "已确认",
+            "pending": "待处理",
+            "failed": "失败"
         },
         "table": {
             "type": "类型",
@@ -670,6 +693,47 @@
             "bridge": "跨链"
         }
     },
+    "goliathYield": {
+        "title": "Goliath 质押",
+        "description": "质押 XCN 以获得 stXCN 并赚取收益",
+        "statsTitle": "协议统计",
+        "statsDescription": "查看协议指标和您的质押仓位",
+        "protocolStats": "协议统计",
+        "stake": "质押",
+        "unstake": "取消质押",
+        "stakeXCN": "质押 XCN",
+        "unstakeStXCN": "取消质押 stXCN",
+        "balance": "stXCN 余额",
+        "xcnBalance": "XCN 余额",
+        "underlyingValue": "底层 XCN 价值",
+        "totalSupply": "stXCN 总供应量",
+        "apr": "年化收益率",
+        "fee": "费用",
+        "contractBalance": "合约余额",
+        "paused": "质押已暂停",
+        "amount": "金额",
+        "max": "最大",
+        "connectWallet": "连接钱包",
+        "loading": "加载中...",
+        "staking": "质押中...",
+        "unstaking": "取消质押中...",
+        "estimatedDailyEarnings": "预计每日收益：",
+        "insufficientBalance": "余额不足",
+        "insufficientBalanceSubtext": "您没有足够的 XCN 代币",
+        "insufficientStXcnBalance": "stXCN 余额不足",
+        "insufficientStXcnBalanceSubtext": "您没有足够的 stXCN 代币",
+        "stakeSuccess": "成功质押 {amount} XCN",
+        "stakeFailed": "质押失败",
+        "unstakeSuccess": "成功取消质押 {amount} stXCN",
+        "unstakeFailed": "取消质押失败",
+        "confirm": {
+            "stakeTitle": "确认质押",
+            "unstakeTitle": "确认取消质押",
+            "amount": "金额",
+            "receive": "您将收到",
+            "fee": "费用"
+        }
+    },
     "time": {
         "lessThanMinute": "不到一分钟前",
         "minuteAgo": "一分钟前",
@@ -696,5 +760,103 @@
         "inWeeks": "{weeks}周后",
         "inMonths": "{months}个月后",
         "inYears": "{years}年后"
+    },
+    "migrate": {
+        "title": "迁移至 Goliath",
+        "subtitle": "将您的 XCN 质押迁移到 Goliath 网络",
+        "summary": {
+            "staked": "已质押的 XCN",
+            "rewards": "待领取奖励",
+            "wallet": "钱包 XCN",
+            "total": "迁移总量"
+        },
+        "connect": "请连接您的钱包以开始迁移",
+        "empty": "没有可迁移的 XCN",
+        "disabled": "迁移功能当前已禁用",
+        "switchNetwork": "切换到 {network}",
+        "steps": {
+            "claim": "领取奖励",
+            "claimDesc": "领取您的待领取质押奖励",
+            "approve": "授权 XCN",
+            "approveDesc": "授权 XCN 用于跨链桥",
+            "unstake": "取消质押 XCN",
+            "unstakeDesc": "取消质押 {amount} XCN",
+            "bridge": "桥接到 Goliath",
+            "bridgeDesc": "桥接 {amount} XCN 到 Goliath",
+            "stakeToggle": "在 Goliath 上自动质押",
+            "stakeToggleDesc": "到达后自动在 Goliath 上质押您的 XCN",
+            "viewTransaction": "查看交易",
+            "processing": "处理中..."
+        },
+        "status": {
+            "title": "迁移状态",
+            "submitted": "交易已提交",
+            "confirming": "确认中...",
+            "relaying": "正在转发到 Goliath...",
+            "processing": "在 Goliath 上处理中...",
+            "completed": "迁移完成！",
+            "failed": "迁移失败",
+            "stakingPrompt": "您的 XCN 已到达！现在质押吗？",
+            "stakeNow": "质押 XCN",
+            "skipStaking": "稍后再质押",
+            "startNew": "开始新迁移",
+            "viewOriginTx": "查看源交易",
+            "viewDestTx": "查看目标交易"
+        }
+    },
+    "bridge": {
+        "title": "跨链桥",
+        "subtitle": "在网络之间转移代币",
+        "form": {
+            "from": "从",
+            "to": "到",
+            "amount": "金额",
+            "max": "最大",
+            "balance": "余额",
+            "fee": "费用",
+            "estimatedArrival": "预计到达时间",
+            "selectToken": "选择代币",
+            "swapDirection": "切换方向"
+        },
+        "actions": {
+            "connect": "连接钱包",
+            "switchNetwork": "切换到 {network}",
+            "approve": "授权 {token}",
+            "bridge": "桥接 {token}",
+            "bridging": "桥接中...",
+            "approving": "授权中..."
+        },
+        "confirm": {
+            "title": "确认桥接",
+            "amount": "金额",
+            "direction": "方向",
+            "fee": "费用",
+            "feeInfo": "免费",
+            "eta": "预计时间",
+            "confirm": "确认桥接",
+            "cancel": "取消"
+        },
+        "status": {
+            "title": "桥接状态",
+            "pending": "交易已提交",
+            "confirming": "在源链上确认中",
+            "relaying": "正在转发到目标链",
+            "processing": "在目标链上处理中",
+            "completed": "已完成",
+            "failed": "失败",
+            "viewOriginTx": "查看源交易",
+            "viewDestTx": "查看目标交易"
+        },
+        "history": {
+            "title": "最近的桥接",
+            "empty": "暂无桥接记录",
+            "toGoliath": "到 Goliath",
+            "toSource": "到源链"
+        },
+        "validation": {
+            "minAmount": "最小金额为 {min}",
+            "insufficientBalance": "余额不足",
+            "bridgeDisabled": "跨链桥当前已禁用"
+        }
     }
 }

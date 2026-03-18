@@ -31,6 +31,7 @@ export {
     useCompleteStakingData,
 } from "./staking/useUserStaking";
 export { useHistoryData } from "./staking/useHistoryData";
+export { useUnifiedHistory } from "./history/useUnifiedHistory";
 export { useUserStakingGraph } from "./staking/useUserStakingGraph";
 export { useTokenPrice } from "./swap/useTokenPrice";
 export { useGasEstimate } from "./swap/useGasEstimate";

@@ -23,14 +23,23 @@ export default function SidebarNavigation({
             className={`flex flex-col gap-1 ${className}`}
             aria-label="Primary"
         >
-            {navItems.map((item) => (
-                <NavigationItem
-                    key={item.key}
-                    item={item}
-                    isActive={normalizedPath === item.href}
-                    onNavigate={onNavigate}
-                />
-            ))}
+            {navItems.map((item) => {
+                const isActive = item.children
+                    ? item.children.some(
+                          (child) => normalizedPath === child.href
+                      )
+                    : normalizedPath === item.href;
+
+                return (
+                    <NavigationItem
+                        key={item.key}
+                        item={item}
+                        isActive={isActive}
+                        pathname={normalizedPath}
+                        onNavigate={onNavigate}
+                    />
+                );
+            })}
         </nav>
     );
 }

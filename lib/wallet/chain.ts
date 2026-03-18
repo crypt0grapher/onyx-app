@@ -3,6 +3,7 @@
 import {
     ChainConfig,
     getOnyxNetwork,
+    getGoliathNetwork,
     networkToChainConfig,
 } from "@/config/networks";
 
@@ -247,4 +248,37 @@ export const isCurrentChainOnyx = async (): Promise<boolean> => {
     const currentChainId = await getCurrentChainId();
     const onyxNetwork = getOnyxNetwork();
     return currentChainId === onyxNetwork.chainIdHex;
+};
+
+/**
+ * Adds the Goliath network to the user's wallet
+ */
+export const addGoliathNetwork = async (
+    callbacks?: ChainOperationCallbacks,
+    t?: (key: string, values?: Record<string, string | number | Date>) => string
+): Promise<boolean> => {
+    const goliathNetwork = getGoliathNetwork();
+    const chainConfig = networkToChainConfig(goliathNetwork);
+    return addNetwork(chainConfig, callbacks, t);
+};
+
+/**
+ * Switches to the Goliath network, adding it first if necessary
+ */
+export const switchToGoliathNetwork = async (
+    callbacks?: ChainOperationCallbacks,
+    t?: (key: string, values?: Record<string, string | number | Date>) => string
+): Promise<ChainSwitchResult> => {
+    const goliathNetwork = getGoliathNetwork();
+    const chainConfig = networkToChainConfig(goliathNetwork);
+    return switchToChain(chainConfig, callbacks, t);
+};
+
+/**
+ * Checks if the current chain is the Goliath network
+ */
+export const isCurrentChainGoliath = async (): Promise<boolean> => {
+    const currentChainId = await getCurrentChainId();
+    const goliathNetwork = getGoliathNetwork();
+    return currentChainId === goliathNetwork.chainIdHex;
 };

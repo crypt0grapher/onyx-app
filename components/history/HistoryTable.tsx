@@ -14,6 +14,7 @@ import { getEventIcon } from "@/utils/events";
 import { truncateAddress } from "@/utils/address";
 import { capitalizeType } from "@/utils/string";
 import type { HistoryItem } from "@/lib/api/services/subgraph";
+import type { UnifiedHistoryItem } from "@/types/history";
 import { formatXcnAmountFromWei } from "@/utils/amount";
 import { formatRelativeTimeFromSeconds } from "@/utils/time";
 import { buildEtherscanUrl } from "@/utils/explorer";
@@ -21,8 +22,50 @@ import TableEmptyState from "@/components/ui/table/TableEmptyState";
 
 const ITEMS_PER_PAGE = 15;
 
+// ---------------------------------------------------------------------------
+// Type helpers -- detect whether an item is subgraph or unified
+// ---------------------------------------------------------------------------
+
+type AnyHistoryItem = HistoryItem | UnifiedHistoryItem;
+
+function isUnifiedItem(item: AnyHistoryItem): item is UnifiedHistoryItem {
+    return "txHash" in item && "network" in item;
+}
+
+/** Normalise common fields for rendering regardless of source type. */
+function getItemFields(item: AnyHistoryItem) {
+    if (isUnifiedItem(item)) {
+        return {
+            id: item.id,
+            type: item.type,
+            txHash: item.txHash ?? "",
+            blockNumber: "",
+            from: item.from,
+            to: item.to,
+            amount: item.amount,
+            timestamp: String(item.timestamp),
+            explorerUrl: item.explorerUrl,
+        };
+    }
+    return {
+        id: item.id,
+        type: item.type,
+        txHash: item.transactionHash,
+        blockNumber: item.blockNumber,
+        from: item.from,
+        to: item.to,
+        amount: item.amount,
+        timestamp: item.blockTimestamp,
+        explorerUrl: buildEtherscanUrl(item.transactionHash, "tx"),
+    };
+}
+
+// ---------------------------------------------------------------------------
+// Component
+// ---------------------------------------------------------------------------
+
 export type HistoryTableProps = {
-    items: HistoryItem[];
+    items: AnyHistoryItem[];
     currentPage: number;
     totalPages: number;
     startItem: number;
@@ -114,114 +157,189 @@ const HistoryTable: React.FC<HistoryTableProps> = ({
             className: header.className,
         }));
 
-    const formatCellData = (transaction: HistoryItem) => [
-        {
-            content: (
-                <div className="flex items-center gap-2">
-                    <Image
-                        src={getEventIcon(capitalizeType(transaction.type))}
-                        alt={transaction.type}
-                        width={20}
-                        height={20}
-                        className="opacity-60"
-                    />
-                    <span>{evT(String(transaction.type).toLowerCase())}</span>
-                </div>
-            ),
-            isType: true,
-            className: tableHeaders[0].className,
-        },
-        {
-            content: (
-                <ExternalLink
-                    href={buildEtherscanUrl(transaction.transactionHash, "tx")}
-                >
-                    <span>{truncateAddress(transaction.transactionHash)}</span>
-                </ExternalLink>
-            ),
-            className: tableHeaders[1].className,
-        },
-        {
-            content: Number(transaction.blockNumber).toLocaleString(),
-            className: tableHeaders[2].className,
-        },
-        {
-            content: (
-                <ExternalLink
-                    href={buildEtherscanUrl(transaction.from, "address")}
-                >
-                    <span>{truncateAddress(transaction.from)}</span>
-                </ExternalLink>
-            ),
-            className: tableHeaders[3].className,
-        },
-        {
-            content: (
-                <ExternalLink
-                    href={buildEtherscanUrl(transaction.to, "address")}
-                >
-                    <span>{truncateAddress(transaction.to)}</span>
-                </ExternalLink>
-            ),
-            className: tableHeaders[4].className,
-        },
-        {
-            content: formatXcnAmountFromWei(transaction.amount),
-            textColor: "#E6E6E6",
-            className: tableHeaders[5].className,
-        },
-        {
-            content: formatRelativeTimeFromSeconds(
-                transaction.blockTimestamp,
-                timeT
-            ),
-            className: tableHeaders[6].className,
-        },
-    ];
+    /** Resolve a translation key for the event type, falling back to the
+     *  common.events namespace first and history.types second. */
+    const getTypeLabel = (rawType: string): string => {
+        const key = rawType.toLowerCase();
+        // Try common.events first (where subgraph types live)
+        try {
+            return evT(key);
+        } catch {
+            // Fall through
+        }
+        // Then try history.types (includes bridge, swap, unstake, etc.)
+        try {
+            return t(`types.${key}`);
+        } catch {
+            return capitalizeType(rawType);
+        }
+    };
 
-    const formatMobileRowDetails = (transaction: HistoryItem) => [
-        {
-            label: t("from"),
-            value: (
-                <ExternalLink
-                    href={buildEtherscanUrl(transaction.from, "address")}
-                >
-                    <span>{truncateAddress(transaction.from)}</span>
-                </ExternalLink>
-            ),
-        },
-        {
-            label: t("to"),
-            value: (
-                <ExternalLink
-                    href={buildEtherscanUrl(transaction.to, "address")}
-                >
-                    <span>{truncateAddress(transaction.to)}</span>
-                </ExternalLink>
-            ),
-        },
-        {
-            label: t("txnHash"),
-            value: (
-                <ExternalLink
-                    href={buildEtherscanUrl(transaction.transactionHash, "tx")}
-                >
-                    <span>{truncateAddress(transaction.transactionHash)}</span>
-                </ExternalLink>
-            ),
-        },
-        {
-            label: t("block"),
-            value: Number(transaction.blockNumber).toLocaleString(),
-        },
-        {
-            label: t("created"),
-            value: formatRelativeTimeFromSeconds(
-                transaction.blockTimestamp,
-                timeT
-            ),
-        },
-    ];
+    const formatCellData = (transaction: AnyHistoryItem) => {
+        const fields = getItemFields(transaction);
+        const typeLabel = getTypeLabel(fields.type);
+
+        return [
+            {
+                content: (
+                    <div className="flex items-center gap-2">
+                        <Image
+                            src={getEventIcon(capitalizeType(fields.type))}
+                            alt={fields.type}
+                            width={20}
+                            height={20}
+                            className="opacity-60"
+                        />
+                        <span>{typeLabel}</span>
+                    </div>
+                ),
+                isType: true,
+                className: tableHeaders[0].className,
+            },
+            {
+                content: fields.txHash ? (
+                    <ExternalLink href={fields.explorerUrl}>
+                        <span>{truncateAddress(fields.txHash)}</span>
+                    </ExternalLink>
+                ) : (
+                    <span className="text-secondary">--</span>
+                ),
+                className: tableHeaders[1].className,
+            },
+            {
+                content: fields.blockNumber
+                    ? Number(fields.blockNumber).toLocaleString()
+                    : "--",
+                className: tableHeaders[2].className,
+            },
+            {
+                content: fields.from ? (
+                    <ExternalLink
+                        href={
+                            isUnifiedItem(transaction)
+                                ? transaction.explorerUrl
+                                    ? transaction.explorerUrl.replace(
+                                          /\/tx\/.*$/,
+                                          `/address/${fields.from}`,
+                                      )
+                                    : "#"
+                                : buildEtherscanUrl(fields.from, "address")
+                        }
+                    >
+                        <span>{truncateAddress(fields.from)}</span>
+                    </ExternalLink>
+                ) : (
+                    <span className="text-secondary">--</span>
+                ),
+                className: tableHeaders[3].className,
+            },
+            {
+                content: fields.to ? (
+                    <ExternalLink
+                        href={
+                            isUnifiedItem(transaction)
+                                ? transaction.explorerUrl
+                                    ? transaction.explorerUrl.replace(
+                                          /\/tx\/.*$/,
+                                          `/address/${fields.to}`,
+                                      )
+                                    : "#"
+                                : buildEtherscanUrl(fields.to, "address")
+                        }
+                    >
+                        <span>{truncateAddress(fields.to)}</span>
+                    </ExternalLink>
+                ) : (
+                    <span className="text-secondary">--</span>
+                ),
+                className: tableHeaders[4].className,
+            },
+            {
+                content: formatXcnAmountFromWei(fields.amount),
+                textColor: "#E6E6E6",
+                className: tableHeaders[5].className,
+            },
+            {
+                content: formatRelativeTimeFromSeconds(
+                    fields.timestamp,
+                    timeT,
+                ),
+                className: tableHeaders[6].className,
+            },
+        ];
+    };
+
+    const formatMobileRowDetails = (transaction: AnyHistoryItem) => {
+        const fields = getItemFields(transaction);
+
+        return [
+            {
+                label: t("from"),
+                value: fields.from ? (
+                    <ExternalLink
+                        href={
+                            isUnifiedItem(transaction)
+                                ? transaction.explorerUrl
+                                    ? transaction.explorerUrl.replace(
+                                          /\/tx\/.*$/,
+                                          `/address/${fields.from}`,
+                                      )
+                                    : "#"
+                                : buildEtherscanUrl(fields.from, "address")
+                        }
+                    >
+                        <span>{truncateAddress(fields.from)}</span>
+                    </ExternalLink>
+                ) : (
+                    "--"
+                ),
+            },
+            {
+                label: t("to"),
+                value: fields.to ? (
+                    <ExternalLink
+                        href={
+                            isUnifiedItem(transaction)
+                                ? transaction.explorerUrl
+                                    ? transaction.explorerUrl.replace(
+                                          /\/tx\/.*$/,
+                                          `/address/${fields.to}`,
+                                      )
+                                    : "#"
+                                : buildEtherscanUrl(fields.to, "address")
+                        }
+                    >
+                        <span>{truncateAddress(fields.to)}</span>
+                    </ExternalLink>
+                ) : (
+                    "--"
+                ),
+            },
+            {
+                label: t("txnHash"),
+                value: fields.txHash ? (
+                    <ExternalLink href={fields.explorerUrl}>
+                        <span>{truncateAddress(fields.txHash)}</span>
+                    </ExternalLink>
+                ) : (
+                    "--"
+                ),
+            },
+            {
+                label: t("block"),
+                value: fields.blockNumber
+                    ? Number(fields.blockNumber).toLocaleString()
+                    : "--",
+            },
+            {
+                label: t("created"),
+                value: formatRelativeTimeFromSeconds(
+                    fields.timestamp,
+                    timeT,
+                ),
+            },
+        ];
+    };
 
     return (
         <div className="w-full">
@@ -262,15 +380,15 @@ const HistoryTable: React.FC<HistoryTableProps> = ({
 
                     {!isLoading &&
                         items.length > 0 &&
-                        items.map((transaction: unknown, index: number) => (
-                            <TableRow
-                                key={(transaction as HistoryItem).id}
-                                cells={formatCellData(
-                                    transaction as HistoryItem
-                                )}
-                                isLastRow={index === items.length - 1}
-                            />
-                        ))}
+                        items.map(
+                            (transaction: AnyHistoryItem, index: number) => (
+                                <TableRow
+                                    key={transaction.id}
+                                    cells={formatCellData(transaction)}
+                                    isLastRow={index === items.length - 1}
+                                />
+                            ),
+                        )}
                 </Table>
             </div>
 
@@ -317,44 +435,38 @@ const HistoryTable: React.FC<HistoryTableProps> = ({
 
                     {!isLoading &&
                         items.length > 0 &&
-                        items.map((transaction: unknown) => (
-                            <MobileTableRow
-                                key={(transaction as HistoryItem).id}
-                                type={
-                                    <div className="flex items-center gap-2">
-                                        <Image
-                                            src={getEventIcon(
-                                                capitalizeType(
-                                                    (transaction as HistoryItem)
-                                                        .type
-                                                )
-                                            )}
-                                            alt={
-                                                (transaction as HistoryItem)
-                                                    .type
-                                            }
-                                            width={20}
-                                            height={20}
-                                            className="opacity-60"
-                                        />
-                                        <span className="text-primary text-[14px] font-medium leading-[20px] font-sans [font-feature-settings:'ss11' on,'cv09' on,'liga' off,'calt' off]">
-                                            {t(
-                                                `types.${String(
-                                                    (transaction as HistoryItem)
-                                                        .type
-                                                ).toLowerCase()}`
-                                            )}
-                                        </span>
-                                    </div>
-                                }
-                                amount={formatXcnAmountFromWei(
-                                    (transaction as HistoryItem).amount
-                                )}
-                                details={formatMobileRowDetails(
-                                    transaction as HistoryItem
-                                )}
-                            />
-                        ))}
+                        items.map((transaction: AnyHistoryItem) => {
+                            const fields = getItemFields(transaction);
+                            const typeLabel = getTypeLabel(fields.type);
+
+                            return (
+                                <MobileTableRow
+                                    key={transaction.id}
+                                    type={
+                                        <div className="flex items-center gap-2">
+                                            <Image
+                                                src={getEventIcon(
+                                                    capitalizeType(fields.type),
+                                                )}
+                                                alt={fields.type}
+                                                width={20}
+                                                height={20}
+                                                className="opacity-60"
+                                            />
+                                            <span className="text-primary text-[14px] font-medium leading-[20px] font-sans [font-feature-settings:'ss11' on,'cv09' on,'liga' off,'calt' off]">
+                                                {typeLabel}
+                                            </span>
+                                        </div>
+                                    }
+                                    amount={formatXcnAmountFromWei(
+                                        fields.amount,
+                                    )}
+                                    details={formatMobileRowDetails(
+                                        transaction,
+                                    )}
+                                />
+                            );
+                        })}
                 </div>
             </div>
 

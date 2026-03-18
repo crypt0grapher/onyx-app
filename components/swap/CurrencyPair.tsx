@@ -19,6 +19,8 @@ interface CurrencyPairProps {
   onFromAmountChange: (amount: string) => void;
   onToAmountChange: (amount: string) => void;
   onSwapCurrencies: () => void;
+  /** Optional custom token list forwarded to Currency dropdowns. */
+  tokenList?: Token[];
 }
 
 const CurrencyPair = ({
@@ -34,6 +36,7 @@ const CurrencyPair = ({
   onFromAmountChange,
   onToAmountChange,
   onSwapCurrencies,
+  tokenList,
 }: CurrencyPairProps) => {
   const t = useTranslations("swap");
 
@@ -48,6 +51,7 @@ const CurrencyPair = ({
         onTokenSelect={onFromTokenSelect}
         onAmountChange={onFromAmountChange}
         excludeToken={toToken.symbol}
+        tokenList={tokenList}
       />
 
       <div className="h-2" />
@@ -61,6 +65,7 @@ const CurrencyPair = ({
         onTokenSelect={onToTokenSelect}
         onAmountChange={onToAmountChange}
         excludeToken={fromToken.symbol}
+        tokenList={tokenList}
       />
 
       <div className="absolute left-1/2 top-1/2 transform -translate-x-1/2 -translate-y-1/2 z-10">

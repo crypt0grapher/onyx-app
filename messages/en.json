@@ -11,7 +11,11 @@
             "points": "Points",
             "card": "Card",
             "payments": "Payments",
-            "enterprise": "Enterprise"
+            "enterprise": "Enterprise",
+            "stake-home": "Stake",
+            "migrate": "Migrate to Goliath",
+            "goliath-bridge": "Goliath Bridge",
+            "legacy-bridge": "Legacy Bridge"
         },
         "footer": {
             "terms": "Terms",
@@ -64,6 +68,7 @@
         "events": {
             "supply": "Supply",
             "stake": "Stake",
+            "unstake": "Unstake",
             "transfer": "Transfer",
             "withdraw": "Withdraw",
             "claim": "Claim",
@@ -75,7 +80,10 @@
             "repayborrow": "Repay Borrow",
             "liquidateborrow": "Liquidate Borrow",
             "reservesadded": "Reserves Added",
-            "reservesreduced": "Reserves Reduced"
+            "reservesreduced": "Reserves Reduced",
+            "bridge": "Bridge",
+            "swap": "Swap",
+            "migrate": "Migrate"
         },
         "percentageOptions": {
             "0": "0%",
@@ -390,9 +398,16 @@
         "allTxns": "All Txns",
         "myTxns": "My Txns",
         "allTypes": "All Types",
+        "filters": {
+            "network": "Network",
+            "allNetworks": "All Networks",
+            "type": "Type",
+            "allTypes": "All Types"
+        },
         "types": {
             "supply": "Supply",
             "stake": "Stake",
+            "unstake": "Unstake",
             "transfer": "Transfer",
             "withdraw": "Withdraw",
             "claim": "Claim",
@@ -404,7 +419,15 @@
             "repayborrow": "Repay Borrow",
             "liquidateborrow": "Liquidate Borrow",
             "reservesadded": "Reserves Added",
-            "reservesreduced": "Reserves Reduced"
+            "reservesreduced": "Reserves Reduced",
+            "bridge": "Bridge",
+            "swap": "Swap",
+            "migrate": "Migrate"
+        },
+        "status": {
+            "confirmed": "Confirmed",
+            "pending": "Pending",
+            "failed": "Failed"
         },
         "table": {
             "type": "Type",
@@ -670,6 +693,47 @@
             "bridge": "Bridge"
         }
     },
+    "goliathYield": {
+        "title": "Goliath Staking",
+        "description": "Stake XCN to receive stXCN and earn yield",
+        "statsTitle": "Protocol Stats",
+        "statsDescription": "View protocol metrics and your staked position",
+        "protocolStats": "Protocol Stats",
+        "stake": "Stake",
+        "unstake": "Unstake",
+        "stakeXCN": "Stake XCN",
+        "unstakeStXCN": "Unstake stXCN",
+        "balance": "stXCN Balance",
+        "xcnBalance": "XCN Balance",
+        "underlyingValue": "Underlying XCN Value",
+        "totalSupply": "Total stXCN Supply",
+        "apr": "APR",
+        "fee": "Fee",
+        "contractBalance": "Contract Balance",
+        "paused": "Staking is paused",
+        "amount": "Amount",
+        "max": "MAX",
+        "connectWallet": "Connect Wallet",
+        "loading": "Loading...",
+        "staking": "Staking...",
+        "unstaking": "Unstaking...",
+        "estimatedDailyEarnings": "Estimated Daily Earnings:",
+        "insufficientBalance": "Insufficient Balance",
+        "insufficientBalanceSubtext": "You don't have enough XCN tokens",
+        "insufficientStXcnBalance": "Insufficient stXCN Balance",
+        "insufficientStXcnBalanceSubtext": "You don't have enough stXCN tokens",
+        "stakeSuccess": "Successfully staked {amount} XCN",
+        "stakeFailed": "Staking Failed",
+        "unstakeSuccess": "Successfully unstaked {amount} stXCN",
+        "unstakeFailed": "Unstaking Failed",
+        "confirm": {
+            "stakeTitle": "Confirm Stake",
+            "unstakeTitle": "Confirm Unstake",
+            "amount": "Amount",
+            "receive": "You will receive",
+            "fee": "Fee"
+        }
+    },
     "time": {
         "lessThanMinute": "less than a minute ago",
         "minuteAgo": "a minute ago",
@@ -696,5 +760,103 @@
         "inWeeks": "in {weeks} weeks",
         "inMonths": "in {months} months",
         "inYears": "in {years} years"
+    },
+    "migrate": {
+        "title": "Migrate to Goliath",
+        "subtitle": "Move your XCN staking to Goliath network",
+        "summary": {
+            "staked": "Staked XCN",
+            "rewards": "Pending Rewards",
+            "wallet": "Wallet XCN",
+            "total": "Total to Migrate"
+        },
+        "connect": "Connect your wallet to begin migration",
+        "empty": "No XCN available to migrate",
+        "disabled": "Migration is currently disabled",
+        "switchNetwork": "Switch to {network}",
+        "steps": {
+            "claim": "Claim Rewards",
+            "claimDesc": "Claim your pending staking rewards",
+            "approve": "Approve XCN",
+            "approveDesc": "Approve XCN for bridging",
+            "unstake": "Unstake XCN",
+            "unstakeDesc": "Unstake {amount} XCN",
+            "bridge": "Bridge to Goliath",
+            "bridgeDesc": "Bridge {amount} XCN to Goliath",
+            "stakeToggle": "Auto-stake on Goliath",
+            "stakeToggleDesc": "Automatically stake your XCN on Goliath upon arrival",
+            "viewTransaction": "View transaction",
+            "processing": "Processing..."
+        },
+        "status": {
+            "title": "Migration Status",
+            "submitted": "Transaction submitted",
+            "confirming": "Confirming...",
+            "relaying": "Relaying to Goliath...",
+            "processing": "Processing on Goliath...",
+            "completed": "Migration complete!",
+            "failed": "Migration failed",
+            "stakingPrompt": "Your XCN has arrived! Stake now?",
+            "stakeNow": "Stake XCN",
+            "skipStaking": "I'll stake later",
+            "startNew": "Start New Migration",
+            "viewOriginTx": "View origin transaction",
+            "viewDestTx": "View destination transaction"
+        }
+    },
+    "bridge": {
+        "title": "Bridge",
+        "subtitle": "Transfer tokens between networks",
+        "form": {
+            "from": "From",
+            "to": "To",
+            "amount": "Amount",
+            "max": "MAX",
+            "balance": "Balance",
+            "fee": "Fee",
+            "estimatedArrival": "Estimated arrival",
+            "selectToken": "Select token",
+            "swapDirection": "Swap direction"
+        },
+        "actions": {
+            "connect": "Connect Wallet",
+            "switchNetwork": "Switch to {network}",
+            "approve": "Approve {token}",
+            "bridge": "Bridge {token}",
+            "bridging": "Bridging...",
+            "approving": "Approving..."
+        },
+        "confirm": {
+            "title": "Confirm Bridge",
+            "amount": "Amount",
+            "direction": "Direction",
+            "fee": "Fee",
+            "feeInfo": "Free",
+            "eta": "Estimated time",
+            "confirm": "Confirm Bridge",
+            "cancel": "Cancel"
+        },
+        "status": {
+            "title": "Bridge Status",
+            "pending": "Transaction submitted",
+            "confirming": "Confirming on origin chain",
+            "relaying": "Relaying to destination",
+            "processing": "Processing on destination",
+            "completed": "Completed",
+            "failed": "Failed",
+            "viewOriginTx": "View origin transaction",
+            "viewDestTx": "View destination transaction"
+        },
+        "history": {
+            "title": "Recent Bridges",
+            "empty": "No bridge operations yet",
+            "toGoliath": "to Goliath",
+            "toSource": "to Source"
+        },
+        "validation": {
+            "minAmount": "Minimum amount is {min}",
+            "insufficientBalance": "Insufficient balance",
+            "bridgeDisabled": "Bridge is currently disabled"
+        }
     }
 }

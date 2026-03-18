@@ -14,6 +14,8 @@ interface CurrencyProps {
     onAmountChange: (amount: string) => void;
     excludeToken?: string;
     isReadOnly?: boolean;
+    /** Optional custom token list. Falls back to SUPPORTED_TOKENS when omitted. */
+    tokenList?: Token[];
 }
 
 const limitDecimals = (value: string, maxDecimals: number): string => {
@@ -34,8 +36,11 @@ const Currency = ({
     onAmountChange,
     excludeToken,
     isReadOnly = false,
+    tokenList,
 }: CurrencyProps) => {
     const t = useTranslations("swap");
+    const tokens = tokenList ?? SUPPORTED_TOKENS;
+
     const handleAmountChange = (e: React.ChangeEvent<HTMLInputElement>) => {
         const value = e.target.value;
         if (/^\d*\.?\d*$/.test(value) || value === "") {
@@ -48,7 +53,7 @@ const Currency = ({
         }
     };
 
-    const tokenOptions: DropdownOption[] = SUPPORTED_TOKENS.filter(
+    const tokenOptions: DropdownOption[] = tokens.filter(
         (token) => token.symbol !== excludeToken
     ).map((token) => ({
         id: token.symbol,
@@ -57,11 +62,11 @@ const Currency = ({
     }));
 
     const handleTokenSelect = (tokenSymbol: string) => {
-        const selectedToken = SUPPORTED_TOKENS.find(
+        const found = tokens.find(
             (token) => token.symbol === tokenSymbol
         );
-        if (selectedToken) {
-            onTokenSelect(selectedToken);
+        if (found) {
+            onTokenSelect(found);
         }
     };
 

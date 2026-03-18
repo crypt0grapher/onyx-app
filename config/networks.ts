@@ -29,6 +29,10 @@ export interface ChainConfig {
     blockExplorerUrls: string[];
 }
 
+const goliathChainId = Number(
+    process.env.NEXT_PUBLIC_GOLIATH_CHAIN_ID || "8901"
+);
+
 export const SUPPORTED_NETWORKS: Network[] = [
     {
         id: "ethereum",
@@ -54,6 +58,25 @@ export const SUPPORTED_NETWORKS: Network[] = [
         chainIdHex: "0x13bf8",
         rpcUrl: "https://80888.rpc.thirdweb.com/6518b486fd02052fb8a45dd0e8e6d3d1",
         blockExplorerUrl: "https://explorer.onyx.org",
+        nativeCurrency: {
+            name: "XCN",
+            symbol: "XCN",
+            decimals: 18,
+        },
+    },
+    {
+        id: "goliath",
+        name: "Goliath",
+        network: "Goliath Network",
+        icon: xcnIcon,
+        chainId: goliathChainId,
+        chainIdHex: "0x" + goliathChainId.toString(16),
+        rpcUrl:
+            process.env.NEXT_PUBLIC_GOLIATH_RPC_URL ||
+            "https://rpc.testnet.goliath.net",
+        blockExplorerUrl:
+            process.env.NEXT_PUBLIC_GOLIATH_EXPLORER_URL ||
+            "https://testnet.explorer.goliath.net",
         nativeCurrency: {
             name: "XCN",
             symbol: "XCN",
@@ -96,4 +119,18 @@ export const getOnyxNetwork = (): Network => {
         throw new Error("Onyx network configuration not found");
     }
     return onyxNetwork;
+};
+
+export const getGoliathNetwork = (): Network => {
+    const goliathNetwork = SUPPORTED_NETWORKS.find(
+        (network) => network.id === "goliath"
+    );
+    if (!goliathNetwork) {
+        throw new Error("Goliath network configuration not found");
+    }
+    return goliathNetwork;
+};
+
+export const isGoliathChain = (chainId: number): boolean => {
+    return chainId === goliathChainId;
 };

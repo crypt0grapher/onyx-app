@@ -52,3 +52,10 @@ export const POINTS_CONFIG = {
     (process.env.NEXT_PUBLIC_POINTS_SQUID_URL as string) ||
     "https://pnt-squid.onyx.org/graphql",
 } as const;
+
+export const BRIDGE_CONFIG = {
+  BASE_URL:
+    (process.env.NEXT_PUBLIC_BRIDGE_API_URL as string) ||
+    "https://bridge-api.goliath.net/api/v1",
+  DEFAULT_TIMEOUT: 15000,
+} as const;
