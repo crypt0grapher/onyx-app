@@ -79,7 +79,7 @@ export const SUPPORTED_NETWORKS: Network[] = [
             "https://rpc.goliath.net",
         blockExplorerUrl:
             process.env.NEXT_PUBLIC_GOLIATH_EXPLORER_URL ||
-            "https://validators.goliath.net",
+            "https://explorer.goliath.net",
         nativeCurrency: {
             name: "XCN",
             symbol: "XCN",
