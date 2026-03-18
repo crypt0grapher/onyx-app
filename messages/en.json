@@ -1,7 +1,7 @@
 {
     "sidebar": {
         "navigation": {
-            "stake": "Goliath Liquid Staking",
+            "stake": "Staking",
             "history": "History",
             "swap": "Swap",
             "bridge": "Bridge",
@@ -13,6 +13,7 @@
             "payments": "Payments",
             "enterprise": "Enterprise",
             "stake-home": "Goliath Liquid Staking",
+            "ethereum-staking": "Legacy Ethereum Staking",
             "migrate": "Migrate to Goliath",
             "goliath-bridge": "Goliath Bridge",
             "legacy-bridge": "Legacy Bridge"

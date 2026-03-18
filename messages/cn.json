@@ -1,7 +1,7 @@
 {
     "sidebar": {
         "navigation": {
-            "stake": "Goliath Liquid Staking",
+            "stake": "质押",
             "history": "历史",
             "swap": "交换",
             "bridge": "跨链桥",
@@ -13,6 +13,7 @@
             "payments": "支付",
             "enterprise": "企业",
             "stake-home": "Goliath Liquid Staking",
+            "ethereum-staking": "旧版以太坊质押",
             "migrate": "迁移至 Goliath",
             "goliath-bridge": "Goliath 跨链桥",
             "legacy-bridge": "旧版跨链桥"

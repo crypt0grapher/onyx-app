@@ -1,7 +1,7 @@
 {
     "sidebar": {
         "navigation": {
-            "stake": "Goliath Liquid Staking",
+            "stake": "Staking",
             "history": "Geçmiş",
             "swap": "Takas",
             "bridge": "Köprü",
@@ -13,6 +13,7 @@
             "payments": "Ödemeler",
             "enterprise": "Kurumsal",
             "stake-home": "Goliath Liquid Staking",
+            "ethereum-staking": "Eski Ethereum Staking",
             "migrate": "Goliath'a Göç",
             "goliath-bridge": "Goliath Köprüsü",
             "legacy-bridge": "Eski Köprü"

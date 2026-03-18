@@ -29,11 +29,16 @@ export type NavItem = {
 export const navItems: NavItem[] = [
     {
         key: "stake",
-        label: "Goliath Liquid Staking",
+        label: "Staking",
         icon: stake,
         href: "/",
         children: [
             { key: "stake-home", label: "Goliath Liquid Staking", href: "/" },
+            {
+                key: "ethereum-staking",
+                label: "Legacy Ethereum Staking",
+                href: "/ethereum-staking",
+            },
             { key: "migrate", label: "Migrate to Goliath", href: "/migrate" },
         ],
     },
