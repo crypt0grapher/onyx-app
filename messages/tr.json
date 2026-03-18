@@ -827,7 +827,8 @@
             "connectWallet": "Cüzdan Bağla",
             "youSend": "Gönderdiğiniz",
             "feeFree": "Ücretsiz",
-            "destinationBalance": "{network} bakiyesi"
+            "destinationBalance": "{network} bakiyesi",
+            "estimatedArrivalValue": "~5 dk"
         },
         "actions": {
             "connect": "Cüzdan Bağla",

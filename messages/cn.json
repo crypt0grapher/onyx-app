@@ -826,7 +826,8 @@
             "connectWallet": "连接钱包",
             "youSend": "您发送",
             "feeFree": "免费",
-            "destinationBalance": "{network} 余额"
+            "destinationBalance": "{network} 余额",
+            "estimatedArrivalValue": "~5分钟"
         },
         "actions": {
             "connect": "连接钱包",

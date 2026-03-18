@@ -851,7 +851,8 @@
             "connectWallet": "Connect Wallet",
             "youSend": "You send",
             "feeFree": "Free",
-            "destinationBalance": "Balance on {network}"
+            "destinationBalance": "Balance on {network}",
+            "estimatedArrivalValue": "~5 min"
         },
         "actions": {
             "connect": "Connect Wallet",

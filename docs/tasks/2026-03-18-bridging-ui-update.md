@@ -338,15 +338,31 @@ No test framework configured. Manual verification checklist serves as acceptance
 
 ### Actions Taken
 
-| Time (UTC) | Action | Result | Notes |
-|------------|--------|--------|-------|
-| | | | |
+| Task | Pipeline Stage | Result | Notes |
+|------|---------------|--------|-------|
+| task-001 | Developer + Validator + Simplifier | PASS | Switcher generalized to `SwitcherItem[]`, BridgeTokenSelector rewritten to use Switcher. Also updated `InteractivePanel.tsx` type for consistency. (Note: these changes were already on develop from staking UI task) |
+| task-002 | Developer + Validator + Simplifier | PASS | Added `receiveAmount` useMemo and "You receive" output box with 24px font, loading skeleton. Fixed `??` / `||` operator precedence issue. (Note: already on develop) |
+| task-003 | Developer + Validator + Simplifier | PASS | Swap button: `hover:rotate-180`, `transition-transform duration-300 ease-out`, `my-[-6px]` overlap, glow shadow. (Note: already on develop) |
+| task-004 | Developer + Validator + Simplifier | PASS | Replaced plain fee/ETA rows with cohesive summary panel (bg-[#0F0F0F], rounded-[12px]). Added Fee (green for free), ETA, Recipient rows. Removed redundant Dividers. Cleaned up feeDisplay memo. (Note: already on develop) |
+| task-005 | Developer + Validator + Simplifier | PASS | Added 6 i18n keys to all 4 locales (youReceive, recipient, connectWallet, youSend, feeFree, destinationBalance). Replaced 3 hardcoded strings in BridgeForm.tsx. (Note: partially on develop, new keys added) |
+| task-006 | Developer + Validator + Simplifier | PASS | Final polish: replaced last hardcoded "~5 min" with `t("form.estimatedArrivalValue")`. Added estimatedArrivalValue key to all 4 locales. Verified layout, build, lint all clean. |
 
-### Final State
+### Progress Tracker
 
-- Changes made: TBD
-- Build status: TBD
-- Remaining risks / follow-ups: None anticipated
+- **Last completed task:** task-006-polish-and-integrate
+- **Failed tasks:** None
+- **Skipped tasks:** None
+- **Blocking issues:** None
+
+### Final Summary
+
+- **Status:** COMPLETED
+- **Tasks completed:** 6 of 6
+- **Changes on this branch (vs develop):** `BridgeForm.tsx` (i18n for ETA value), `messages/{en,tr,kr,cn}.json` (added `estimatedArrivalValue` key)
+- **Note:** Most UI changes (tasks 001-005) were already committed on develop from the prior staking UI redesign task. This branch adds the final i18n polish.
+- **Build:** `npm run build` — PASS (36 static pages)
+- **Lint:** `npm run lint` — PASS (0 warnings/errors)
+- **Follow-ups needed:** See Section 12
 
 ---
 

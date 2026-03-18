@@ -463,7 +463,7 @@ const BridgeForm: React.FC = () => {
                             {t("form.estimatedArrival")}
                         </span>
                         <span className="text-[#E6E6E6] text-[14px] font-medium leading-[20px]">
-                            ~5 min
+                            {t("form.estimatedArrivalValue")}
                         </span>
                     </div>
 
@@ -500,7 +500,7 @@ const BridgeForm: React.FC = () => {
                 token={selectedToken}
                 amount={amount}
                 fee={feeDisplay}
-                estimatedTime="~5 min"
+                estimatedTime={t("form.estimatedArrivalValue")}
                 sourceChainName={SOURCE_CHAIN_NAME}
                 goliathChainName={GOLIATH_CHAIN_NAME}
                 isConfirming={isConfirming}

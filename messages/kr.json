@@ -826,7 +826,8 @@
             "connectWallet": "지갑 연결",
             "youSend": "보내는 금액",
             "feeFree": "무료",
-            "destinationBalance": "{network} 잔액"
+            "destinationBalance": "{network} 잔액",
+            "estimatedArrivalValue": "~5분"
         },
         "actions": {
             "connect": "지갑 연결",
