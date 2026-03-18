@@ -35,7 +35,7 @@ function GoliathStakePage() {
 
                 {/* Connect to Goliath banner */}
                 {needsSwitch && (
-                    <div className="mx-4 lg:mx-0 mt-4 flex items-center justify-between gap-4 rounded-xl border border-[#1F1F1F] bg-[#141414] px-5 py-4">
+                    <div className="mx-4 lg:mx-0 mt-4 mb-6 flex items-center justify-between gap-4 rounded-xl border border-[#1F1F1F] bg-[#141414] px-5 py-4">
                         <p className="text-secondary text-sm">
                             {t("wrongNetwork")}
                         </p>
