@@ -740,6 +740,31 @@
             "amount": "Miktar",
             "receive": "Alacağınız miktar",
             "fee": "Ücret"
+        },
+        "dataBoxes": {
+            "stakingAPR": "Stake APR",
+            "protocolFee": "Protokol Ücreti",
+            "totalSupply": "Toplam stXCN Arzı",
+            "contractBalance": "Sözleşme Bakiyesi"
+        },
+        "userStatsTitle": "Pozisyonunuz",
+        "userStatsDescription": "Stake pozisyonunuzu ve kazançlarınızı görüntüleyin",
+        "yourStXcnBalance": "stXCN Bakiyeniz",
+        "yourUnderlyingXcn": "Temel XCN Değeri",
+        "currentApr": "Güncel APR",
+        "historyTitle": "Stake Geçmişi",
+        "historyDescription": "Goliath ağındaki stake ve unstake işlem geçmişinizi görüntüleyin",
+        "history": {
+            "type": "Tür",
+            "txnHash": "İşlem Hash",
+            "block": "Blok",
+            "amount": "Miktar",
+            "created": "Oluşturulma",
+            "staked": "Stake Edildi",
+            "unstaked": "Unstake Edildi",
+            "emptyTitle": "Geçmiş Yok",
+            "emptyDescription": "Stake işlemleriniz burada görünecek",
+            "emptyDescriptionLine2": "Başlamak için XCN stake edin veya unstake edin"
         }
     },
     "time": {

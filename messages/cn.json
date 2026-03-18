@@ -739,6 +739,31 @@
             "amount": "金额",
             "receive": "您将收到",
             "fee": "费用"
+        },
+        "dataBoxes": {
+            "stakingAPR": "质押年化收益率",
+            "protocolFee": "协议费用",
+            "totalSupply": "stXCN 总供应量",
+            "contractBalance": "合约余额"
+        },
+        "userStatsTitle": "您的仓位",
+        "userStatsDescription": "查看您的质押仓位和收益",
+        "yourStXcnBalance": "您的 stXCN 余额",
+        "yourUnderlyingXcn": "底层 XCN 价值",
+        "currentApr": "当前年化收益率",
+        "historyTitle": "质押历史",
+        "historyDescription": "查看您在 Goliath 网络上的质押和取消质押交易记录",
+        "history": {
+            "type": "类型",
+            "txnHash": "交易哈希",
+            "block": "区块",
+            "amount": "金额",
+            "created": "创建时间",
+            "staked": "已质押",
+            "unstaked": "已取消质押",
+            "emptyTitle": "暂无记录",
+            "emptyDescription": "您的质押交易记录将显示在这里",
+            "emptyDescriptionLine2": "质押或取消质押 XCN 以开始"
         }
     },
     "time": {

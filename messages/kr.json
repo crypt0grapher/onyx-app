@@ -739,6 +739,31 @@
             "amount": "금액",
             "receive": "받게 될 금액",
             "fee": "수수료"
+        },
+        "dataBoxes": {
+            "stakingAPR": "스테이킹 APR",
+            "protocolFee": "프로토콜 수수료",
+            "totalSupply": "총 stXCN 공급량",
+            "contractBalance": "컨트랙트 잔액"
+        },
+        "userStatsTitle": "내 포지션",
+        "userStatsDescription": "스테이킹 포지션과 수익을 확인하세요",
+        "yourStXcnBalance": "내 stXCN 잔액",
+        "yourUnderlyingXcn": "기초 XCN 가치",
+        "currentApr": "현재 APR",
+        "historyTitle": "스테이킹 기록",
+        "historyDescription": "Goliath 네트워크에서의 스테이킹 및 언스테이킹 거래 기록을 확인하세요",
+        "history": {
+            "type": "유형",
+            "txnHash": "트랜잭션 해시",
+            "block": "블록",
+            "amount": "금액",
+            "created": "생성일",
+            "staked": "스테이킹됨",
+            "unstaked": "언스테이킹됨",
+            "emptyTitle": "기록 없음",
+            "emptyDescription": "스테이킹 거래 기록이 여기에 표시됩니다",
+            "emptyDescriptionLine2": "시작하려면 XCN을 스테이킹하거나 언스테이킹하세요"
         }
     },
     "time": {
