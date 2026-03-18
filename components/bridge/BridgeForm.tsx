@@ -1,0 +1,476 @@
+"use client";
+
+import React, { useState, useCallback, useEffect, useMemo } from "react";
+import { useTranslations } from "next-intl";
+import { useAccount, useChainId, useBalance, useReadContract } from "wagmi";
+import { type Address, parseUnits, erc20Abi } from "viem";
+import PrimaryButton from "@/components/ui/buttons/PrimaryButton";
+import Divider from "@/components/ui/common/Divider";
+import BridgeTokenSelector from "@/components/bridge/BridgeTokenSelector";
+import BridgeConfirmModal from "@/components/bridge/BridgeConfirmModal";
+import useDebounce from "@/hooks/common/useDebounce";
+import { goliathConfig } from "@/config/goliath";
+import { getGoliathNetwork } from "@/config/networks";
+import {
+    type BridgeDirection,
+    type BridgeTokenSymbol,
+    type FeeQuoteResponse,
+    bridgeApiService,
+} from "@/lib/api/services/bridge";
+import bridgeIcon from "@/assets/icons/bridge.svg";
+
+// ---------------------------------------------------------------------------
+// Token decimals
+// ---------------------------------------------------------------------------
+
+const TOKEN_DECIMALS: Record<BridgeTokenSymbol, number> = {
+    ETH: 18,
+    USDC: 6,
+    XCN: 18,
+};
+
+// ---------------------------------------------------------------------------
+// Helpers
+// ---------------------------------------------------------------------------
+
+const goliathNetwork = getGoliathNetwork();
+const SOURCE_CHAIN_NAME = "Ethereum";
+const GOLIATH_CHAIN_NAME = goliathNetwork.name;
+
+/**
+ * Returns the ERC-20 token address for the given token and direction.
+ * Returns `null` when the token is native (no approval needed).
+ */
+function getTokenAddress(
+    token: BridgeTokenSymbol,
+    direction: BridgeDirection,
+): Address | null {
+    if (direction === "SOURCE_TO_GOLIATH") {
+        // On the source chain, ETH is native -- no address
+        if (token === "ETH") return null;
+        if (token === "USDC") return goliathConfig.bridge.sourceTokens.USDC;
+        if (token === "XCN") return goliathConfig.bridge.sourceTokens.XCN;
+    } else {
+        // On Goliath, XCN is native -- no address
+        if (token === "XCN") return null;
+        if (token === "ETH") return goliathConfig.tokens.ETH;
+        if (token === "USDC") return goliathConfig.tokens.USDC;
+    }
+    return null;
+}
+
+/**
+ * Returns the bridge contract address the user interacts with.
+ */
+function getBridgeAddress(direction: BridgeDirection): Address {
+    return direction === "SOURCE_TO_GOLIATH"
+        ? goliathConfig.bridge.sourceBridgeAddress
+        : goliathConfig.bridge.goliathBridgeAddress;
+}
+
+/**
+ * Returns the expected chain ID for the current direction.
+ */
+function getExpectedChainId(direction: BridgeDirection): number {
+    return direction === "SOURCE_TO_GOLIATH"
+        ? goliathConfig.bridge.sourceChainId
+        : goliathNetwork.chainId;
+}
+
+/**
+ * Returns the target network name when the user needs to switch chains.
+ */
+function getExpectedChainName(direction: BridgeDirection): string {
+    return direction === "SOURCE_TO_GOLIATH" ? SOURCE_CHAIN_NAME : GOLIATH_CHAIN_NAME;
+}
+
+/**
+ * Returns true when the token is native for the current direction.
+ */
+function isNativeToken(
+    token: BridgeTokenSymbol,
+    direction: BridgeDirection,
+): boolean {
+    return getTokenAddress(token, direction) === null;
+}
+
+/**
+ * Sanitise amount input to allow only valid decimal numbers.
+ */
+function sanitiseAmount(value: string, maxDecimals: number): string {
+    // Allow only digits and a single dot
+    const cleaned = value.replace(/[^0-9.]/g, "");
+
+    // Prevent multiple dots
+    const parts = cleaned.split(".");
+    if (parts.length > 2) return parts[0] + "." + parts.slice(1).join("");
+
+    // Cap decimal places
+    if (parts[1] && parts[1].length > maxDecimals) {
+        return parts[0] + "." + parts[1].substring(0, maxDecimals);
+    }
+
+    return cleaned;
+}
+
+// ---------------------------------------------------------------------------
+// Component
+// ---------------------------------------------------------------------------
+
+const BridgeForm: React.FC = () => {
+    const t = useTranslations("bridge");
+    const { address, isConnected } = useAccount();
+    const chainId = useChainId();
+
+    // ---- State ------------------------------------------------------------------
+    const [direction, setDirection] = useState<BridgeDirection>("SOURCE_TO_GOLIATH");
+    const [selectedToken, setSelectedToken] = useState<BridgeTokenSymbol>("ETH");
+    const [amount, setAmount] = useState("");
+    const [showConfirmModal, setShowConfirmModal] = useState(false);
+    const [feeQuote, setFeeQuote] = useState<FeeQuoteResponse | null>(null);
+    const [isFetchingFee, setIsFetchingFee] = useState(false);
+    const [isConfirming, setIsConfirming] = useState(false);
+
+    const debouncedAmount = useDebounce(amount, 500);
+
+    // ---- Derived values ---------------------------------------------------------
+    const expectedChainId = getExpectedChainId(direction);
+    const isOnCorrectNetwork = chainId === expectedChainId;
+    const tokenAddress = getTokenAddress(selectedToken, direction);
+    const bridgeAddress = getBridgeAddress(direction);
+    const isNative = isNativeToken(selectedToken, direction);
+    const decimals = TOKEN_DECIMALS[selectedToken];
+
+    // ---- Balance ----------------------------------------------------------------
+    // Native balance on the current chain
+    const { data: nativeBalance } = useBalance({
+        address,
+        query: { enabled: isConnected && isOnCorrectNetwork },
+    });
+
+    // ERC-20 balance (only when the selected token is not native)
+    const { data: erc20Balance } = useBalance({
+        address,
+        token: tokenAddress ?? undefined,
+        query: {
+            enabled: isConnected && isOnCorrectNetwork && tokenAddress !== null,
+        },
+    });
+
+    const balance = useMemo(() => {
+        if (!isConnected || !isOnCorrectNetwork) return "0";
+        if (isNative) {
+            return nativeBalance?.formatted ?? "0";
+        }
+        return erc20Balance?.formatted ?? "0";
+    }, [isConnected, isOnCorrectNetwork, isNative, nativeBalance, erc20Balance]);
+
+    // ---- ERC-20 allowance -------------------------------------------------------
+    const { data: allowanceData } = useReadContract({
+        address: tokenAddress ?? undefined,
+        abi: erc20Abi,
+        functionName: "allowance",
+        args:
+            address && tokenAddress
+                ? [address, bridgeAddress]
+                : undefined,
+        query: {
+            enabled:
+                isConnected &&
+                isOnCorrectNetwork &&
+                tokenAddress !== null &&
+                !!address,
+        },
+    });
+
+    const needsApproval = useMemo(() => {
+        if (isNative || !amount || parseFloat(amount) <= 0) return false;
+        if (allowanceData === undefined) return false;
+        try {
+            const amountWei = parseUnits(amount, decimals);
+            return (allowanceData as bigint) < amountWei;
+        } catch {
+            return false;
+        }
+    }, [isNative, amount, decimals, allowanceData]);
+
+    // ---- Fee quote --------------------------------------------------------------
+    useEffect(() => {
+        const fetchFee = async () => {
+            if (
+                !debouncedAmount ||
+                parseFloat(debouncedAmount) <= 0 ||
+                direction !== "GOLIATH_TO_SOURCE"
+            ) {
+                setFeeQuote(null);
+                return;
+            }
+
+            setIsFetchingFee(true);
+            try {
+                const quote = await bridgeApiService.getFeeQuote({
+                    token: selectedToken,
+                    amount: debouncedAmount,
+                    direction: "goliathToSepolia",
+                });
+                setFeeQuote(quote);
+            } catch {
+                setFeeQuote(null);
+            } finally {
+                setIsFetchingFee(false);
+            }
+        };
+
+        fetchFee();
+    }, [debouncedAmount, selectedToken, direction]);
+
+    // ---- Handlers ---------------------------------------------------------------
+    const handleAmountChange = useCallback(
+        (value: string) => {
+            setAmount(sanitiseAmount(value, decimals));
+        },
+        [decimals],
+    );
+
+    const handleMaxClick = useCallback(() => {
+        setAmount(balance);
+    }, [balance]);
+
+    const handleSwapDirection = useCallback(() => {
+        setDirection((prev) =>
+            prev === "SOURCE_TO_GOLIATH" ? "GOLIATH_TO_SOURCE" : "SOURCE_TO_GOLIATH",
+        );
+        setAmount("");
+        setFeeQuote(null);
+    }, []);
+
+    const handleOpenConfirm = useCallback(() => {
+        setShowConfirmModal(true);
+    }, []);
+
+    const handleCloseConfirm = useCallback(() => {
+        if (!isConfirming) setShowConfirmModal(false);
+    }, [isConfirming]);
+
+    const handleConfirmBridge = useCallback(async () => {
+        // Actual bridge execution will be implemented in a follow-up task.
+        // For now this just closes the modal after a brief delay to demonstrate flow.
+        setIsConfirming(true);
+        try {
+            // placeholder -- will be replaced by contract write logic
+            await new Promise((resolve) => setTimeout(resolve, 1500));
+        } finally {
+            setIsConfirming(false);
+            setShowConfirmModal(false);
+        }
+    }, []);
+
+    // ---- Validation -------------------------------------------------------------
+    const hasValidAmount = !!amount && parseFloat(amount) > 0;
+    const hasInsufficientBalance =
+        hasValidAmount && parseFloat(amount) > parseFloat(balance);
+    const isBelowMinimum =
+        hasValidAmount &&
+        parseFloat(amount) < parseFloat(goliathConfig.bridge.minAmount);
+
+    // ---- Button label -----------------------------------------------------------
+    const buttonLabel = useMemo(() => {
+        if (!isConnected) return t("actions.connect");
+        if (!isOnCorrectNetwork)
+            return t("actions.switchNetwork", {
+                network: getExpectedChainName(direction),
+            });
+        if (needsApproval) return t("actions.approve", { token: selectedToken });
+        return t("actions.bridge", { token: selectedToken });
+    }, [isConnected, isOnCorrectNetwork, needsApproval, direction, selectedToken, t]);
+
+    const isButtonDisabled =
+        !isConnected ||
+        !isOnCorrectNetwork ||
+        !hasValidAmount ||
+        hasInsufficientBalance ||
+        isBelowMinimum;
+
+    // ---- Fee display ------------------------------------------------------------
+    const feeDisplay = useMemo(() => {
+        if (direction === "SOURCE_TO_GOLIATH") return t("confirm.feeInfo");
+        if (isFetchingFee) return "...";
+        if (feeQuote) return `${feeQuote.feeFormatted} ${selectedToken}`;
+        return "--";
+    }, [direction, isFetchingFee, feeQuote, selectedToken, t]);
+
+    // ---- Rendering --------------------------------------------------------------
+    const fromNetwork =
+        direction === "SOURCE_TO_GOLIATH" ? SOURCE_CHAIN_NAME : GOLIATH_CHAIN_NAME;
+    const toNetwork =
+        direction === "SOURCE_TO_GOLIATH" ? GOLIATH_CHAIN_NAME : SOURCE_CHAIN_NAME;
+
+    return (
+        <>
+            <div className="w-full max-w-[530px] flex flex-col items-start rounded-[8px] border border-[#1F1F1F] bg-[#141414] p-4 gap-4">
+                {/* Direction selector */}
+                <div className="w-full flex flex-col gap-3">
+                    {/* From */}
+                    <div className="flex items-center justify-between">
+                        <span className="text-secondary text-[14px] font-medium leading-[20px]">
+                            {t("form.from")}
+                        </span>
+                        <span className="text-primary text-[14px] font-medium leading-[20px]">
+                            {fromNetwork}
+                        </span>
+                    </div>
+
+                    {/* Swap direction button */}
+                    <div className="flex justify-center">
+                        <button
+                            type="button"
+                            onClick={handleSwapDirection}
+                            className="flex items-center justify-center w-10 h-10 rounded-full border border-[#292929] bg-[#1B1B1B] cursor-pointer transition-all duration-200 hover:scale-110 hover:border-[#3a3a3a] active:scale-95"
+                            aria-label={t("form.swapDirection")}
+                        >
+                            <svg
+                                width="20"
+                                height="20"
+                                viewBox="0 0 20 20"
+                                fill="none"
+                                xmlns="http://www.w3.org/2000/svg"
+                            >
+                                <path
+                                    d="M10 4V16M10 16L6 12M10 16L14 12"
+                                    stroke="#E6E6E6"
+                                    strokeWidth="1.5"
+                                    strokeLinecap="round"
+                                    strokeLinejoin="round"
+                                />
+                            </svg>
+                        </button>
+                    </div>
+
+                    {/* To */}
+                    <div className="flex items-center justify-between">
+                        <span className="text-secondary text-[14px] font-medium leading-[20px]">
+                            {t("form.to")}
+                        </span>
+                        <span className="text-primary text-[14px] font-medium leading-[20px]">
+                            {toNetwork}
+                        </span>
+                    </div>
+                </div>
+
+                <Divider />
+
+                {/* Token selector */}
+                <BridgeTokenSelector
+                    selectedToken={selectedToken}
+                    onSelect={setSelectedToken}
+                />
+
+                <Divider />
+
+                {/* Amount input */}
+                <div className="w-full flex flex-col gap-2">
+                    <div className="flex justify-between items-center">
+                        <span className="text-secondary text-[14px] font-medium leading-[20px]">
+                            {t("form.amount")}
+                        </span>
+                        <div className="flex items-center gap-1">
+                            <span className="text-secondary text-[14px] font-normal leading-[20px]">
+                                {t("form.balance")}:
+                            </span>
+                            <span className="text-primary text-[14px] font-medium leading-[20px]">
+                                {isConnected && isOnCorrectNetwork
+                                    ? `${parseFloat(balance).toFixed(4)} ${selectedToken}`
+                                    : `0.00 ${selectedToken}`}
+                            </span>
+                        </div>
+                    </div>
+
+                    <div className="flex items-center gap-2 w-full rounded-[1000px] border border-[#1F1F1F] bg-[#0F0F0F] p-[10px_16px]">
+                        <input
+                            type="text"
+                            inputMode="decimal"
+                            value={amount}
+                            onChange={(e) => handleAmountChange(e.target.value)}
+                            placeholder="0.00"
+                            className="flex-1 bg-transparent border-none outline-none text-primary text-[14px] font-medium leading-[20px] placeholder:text-secondary [font-feature-settings:'ss11'_on,'cv09'_on,'liga'_off,'calt'_off]"
+                            aria-label={t("form.amount")}
+                        />
+                        <button
+                            type="button"
+                            onClick={handleMaxClick}
+                            disabled={!isConnected || !isOnCorrectNetwork}
+                            className="text-[12px] font-medium leading-[16px] text-[#E6E6E6] bg-[#292929] rounded-full px-3 py-1 cursor-pointer transition-all duration-200 hover:bg-[#3a3a3a] disabled:opacity-30 disabled:cursor-not-allowed"
+                        >
+                            {t("form.max")}
+                        </button>
+                    </div>
+
+                    {/* Validation messages */}
+                    {hasInsufficientBalance && (
+                        <span className="text-red-400 text-[12px] leading-[16px]">
+                            {t("validation.insufficientBalance")}
+                        </span>
+                    )}
+                    {isBelowMinimum && !hasInsufficientBalance && (
+                        <span className="text-red-400 text-[12px] leading-[16px]">
+                            {t("validation.minAmount", {
+                                min: goliathConfig.bridge.minAmount,
+                            })}
+                        </span>
+                    )}
+                </div>
+
+                <Divider />
+
+                {/* Fee / info */}
+                <div className="w-full flex flex-col gap-3">
+                    <div className="flex justify-between items-center">
+                        <span className="text-[#808080] text-[14px] font-normal leading-[20px] [font-feature-settings:'ss11'_on,'cv09'_on,'liga'_off,'calt'_off]">
+                            {t("form.fee")}
+                        </span>
+                        <span className="text-[#E6E6E6] text-[14px] font-medium leading-[20px] [font-feature-settings:'ss11'_on,'cv09'_on,'liga'_off,'calt'_off]">
+                            {feeDisplay}
+                        </span>
+                    </div>
+                    <div className="flex justify-between items-center">
+                        <span className="text-[#808080] text-[14px] font-normal leading-[20px] [font-feature-settings:'ss11'_on,'cv09'_on,'liga'_off,'calt'_off]">
+                            {t("form.estimatedArrival")}
+                        </span>
+                        <span className="text-[#E6E6E6] text-[14px] font-medium leading-[20px] [font-feature-settings:'ss11'_on,'cv09'_on,'liga'_off,'calt'_off]">
+                            ~5 min
+                        </span>
+                    </div>
+                </div>
+
+                <Divider />
+
+                {/* Action button */}
+                <div className="w-full">
+                    <PrimaryButton
+                        label={buttonLabel}
+                        icon={bridgeIcon}
+                        onClick={handleOpenConfirm}
+                        disabled={isButtonDisabled}
+                    />
+                </div>
+            </div>
+
+            {/* Confirmation modal */}
+            <BridgeConfirmModal
+                isOpen={showConfirmModal}
+                onClose={handleCloseConfirm}
+                onConfirm={handleConfirmBridge}
+                direction={direction}
+                token={selectedToken}
+                amount={amount}
+                fee={feeDisplay}
+                estimatedTime="~5 min"
+                sourceChainName={SOURCE_CHAIN_NAME}
+                goliathChainName={GOLIATH_CHAIN_NAME}
+                isConfirming={isConfirming}
+            />
+        </>
+    );
+};
+
+export default BridgeForm;
