@@ -27,7 +27,7 @@ Thumbs.db
 
 # Claude Code
 .memory-bank/
-docs/
+.docs/
 
 # Testing
 __tests__/
