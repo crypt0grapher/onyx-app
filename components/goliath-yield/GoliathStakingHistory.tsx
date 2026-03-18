@@ -23,6 +23,23 @@ import {
 
 const SKELETON_COUNT = 10;
 
+const GoliathEmptyIcon: React.FC = () => (
+    <svg
+        width="136"
+        height="136"
+        viewBox="0 0 600 600"
+        fill="none"
+        xmlns="http://www.w3.org/2000/svg"
+        className="flex-shrink-0 opacity-40"
+    >
+        <path
+            d="M300 30C151.08 30 30 151.08 30 300C30 448.92 151.08 570 300 570C366.3 570 426.3 544.68 471.6 503.4C476.7 498.6 480 492 480 484.5V345H315V414H405V462C376.2 482.4 339.6 495 300 495C192.3 495 105 407.7 105 300C105 192.3 192.3 105 300 105C356.1 105 406.5 128.4 442.2 165.9L495.6 112.5C447.6 62.1 378.6 30 300 30Z"
+            fill="#E6E6E6"
+            fillOpacity="0.15"
+        />
+    </svg>
+);
+
 /**
  * Format a numeric string (already in ether units) with locale-aware
  * thousands separators and 4 decimal places, appended with " XCN".
@@ -200,6 +217,7 @@ const GoliathStakingHistory: React.FC = () => {
                                     {t("emptyDescriptionLine2")}
                                 </>
                             }
+                            icon={<GoliathEmptyIcon />}
                         />
                     )}
 
@@ -252,6 +270,7 @@ const GoliathStakingHistory: React.FC = () => {
                                     </>
                                 }
                                 className="px-[16px]"
+                                icon={<GoliathEmptyIcon />}
                             />
                         </div>
                     )}
