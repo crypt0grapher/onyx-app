@@ -28,7 +28,7 @@ function GoliathStakePage() {
         <div className="min-h-screen">
             <main className="lg:ml-[304px] h-screen lg:p-6">
                 {/* Protocol Data Boxes */}
-                <div className="px-0 md:px-4 lg:px-0 pt-[48px] lg:pt-[40px]">
+                <div className="px-0 md:px-4 lg:px-0 pt-[48px] lg:pt-[56px]">
                     <GoliathDataBoxes />
                 </div>
                 <Divider className="mt-[24px] mb-[25px] hidden md:block" />
