@@ -24,13 +24,15 @@ export default function Bridge() {
     return (
         <div className="min-h-screen">
             <main className="lg:ml-[304px] lg:p-6">
-                <div className="px-4 lg:px-0">
-                    <h2 className="text-primary text-[24px] font-medium leading-[32px] mb-[4px]">
-                        {t("title")}
-                    </h2>
-                    <p className="text-secondary text-[14px] leading-[20px] mb-[24px]">
-                        {t("subtitle")}
-                    </p>
+                <div className="px-4 lg:px-0 flex flex-col items-center">
+                    <div className="w-full max-w-[530px]">
+                        <h2 className="text-primary text-[24px] font-medium leading-[32px] mb-[4px]">
+                            {t("title")}
+                        </h2>
+                        <p className="text-secondary text-[14px] leading-[20px] mb-[24px]">
+                            {t("subtitle")}
+                        </p>
+                    </div>
                     <BridgeForm />
                 </div>
             </main>
