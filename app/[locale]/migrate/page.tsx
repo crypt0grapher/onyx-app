@@ -3,68 +3,38 @@
 import { useState, useCallback } from "react";
 import { useTranslations } from "next-intl";
 import { useAccount } from "wagmi";
+import { motion } from "framer-motion";
 import { goliathConfig } from "@/config/goliath";
 import {
     useMigrationData,
-    useMigrationFlow,
-    useMigrationTransactions,
-    useMigrationPersistence,
+    useMigrationOrchestrator,
     useMigrationResume,
 } from "@/hooks/migration";
-import type { MigrationStep } from "@/hooks/migration";
 import {
     MigrationSummary,
-    MigrationStepper,
     MigrationStatusPanel,
+    MigrationProgressBar,
 } from "@/components/migrate";
+import PrimaryButton from "@/components/ui/buttons/PrimaryButton";
 
 export default function Migrate() {
     const t = useTranslations("migrate");
-    const { address, isConnected } = useAccount();
+    const { isConnected } = useAccount();
     const { snapshot } = useMigrationData();
 
     const {
         visibleSteps,
         activeStep,
         stepExecutions,
-        preferences,
-        updateStepExecution,
-        setStakeOnGoliath,
-        lockToggle,
-    } = useMigrationFlow(snapshot);
-
-    const { savePendingMigration, clearPendingMigration } =
-        useMigrationPersistence(address);
+        orchestratorState,
+        startMigration,
+        retryMigration,
+        clearPendingMigration,
+    } = useMigrationOrchestrator(snapshot);
 
     const { pendingMigration, isResumed } = useMigrationResume();
 
     const [showStatus, setShowStatus] = useState(true);
-
-    const { executeClaim, executeApprove, executeUnstake, executeBridge } =
-        useMigrationTransactions(
-            snapshot,
-            updateStepExecution,
-            lockToggle,
-            savePendingMigration,
-            preferences.stakeOnGoliath,
-        );
-
-    const handleExecuteStep = (step: MigrationStep) => {
-        switch (step) {
-            case "CLAIM_REWARDS":
-                executeClaim();
-                break;
-            case "APPROVE":
-                executeApprove();
-                break;
-            case "UNSTAKE":
-                executeUnstake();
-                break;
-            case "BRIDGE":
-                executeBridge();
-                break;
-        }
-    };
 
     const handleStartNew = useCallback(() => {
         clearPendingMigration();
@@ -107,40 +77,136 @@ export default function Migrate() {
     const shouldShowStatusPanel =
         isResumed && pendingMigration !== null && showStatus;
 
+    const getButtonLabel = () => {
+        switch (orchestratorState) {
+            case "idle":
+                return t("migrateButton");
+            case "running":
+                return t("migrating");
+            case "paused":
+                return t("retryMigration");
+            case "completed":
+                return t("migrationComplete");
+        }
+    };
+
+    const getButtonDisabled = () =>
+        orchestratorState === "running" ||
+        orchestratorState === "completed";
+
+    const getButtonAction = () => {
+        switch (orchestratorState) {
+            case "idle":
+                return startMigration;
+            case "paused":
+                return retryMigration;
+            default:
+                return undefined;
+        }
+    };
+
+    const isIdle = orchestratorState === "idle";
+    const isRunning = orchestratorState === "running";
+
     return (
         <div className="min-h-screen">
             <main className="lg:ml-[304px] lg:p-6">
-                <div className="px-4 lg:px-0">
-                    <h2 className="text-primary text-[24px] font-medium leading-[32px] mb-[4px]">
-                        {t("title")}
-                    </h2>
-                    <p className="text-secondary text-[14px] leading-[20px] mb-[24px]">
-                        {t("subtitle")}
-                    </p>
+                <div className="px-4 lg:px-0 flex flex-col items-center">
+                    <div className="w-full max-w-[640px]">
+                        {/* Title + Subtitle */}
+                        <motion.div
+                            initial={{ opacity: 0, y: 20 }}
+                            animate={{ opacity: 1, y: 0 }}
+                            transition={{
+                                duration: 0.5,
+                                ease: "easeOut",
+                            }}
+                        >
+                            <h2 className="text-[28px] font-semibold leading-[36px] text-white mb-1">
+                                {t("title")}
+                            </h2>
+                            <p className="text-secondary text-[14px] leading-[20px] opacity-70 mb-6">
+                                {t("subtitle")}
+                            </p>
+                        </motion.div>
 
-                    {shouldShowStatusPanel ? (
-                        <MigrationStatusPanel
-                            pendingMigration={pendingMigration}
-                            onStartNew={handleStartNew}
-                        />
-                    ) : isEmpty ? (
-                        <p className="text-secondary text-center py-12">
-                            {t("empty")}
-                        </p>
-                    ) : (
-                        <>
-                            <MigrationSummary snapshot={snapshot} />
-                            <MigrationStepper
-                                visibleSteps={visibleSteps}
-                                activeStep={activeStep}
-                                stepExecutions={stepExecutions}
-                                preferences={preferences}
-                                snapshot={snapshot}
-                                onExecuteStep={handleExecuteStep}
-                                onToggleStake={setStakeOnGoliath}
-                            />
-                        </>
-                    )}
+                        {shouldShowStatusPanel ? (
+                            <motion.div
+                                initial={{ opacity: 0, y: 20 }}
+                                animate={{ opacity: 1, y: 0 }}
+                                transition={{
+                                    duration: 0.5,
+                                    ease: "easeOut",
+                                    delay: 0.1,
+                                }}
+                            >
+                                <MigrationStatusPanel
+                                    pendingMigration={pendingMigration}
+                                    onStartNew={handleStartNew}
+                                />
+                            </motion.div>
+                        ) : isEmpty ? (
+                            <motion.p
+                                className="text-secondary text-center py-12"
+                                initial={{ opacity: 0 }}
+                                animate={{ opacity: 1 }}
+                                transition={{ duration: 0.4 }}
+                            >
+                                {t("empty")}
+                            </motion.p>
+                        ) : (
+                            <>
+                                {/* Main card: summary + button */}
+                                <motion.div
+                                    initial={{ opacity: 0, y: 20 }}
+                                    animate={{ opacity: 1, y: 0 }}
+                                    transition={{
+                                        duration: 0.5,
+                                        ease: "easeOut",
+                                        delay: 0.1,
+                                    }}
+                                >
+                                    <MigrationSummary snapshot={snapshot} />
+
+                                    <div className="mt-5">
+                                        <PrimaryButton
+                                            label={getButtonLabel()}
+                                            onClick={getButtonAction()}
+                                            disabled={getButtonDisabled()}
+                                            className={[
+                                                isIdle
+                                                    ? "shadow-[0_0_20px_rgba(34,197,94,0.15)]"
+                                                    : "",
+                                                isRunning
+                                                    ? "animate-pulse"
+                                                    : "",
+                                            ]
+                                                .filter(Boolean)
+                                                .join(" ")}
+                                        />
+                                    </div>
+                                </motion.div>
+
+                                {/* Progress bar */}
+                                <motion.div
+                                    className="mt-4"
+                                    initial={{ opacity: 0, y: 20 }}
+                                    animate={{ opacity: 1, y: 0 }}
+                                    transition={{
+                                        duration: 0.5,
+                                        ease: "easeOut",
+                                        delay: 0.2,
+                                    }}
+                                >
+                                    <MigrationProgressBar
+                                        visibleSteps={visibleSteps}
+                                        activeStep={activeStep}
+                                        stepExecutions={stepExecutions}
+                                    />
+                                </motion.div>
+                            </>
+                        )}
+                    </div>
                 </div>
             </main>
         </div>

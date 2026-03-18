@@ -2,7 +2,6 @@
 
 import { useTranslations } from "next-intl";
 import { formatEther } from "viem";
-import PrimaryButton from "@/components/ui/buttons/PrimaryButton";
 import { buildExplorerUrl } from "@/utils/explorer";
 import { goliathConfig } from "@/config/goliath";
 import type {
@@ -18,7 +17,6 @@ interface Props {
     stepExecutions: Record<MigrationStep, StepExecution>;
     preferences: MigrationPreferences;
     snapshot: StakingSnapshot;
-    onExecuteStep: (step: MigrationStep) => void;
     onToggleStake: (value: boolean) => void;
 }
 
@@ -28,7 +26,6 @@ export default function MigrationStepper({
     stepExecutions,
     preferences,
     snapshot,
-    onExecuteStep,
     onToggleStake,
 }: Props) {
     const t = useTranslations("migrate");
@@ -121,6 +118,13 @@ export default function MigrationStepper({
                             </a>
                         )}
 
+                        {/* Pending status indicator */}
+                        {isPending && (
+                            <p className="text-secondary text-sm mt-2">
+                                {t("steps.processing")}
+                            </p>
+                        )}
+
                         {/* Error message */}
                         {isFailed && execution.error && (
                             <p className="text-red-400 text-sm mt-2">
@@ -148,23 +152,6 @@ export default function MigrationStepper({
                             </div>
                         )}
 
-                        {/* Action button */}
-                        {isActive && !isPending && (
-                            <div className="mt-4">
-                                <PrimaryButton
-                                    label={config.label}
-                                    onClick={() => onExecuteStep(step)}
-                                />
-                            </div>
-                        )}
-                        {isPending && (
-                            <div className="mt-4">
-                                <PrimaryButton
-                                    label={t("steps.processing")}
-                                    disabled={true}
-                                />
-                            </div>
-                        )}
                     </div>
                 );
             })}

@@ -1,7 +1,7 @@
 {
     "sidebar": {
         "navigation": {
-            "stake": "Stake Et",
+            "stake": "Goliath Liquid Staking",
             "history": "Geçmiş",
             "swap": "Takas",
             "bridge": "Köprü",
@@ -12,7 +12,7 @@
             "card": "Kart",
             "payments": "Ödemeler",
             "enterprise": "Kurumsal",
-            "stake-home": "Stake Et",
+            "stake-home": "Goliath Liquid Staking",
             "migrate": "Goliath'a Göç",
             "goliath-bridge": "Goliath Köprüsü",
             "legacy-bridge": "Eski Köprü"
@@ -695,7 +695,7 @@
         }
     },
     "goliathYield": {
-        "title": "Goliath Stake",
+        "title": "Goliath Liquid Staking",
         "description": "stXCN almak ve getiri kazanmak için XCN stake edin",
         "statsTitle": "Protokol İstatistikleri",
         "statsDescription": "Protokol metriklerini ve stake pozisyonunuzu görüntüleyin",
@@ -775,6 +775,10 @@
         "empty": "Göç edilecek XCN bulunamadı",
         "disabled": "Göç işlemi şu anda devre dışı",
         "switchNetwork": "{network} ağına geç",
+        "migrateButton": "Göç Et",
+        "migrating": "Göç ediliyor...",
+        "migrationComplete": "Göç Tamamlandı",
+        "retryMigration": "Tekrar Dene",
         "steps": {
             "claim": "Ödülleri Talep Et",
             "claimDesc": "Bekleyen stake ödüllerinizi talep edin",
@@ -817,7 +821,13 @@
             "fee": "Ücret",
             "estimatedArrival": "Tahmini varış",
             "selectToken": "Token seç",
-            "swapDirection": "Yön değiştir"
+            "swapDirection": "Yön değiştir",
+            "youReceive": "Alacağınız",
+            "recipient": "Alıcı",
+            "connectWallet": "Cüzdan Bağla",
+            "youSend": "Gönderdiğiniz",
+            "feeFree": "Ücretsiz",
+            "destinationBalance": "{network} bakiyesi"
         },
         "actions": {
             "connect": "Cüzdan Bağla",

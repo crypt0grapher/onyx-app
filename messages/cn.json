@@ -1,7 +1,7 @@
 {
     "sidebar": {
         "navigation": {
-            "stake": "质押",
+            "stake": "Goliath Liquid Staking",
             "history": "历史",
             "swap": "交换",
             "bridge": "跨链桥",
@@ -12,7 +12,7 @@
             "card": "卡片",
             "payments": "支付",
             "enterprise": "企业",
-            "stake-home": "质押",
+            "stake-home": "Goliath Liquid Staking",
             "migrate": "迁移至 Goliath",
             "goliath-bridge": "Goliath 跨链桥",
             "legacy-bridge": "旧版跨链桥"
@@ -694,7 +694,7 @@
         }
     },
     "goliathYield": {
-        "title": "Goliath 质押",
+        "title": "Goliath Liquid Staking",
         "description": "质押 XCN 以获得 stXCN 并赚取收益",
         "statsTitle": "协议统计",
         "statsDescription": "查看协议指标和您的质押仓位",
@@ -774,6 +774,10 @@
         "empty": "没有可迁移的 XCN",
         "disabled": "迁移功能当前已禁用",
         "switchNetwork": "切换到 {network}",
+        "migrateButton": "迁移",
+        "migrating": "迁移中...",
+        "migrationComplete": "迁移完成",
+        "retryMigration": "重试",
         "steps": {
             "claim": "领取奖励",
             "claimDesc": "领取您的待领取质押奖励",
@@ -816,7 +820,13 @@
             "fee": "费用",
             "estimatedArrival": "预计到达时间",
             "selectToken": "选择代币",
-            "swapDirection": "切换方向"
+            "swapDirection": "切换方向",
+            "youReceive": "您将收到",
+            "recipient": "收款人",
+            "connectWallet": "连接钱包",
+            "youSend": "您发送",
+            "feeFree": "免费",
+            "destinationBalance": "{network} 余额"
         },
         "actions": {
             "connect": "连接钱包",

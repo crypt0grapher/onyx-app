@@ -11,6 +11,7 @@ import { WalletProvider } from "@/context/WalletProvider";
 import Web3Providers from "@/context/Web3Providers";
 import WalletConnectionHandler from "@/components/wallet/WalletConnectionHandler";
 import WalletInfoHandler from "@/components/wallet/WalletInfoHandler";
+import FloatingNetworkDropdown from "@/components/ui/FloatingNetworkDropdown";
 import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 
@@ -146,6 +147,7 @@ export default async function LocaleLayout({
                             <MobileNavbar />
                             <Sidebar />
                             {children}
+                            <FloatingNetworkDropdown />
                             <WalletConnectionHandler />
                             <WalletInfoHandler />
                             <ToastContainer

@@ -291,13 +291,18 @@ const BridgeForm: React.FC = () => {
         hasInsufficientBalance ||
         isBelowMinimum;
 
+    // ---- Receive amount ---------------------------------------------------------
+    const receiveAmount = useMemo(() => {
+        if (direction === "SOURCE_TO_GOLIATH") return amount || "0";
+        return feeQuote?.outputFormatted ?? (amount || "0");
+    }, [direction, amount, feeQuote]);
+
     // ---- Fee display ------------------------------------------------------------
     const feeDisplay = useMemo(() => {
         if (direction === "SOURCE_TO_GOLIATH") return t("confirm.feeInfo");
-        if (isFetchingFee) return "...";
         if (feeQuote) return `${feeQuote.feeFormatted} ${selectedToken}`;
         return "--";
-    }, [direction, isFetchingFee, feeQuote, selectedToken, t]);
+    }, [direction, feeQuote, selectedToken, t]);
 
     // ---- Rendering --------------------------------------------------------------
     const fromNetwork =
@@ -321,11 +326,11 @@ const BridgeForm: React.FC = () => {
                     </div>
 
                     {/* Swap direction button */}
-                    <div className="flex justify-center">
+                    <div className="flex justify-center my-[-6px] relative z-10">
                         <button
                             type="button"
                             onClick={handleSwapDirection}
-                            className="flex items-center justify-center w-10 h-10 rounded-full border border-[#292929] bg-[#1B1B1B] cursor-pointer transition-all duration-200 hover:scale-110 hover:border-[#3a3a3a] active:scale-95"
+                            className="flex items-center justify-center w-10 h-10 z-10 rounded-full border border-[#292929] bg-[#1B1B1B] cursor-pointer transition-transform duration-300 ease-out hover:rotate-180 hover:border-[#3a3a3a] hover:shadow-[0_0_12px_rgba(255,255,255,0.06)] active:scale-95"
                             aria-label={t("form.swapDirection")}
                         >
                             <svg
@@ -420,29 +425,60 @@ const BridgeForm: React.FC = () => {
                     )}
                 </div>
 
-                <Divider />
-
-                {/* Fee / info */}
-                <div className="w-full flex flex-col gap-3">
-                    <div className="flex justify-between items-center">
-                        <span className="text-[#808080] text-[14px] font-normal leading-[20px] [font-feature-settings:'ss11'_on,'cv09'_on,'liga'_off,'calt'_off]">
-                            {t("form.fee")}
-                        </span>
-                        <span className="text-[#E6E6E6] text-[14px] font-medium leading-[20px] [font-feature-settings:'ss11'_on,'cv09'_on,'liga'_off,'calt'_off]">
-                            {feeDisplay}
-                        </span>
-                    </div>
-                    <div className="flex justify-between items-center">
-                        <span className="text-[#808080] text-[14px] font-normal leading-[20px] [font-feature-settings:'ss11'_on,'cv09'_on,'liga'_off,'calt'_off]">
-                            {t("form.estimatedArrival")}
-                        </span>
-                        <span className="text-[#E6E6E6] text-[14px] font-medium leading-[20px] [font-feature-settings:'ss11'_on,'cv09'_on,'liga'_off,'calt'_off]">
-                            ~5 min
-                        </span>
+                {/* You receive */}
+                <div className="w-full rounded-[12px] bg-[#0F0F0F] p-4">
+                    <span className="text-secondary text-[14px] font-normal leading-[20px]">
+                        {t("form.youReceive")}
+                    </span>
+                    <div className="mt-2 text-primary text-[24px] font-medium leading-[32px] [font-feature-settings:'ss11'_on,'cv09'_on,'liga'_off,'calt'_off]">
+                        {isFetchingFee && direction === "GOLIATH_TO_SOURCE" ? (
+                            <div className="h-8 w-32 rounded bg-[#1B1B1B] animate-pulse" />
+                        ) : (
+                            <>{receiveAmount} {selectedToken}</>
+                        )}
                     </div>
                 </div>
 
-                <Divider />
+                {/* Summary panel */}
+                <div className="w-full rounded-[12px] bg-[#0F0F0F] p-4 flex flex-col gap-2">
+                    {/* Fee row */}
+                    <div className="flex justify-between items-center">
+                        <span className="text-[#808080] text-[14px] font-normal leading-[20px]">
+                            {t("form.fee")}
+                        </span>
+                        <span className={`text-[14px] font-medium leading-[20px] ${
+                            direction === "SOURCE_TO_GOLIATH" ? "text-green-400" : "text-[#E6E6E6]"
+                        }`}>
+                            {isFetchingFee ? (
+                                <span className="inline-block w-3 h-3 border-2 border-[#808080] border-t-transparent rounded-full animate-spin" />
+                            ) : (
+                                feeDisplay
+                            )}
+                        </span>
+                    </div>
+
+                    {/* ETA row */}
+                    <div className="flex justify-between items-center">
+                        <span className="text-[#808080] text-[14px] font-normal leading-[20px]">
+                            {t("form.estimatedArrival")}
+                        </span>
+                        <span className="text-[#E6E6E6] text-[14px] font-medium leading-[20px]">
+                            ~5 min
+                        </span>
+                    </div>
+
+                    {/* Recipient row */}
+                    <div className="flex justify-between items-center">
+                        <span className="text-[#808080] text-[14px] font-normal leading-[20px]">
+                            {t("form.recipient")}
+                        </span>
+                        <span className="text-[#E6E6E6] text-[14px] font-medium leading-[20px] [font-feature-settings:'ss11'_on,'cv09'_on,'liga'_off,'calt'_off]">
+                            {isConnected && address
+                                ? `${address.slice(0, 6)}...${address.slice(-4)}`
+                                : t("form.connectWallet")}
+                        </span>
+                    </div>
+                </div>
 
                 {/* Action button */}
                 <div className="w-full">

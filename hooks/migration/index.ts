@@ -4,6 +4,8 @@ export { useMigrationFlow } from "./useMigrationFlow";
 export { useMigrationTransactions } from "./useMigrationTransactions";
 export { useMigrationStatus } from "./useMigrationStatus";
 export { useMigrationResume } from "./useMigrationResume";
+export { useMigrationOrchestrator } from "./useMigrationOrchestrator";
+export type { OrchestratorState } from "./useMigrationOrchestrator";
 export type {
     StakingSnapshot,
     MigrationStep,

@@ -67,7 +67,7 @@ export default function MigrationStatusPanel({
     ];
 
     return (
-        <div className="bg-[#141414] border border-border-primary rounded-xl p-6">
+        <div className="bg-[#141414]/80 backdrop-blur-xl border border-[#ffffff08] rounded-2xl p-6">
             <h3 className="text-primary text-lg font-medium mb-6">
                 {t("status.title")}
             </h3>

@@ -1,7 +1,7 @@
 {
     "sidebar": {
         "navigation": {
-            "stake": "스테이킹",
+            "stake": "Goliath Liquid Staking",
             "history": "히스토리",
             "swap": "스왑",
             "bridge": "브릿지",
@@ -12,7 +12,7 @@
             "card": "카드",
             "payments": "결제",
             "enterprise": "기업",
-            "stake-home": "스테이킹",
+            "stake-home": "Goliath Liquid Staking",
             "migrate": "Goliath로 이전",
             "goliath-bridge": "Goliath 브릿지",
             "legacy-bridge": "레거시 브릿지"
@@ -694,7 +694,7 @@
         }
     },
     "goliathYield": {
-        "title": "Goliath 스테이킹",
+        "title": "Goliath Liquid Staking",
         "description": "XCN을 스테이킹하여 stXCN을 받고 수익을 얻으세요",
         "statsTitle": "프로토콜 통계",
         "statsDescription": "프로토콜 지표와 스테이킹 포지션을 확인하세요",
@@ -774,6 +774,10 @@
         "empty": "이전할 수 있는 XCN이 없습니다",
         "disabled": "이전이 현재 비활성화되어 있습니다",
         "switchNetwork": "{network}(으)로 전환",
+        "migrateButton": "마이그레이션",
+        "migrating": "마이그레이션 중...",
+        "migrationComplete": "마이그레이션 완료",
+        "retryMigration": "다시 시도",
         "steps": {
             "claim": "보상 청구",
             "claimDesc": "대기 중인 스테이킹 보상을 청구하세요",
@@ -816,7 +820,13 @@
             "fee": "수수료",
             "estimatedArrival": "예상 도착 시간",
             "selectToken": "토큰 선택",
-            "swapDirection": "방향 전환"
+            "swapDirection": "방향 전환",
+            "youReceive": "수령 금액",
+            "recipient": "수신자",
+            "connectWallet": "지갑 연결",
+            "youSend": "보내는 금액",
+            "feeFree": "무료",
+            "destinationBalance": "{network} 잔액"
         },
         "actions": {
             "connect": "지갑 연결",

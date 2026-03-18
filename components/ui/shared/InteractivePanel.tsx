@@ -23,7 +23,7 @@ export interface InteractivePanelProps {
   title: string;
   availableBalanceLabel: string;
   availableBalanceValue: string | React.ReactElement;
-  switcherItems: [SwitcherItem, SwitcherItem];
+  switcherItems: SwitcherItem[];
   activeMode: string;
   onSwitch: (id: string) => void;
   amount: string;

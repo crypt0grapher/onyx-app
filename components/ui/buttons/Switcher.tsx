@@ -9,7 +9,7 @@ interface SwitcherItem {
 }
 
 interface SwitcherProps {
-    items: [SwitcherItem, SwitcherItem];
+    items: SwitcherItem[];
     activeId: string;
     onSwitch: (id: string) => void;
     backgroundColor?: string;

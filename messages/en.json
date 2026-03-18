@@ -845,7 +845,13 @@
             "fee": "Fee",
             "estimatedArrival": "Estimated arrival",
             "selectToken": "Select token",
-            "swapDirection": "Swap direction"
+            "swapDirection": "Swap direction",
+            "youReceive": "You receive",
+            "recipient": "Recipient",
+            "connectWallet": "Connect Wallet",
+            "youSend": "You send",
+            "feeFree": "Free",
+            "destinationBalance": "Balance on {network}"
         },
         "actions": {
             "connect": "Connect Wallet",

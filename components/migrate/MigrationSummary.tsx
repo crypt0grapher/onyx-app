@@ -20,39 +20,49 @@ export default function MigrationSummary({ snapshot }: MigrationSummaryProps) {
 
     const total = snapshot.staked + snapshot.rewards + snapshot.walletXcn;
 
+    const rows = [
+        { label: t("summary.staked"), value: snapshot.staked },
+        { label: t("summary.rewards"), value: snapshot.rewards },
+        { label: t("summary.wallet"), value: snapshot.walletXcn },
+    ];
+
     return (
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-4 mb-8">
-            <div className="bg-[#141414] border border-border-primary rounded-xl p-6">
-                <p className="text-secondary text-sm mb-2">
-                    {t("summary.staked")}
-                </p>
-                <p className="text-primary text-xl font-medium">
-                    {formatAmount(snapshot.staked)} XCN
-                </p>
-            </div>
-            <div className="bg-[#141414] border border-border-primary rounded-xl p-6">
-                <p className="text-secondary text-sm mb-2">
-                    {t("summary.rewards")}
-                </p>
-                <p className="text-primary text-xl font-medium">
-                    {formatAmount(snapshot.rewards)} XCN
-                </p>
-            </div>
-            <div className="bg-[#141414] border border-border-primary rounded-xl p-6">
-                <p className="text-secondary text-sm mb-2">
-                    {t("summary.wallet")}
-                </p>
-                <p className="text-primary text-xl font-medium">
-                    {formatAmount(snapshot.walletXcn)} XCN
-                </p>
-            </div>
-            <div className="md:col-span-3 bg-[#1a1a2e] border border-border-primary rounded-xl p-6">
-                <p className="text-secondary text-sm mb-2">
-                    {t("summary.total")}
-                </p>
-                <p className="text-primary text-2xl font-semibold">
-                    {formatAmount(total)} XCN
-                </p>
+        <div className="bg-[#141414]/80 backdrop-blur-xl border border-[#ffffff08] rounded-2xl p-6">
+            <div className="space-y-0">
+                {rows.map((row, index) => (
+                    <div key={index}>
+                        <div className="flex items-center justify-between py-3">
+                            <span className="text-[13px] text-secondary uppercase tracking-wider">
+                                {row.label}
+                            </span>
+                            <span className="text-primary text-[15px] font-medium font-[var(--font-geist-mono)]">
+                                {formatAmount(row.value)}{" "}
+                                <span className="text-secondary text-[13px]">
+                                    XCN
+                                </span>
+                            </span>
+                        </div>
+                        {index < rows.length - 1 && (
+                            <div className="h-px bg-[#ffffff06]" />
+                        )}
+                    </div>
+                ))}
+
+                {/* Divider before total */}
+                <div className="h-px bg-[#ffffff10]" />
+
+                {/* Total row */}
+                <div className="flex items-center justify-between pt-4 pb-1">
+                    <span className="text-[13px] text-secondary uppercase tracking-wider">
+                        {t("summary.total")}
+                    </span>
+                    <span className="text-white text-[18px] font-semibold font-[var(--font-geist-mono)]">
+                        {formatAmount(total)}{" "}
+                        <span className="text-secondary text-[14px] font-medium">
+                            XCN
+                        </span>
+                    </span>
+                </div>
             </div>
         </div>
     );
