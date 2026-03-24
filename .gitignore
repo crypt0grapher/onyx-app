@@ -27,7 +27,3 @@ Thumbs.db
 .memory-bank/
 .docs/
 
-# Testing
-__tests__/
-vitest.config.ts
-vitest.setup.ts

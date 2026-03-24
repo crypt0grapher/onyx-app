@@ -135,7 +135,7 @@ function loadGoliathConfig(): GoliathConfig {
         ),
         USDC: envAddress(
             "NEXT_PUBLIC_GOLIATH_USDC_ADDRESS",
-            "0xC8410270bb53f6c99A2EFe6eD3686a8630Efe22B",
+            "0x60bB118298F4a6f54A73891E5Ba66CAAb7229654",
         ),
         ETH: envAddress(
             "NEXT_PUBLIC_GOLIATH_ETH_ADDRESS",
@@ -143,23 +143,23 @@ function loadGoliathConfig(): GoliathConfig {
         ),
         BTC: envAddress(
             "NEXT_PUBLIC_GOLIATH_BTC_ADDRESS",
-            "0x0000000000000000000000000000000000000000", // Not yet deployed on Goliath mainnet
+            "0xDf30632AC69E3AD2A96D7538d5B874E0ddA4101E",
         ),
         XAUX: envAddress(
             "NEXT_PUBLIC_GOLIATH_XAUX_ADDRESS",
-            "0x0000000000000000000000000000000000000000", // Not yet deployed on Goliath mainnet
+            "0x3421E2336B39BFb2B4B999b51e33a67AAE45D62d",
         ),
         XAGX: envAddress(
             "NEXT_PUBLIC_GOLIATH_XAGX_ADDRESS",
-            "0x0000000000000000000000000000000000000000", // Not yet deployed on Goliath mainnet
+            "0x18C1457621178409d8841cE18d2dE6c25aB7D16e",
         ),
         USDT: envAddress(
             "NEXT_PUBLIC_GOLIATH_USDT_ADDRESS",
-            "0x0000000000000000000000000000000000000000", // Not yet deployed on Goliath mainnet
+            "0x86381420c71d404ca6C3C0873e80Fe8AEF2dD6C7",
         ),
         stXCN: envAddress(
             "NEXT_PUBLIC_GOLIATH_STXCN_ADDRESS",
-            "0x0000000000000000000000000000000000000000", // Not yet deployed on Goliath mainnet
+            "0xA553a603e2f84fEa6c1fc225E0945FE176C72F74",
         ),
     };
 
@@ -244,7 +244,7 @@ function loadGoliathConfig(): GoliathConfig {
         stakingEnabled: envBool("NEXT_PUBLIC_GOLIATH_STAKING_ENABLED", true),
         stXcnAddress: envAddress(
             "NEXT_PUBLIC_GOLIATH_STXCN_ADDRESS",
-            "0x0000000000000000000000000000000000000000", // Not yet deployed on Goliath mainnet
+            "0xA553a603e2f84fEa6c1fc225E0945FE176C72F74",
         ),
         protocolPollMs: envNumber(
             "NEXT_PUBLIC_GOLIATH_STAKING_PROTOCOL_POLL_MS",

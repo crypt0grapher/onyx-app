@@ -56,6 +56,6 @@ export const POINTS_CONFIG = {
 export const BRIDGE_CONFIG = {
   BASE_URL:
     (process.env.NEXT_PUBLIC_BRIDGE_API_URL as string) ||
-    "https://bridge-api.goliath.net/api/v1",
+    "https://bridge.goliath.net/api/v1",
   DEFAULT_TIMEOUT: 15000,
 } as const;
