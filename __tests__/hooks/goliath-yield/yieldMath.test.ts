@@ -70,33 +70,38 @@ describe("underlying XCN calculation", () => {
 });
 
 describe("APR calculation", () => {
-    it("calculates APR from reward rate", () => {
-        // 10% APR => per-second rate = 0.10 / 31536000 ~ 3.17e-9
-        // As a Ray value (27 decimals): ~3.17e-9 * 1e27 = ~3.17e18
-        // Exact: 10 * RAY / (SECONDS_PER_YEAR * 100)
-        const rewardRateRay =
-            (10n * RAY) / (SECONDS_PER_YEAR * 100n);
-        const aprScaled =
-            (rewardRateRay * SECONDS_PER_YEAR * 100n) / RAY;
+    // rewardRateRay is an ANNUAL rate in Ray (1e27 = 100%).
+    // APR = (rewardRateRay * 100) / RAY
+    // To derive rewardRateRay for a target APR: rewardRateRay = targetApr * RAY / 100
+
+    it("calculates APR from annual reward rate", () => {
+        // 10% APR => rewardRateRay = 0.10 * RAY
+        const rewardRateRay = (10n * RAY) / 100n;
+        const aprScaled = (rewardRateRay * 100n) / RAY;
         const apr = Number(aprScaled);
-        // Should be approximately 10 (10%), rounding may lose a little
-        expect(apr).toBeGreaterThanOrEqual(9);
-        expect(apr).toBeLessThanOrEqual(11);
+        expect(apr).toBe(10);
+    });
+
+    it("27.8% APR (Goliath mainnet rate)", () => {
+        // rewardRateRay = 278000000000000000000000000n (0.278 * RAY)
+        const rewardRateRay = 278000000000000000000000000n;
+        const aprScaled = (rewardRateRay * 100n) / RAY;
+        const apr = Number(aprScaled);
+        expect(apr).toBe(27);
     });
 
     it("zero reward rate gives zero APR", () => {
         const rewardRateRay = 0n;
-        const aprScaled =
-            (rewardRateRay * SECONDS_PER_YEAR * 100n) / RAY;
+        const aprScaled = (rewardRateRay * 100n) / RAY;
         expect(aprScaled).toBe(0n);
     });
 
     it("higher reward rate gives higher APR", () => {
-        const lowRate = 100n * 10n ** 18n;
-        const highRate = 200n * 10n ** 18n;
+        const lowRate = (10n * RAY) / 100n;  // 10%
+        const highRate = (20n * RAY) / 100n; // 20%
 
-        const lowApr = (lowRate * SECONDS_PER_YEAR * 100n) / RAY;
-        const highApr = (highRate * SECONDS_PER_YEAR * 100n) / RAY;
+        const lowApr = (lowRate * 100n) / RAY;
+        const highApr = (highRate * 100n) / RAY;
 
         expect(highApr).toBeGreaterThan(lowApr);
     });

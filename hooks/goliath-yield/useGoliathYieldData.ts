@@ -9,7 +9,6 @@ import {
   type GoliathProtocolData,
   type GoliathUserData,
   RAY,
-  SECONDS_PER_YEAR,
 } from "./types";
 
 const ZERO = BigInt(0);
@@ -136,13 +135,12 @@ export function useGoliathYieldData() {
     return { stXcnBalance, scaledBalance, underlyingXcn };
   }, [userResults, address, protocolData?.cumulativeIndex]);
 
-  // APR: (rewardRateRay * SECONDS_PER_YEAR) / RAY * 100
-  // To keep precision we scale up before the integer division, then convert.
+  // APR: (rewardRateRay / RAY) * 100
+  // rewardRateRay is already an annual rate (the contract divides by SECONDS_PER_YEAR internally)
   const apr = useMemo(() => {
     if (!protocolData) return 0;
     const scaled =
       (protocolData.rewardRateRay *
-        SECONDS_PER_YEAR *
         APR_PERCENT *
         APR_PRECISION) /
       RAY;

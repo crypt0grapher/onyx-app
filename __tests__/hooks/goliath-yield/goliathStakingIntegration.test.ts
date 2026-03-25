@@ -5,7 +5,6 @@ import { stakedXcnAbi } from "@/contracts/abis/goliath";
 import {
     RAY,
     WAD,
-    SECONDS_PER_YEAR,
     BPS_BASE,
 } from "@/hooks/goliath-yield/types";
 
@@ -187,30 +186,35 @@ describe("Yield math - underlying XCN from stXCN", () => {
 describe("APR calculation from reward rate", () => {
     /**
      * The protocol formula (from useGoliathYieldData):
-     *   apr = (rewardRateRay * SECONDS_PER_YEAR * 100) / RAY
+     *   apr = (rewardRateRay * 100) / RAY
      *
-     * To derive rewardRateRay for a target APR:
-     *   rewardRateRay = targetApr * RAY / (SECONDS_PER_YEAR * 100)
+     * rewardRateRay is already an annual rate (the contract divides by
+     * SECONDS_PER_YEAR internally). To derive rewardRateRay for a target APR:
+     *   rewardRateRay = targetApr * RAY / 100
      */
 
     const computeApr = (rewardRateRay: bigint): number => {
-        const aprScaled =
-            (rewardRateRay * SECONDS_PER_YEAR * 100n) / RAY;
+        const aprScaled = (rewardRateRay * 100n) / RAY;
         return Number(aprScaled);
     };
 
-    it("5% APR: result should be approximately 5", () => {
-        const rewardRateRay = (5n * RAY) / (SECONDS_PER_YEAR * 100n);
+    it("5% APR: result should be 5", () => {
+        const rewardRateRay = (5n * RAY) / 100n;
         const apr = computeApr(rewardRateRay);
-        expect(apr).toBeGreaterThanOrEqual(4);
-        expect(apr).toBeLessThanOrEqual(6);
+        expect(apr).toBe(5);
     });
 
-    it("20% APR: result should be approximately 20", () => {
-        const rewardRateRay = (20n * RAY) / (SECONDS_PER_YEAR * 100n);
+    it("20% APR: result should be 20", () => {
+        const rewardRateRay = (20n * RAY) / 100n;
         const apr = computeApr(rewardRateRay);
-        expect(apr).toBeGreaterThanOrEqual(19);
-        expect(apr).toBeLessThanOrEqual(21);
+        expect(apr).toBe(20);
+    });
+
+    it("27.8% APR (Goliath mainnet rate): result should be 27", () => {
+        // Actual mainnet value: 278000000000000000000000000n
+        const rewardRateRay = 278000000000000000000000000n;
+        const apr = computeApr(rewardRateRay);
+        expect(apr).toBe(27);
     });
 
     it("0% APR: result should be 0", () => {
@@ -218,17 +222,16 @@ describe("APR calculation from reward rate", () => {
         expect(apr).toBe(0);
     });
 
-    it("100% APR: result should be approximately 100", () => {
-        const rewardRateRay = (100n * RAY) / (SECONDS_PER_YEAR * 100n);
+    it("100% APR: result should be 100", () => {
+        const rewardRateRay = (100n * RAY) / 100n;
         const apr = computeApr(rewardRateRay);
-        expect(apr).toBeGreaterThanOrEqual(99);
-        expect(apr).toBeLessThanOrEqual(101);
+        expect(apr).toBe(100);
     });
 
     it("higher reward rate always gives higher APR (monotonic)", () => {
-        const lowRate = (5n * RAY) / (SECONDS_PER_YEAR * 100n);
-        const midRate = (20n * RAY) / (SECONDS_PER_YEAR * 100n);
-        const highRate = (100n * RAY) / (SECONDS_PER_YEAR * 100n);
+        const lowRate = (5n * RAY) / 100n;
+        const midRate = (20n * RAY) / 100n;
+        const highRate = (100n * RAY) / 100n;
 
         const lowApr = computeApr(lowRate);
         const midApr = computeApr(midRate);
