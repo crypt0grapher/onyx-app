@@ -764,7 +764,9 @@
             "unstaked": "Unstake Edildi",
             "emptyTitle": "Geçmiş Yok",
             "emptyDescription": "Stake işlemleriniz burada görünecek",
-            "emptyDescriptionLine2": "Başlamak için XCN stake edin veya unstake edin"
+            "emptyDescriptionLine2": "Başlamak için XCN stake edin veya unstake edin",
+            "errorTitle": "Geçmiş yüklenemedi",
+            "errorRetry": "Yeniden denemek için tıklayın"
         }
     },
     "time": {

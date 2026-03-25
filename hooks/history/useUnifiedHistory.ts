@@ -57,13 +57,17 @@ export function useUnifiedHistory() {
     queryFn: async (): Promise<StXcnEvent[]> => {
       if (!address) return [];
       try {
+        // Use a bounded range to avoid RPC errors on large ranges
+        const latestBlock = await goliathPublicClient.getBlockNumber();
+        const fromBlock = latestBlock > 1_000_000n ? latestBlock - 1_000_000n : 0n;
+
         const [stakedLogs, unstakedLogs] = await Promise.all([
           goliathPublicClient.getContractEvents({
             address: stXcnAddress,
             abi: stakedXcnAbi,
             eventName: "Staked",
             args: { user: address },
-            fromBlock: 0n,
+            fromBlock,
             toBlock: "latest",
           }),
           goliathPublicClient.getContractEvents({
@@ -71,7 +75,7 @@ export function useUnifiedHistory() {
             abi: stakedXcnAbi,
             eventName: "Unstaked",
             args: { user: address },
-            fromBlock: 0n,
+            fromBlock,
             toBlock: "latest",
           }),
         ]);
@@ -101,6 +105,8 @@ export function useUnifiedHistory() {
     },
     enabled: !!address,
     refetchInterval: 30000,
+    retry: 3,
+    retryDelay: (attempt) => Math.min(1000 * 2 ** attempt, 10000),
   });
 
   // Adapt all sources into UnifiedHistoryItem[]

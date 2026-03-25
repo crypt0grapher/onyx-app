@@ -26,10 +26,14 @@ export function useGoliathStakingHistory() {
     const [sortField, setSortField] = useState<string>("blockNumber");
     const [sortDirection, setSortDirection] = useState<"asc" | "desc">("desc");
 
-    const { data: events, isLoading } = useQuery({
+    const { data: events, isLoading, isError, refetch } = useQuery({
         queryKey: ["goliath-staking-history", address],
         queryFn: async () => {
             if (!address) return [];
+
+            // Get latest block to use a bounded range (some RPCs reject fromBlock: 0)
+            const latestBlock = await goliathPublicClient.getBlockNumber();
+            const fromBlock = latestBlock > 1_000_000n ? latestBlock - 1_000_000n : 0n;
 
             const [stakedLogs, unstakedLogs] = await Promise.all([
                 goliathPublicClient.getContractEvents({
@@ -37,7 +41,7 @@ export function useGoliathStakingHistory() {
                     abi: stakedXcnAbi,
                     eventName: "Staked",
                     args: { user: address },
-                    fromBlock: 0n,
+                    fromBlock,
                     toBlock: "latest",
                 }),
                 goliathPublicClient.getContractEvents({
@@ -45,7 +49,7 @@ export function useGoliathStakingHistory() {
                     abi: stakedXcnAbi,
                     eventName: "Unstaked",
                     args: { user: address },
-                    fromBlock: 0n,
+                    fromBlock,
                     toBlock: "latest",
                 }),
             ]);
@@ -74,6 +78,8 @@ export function useGoliathStakingHistory() {
         },
         enabled: !!address,
         refetchInterval: 30000,
+        retry: 3,
+        retryDelay: (attempt) => Math.min(1000 * 2 ** attempt, 10000),
     });
 
     const allEvents = events ?? [];
@@ -119,6 +125,8 @@ export function useGoliathStakingHistory() {
         endItem,
         totalItems,
         isLoading,
+        isError,
+        refetch,
         sortField,
         sortDirection,
         handlePageChange,

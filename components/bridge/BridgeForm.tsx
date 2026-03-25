@@ -8,7 +8,9 @@ import PrimaryButton from "@/components/ui/buttons/PrimaryButton";
 import Divider from "@/components/ui/common/Divider";
 import BridgeTokenSelector from "@/components/bridge/BridgeTokenSelector";
 import BridgeConfirmModal from "@/components/bridge/BridgeConfirmModal";
+import BridgeStatusModal from "@/components/bridge/BridgeStatusModal";
 import useDebounce from "@/hooks/common/useDebounce";
+import type { BridgeOperation } from "@/hooks/bridge/types";
 import { goliathConfig } from "@/config/goliath";
 import { getGoliathNetwork } from "@/config/networks";
 import { useSwitchNetwork } from "@/hooks/wallet/useSwitchNetwork";
@@ -130,6 +132,8 @@ const BridgeForm: React.FC = () => {
     const [selectedToken, setSelectedToken] = useState<BridgeTokenSymbol>("ETH");
     const [amount, setAmount] = useState("");
     const [showConfirmModal, setShowConfirmModal] = useState(false);
+    const [showStatusModal, setShowStatusModal] = useState(false);
+    const [activeOperation, setActiveOperation] = useState<BridgeOperation | null>(null);
     const [feeQuote, setFeeQuote] = useState<FeeQuoteResponse | null>(null);
     const [isFetchingFee, setIsFetchingFee] = useState(false);
     const [isConfirming, setIsConfirming] = useState(false);
@@ -211,9 +215,10 @@ const BridgeForm: React.FC = () => {
         approve: approveBridge,
         needsApproval: executorNeedsApproval,
         isPending: isBridgePending,
+        txHash: executorTxHash,
     } = useBridgeExecutor(direction, selectedToken, tokenAddress, amountWei);
 
-    const { addOperation } = useBridgeOperations();
+    const { addOperation, updateOperation } = useBridgeOperations();
 
     // ---- Fee quote --------------------------------------------------------------
     useEffect(() => {
@@ -277,43 +282,61 @@ const BridgeForm: React.FC = () => {
         if (!address || !amount) return;
         setIsConfirming(true);
 
-        try {
-            addOperation({
-                id: crypto.randomUUID(),
-                direction,
-                token: selectedToken,
-                amountHuman: amount,
-                amountAtomic: amountWei.toString(),
-                sender: address,
-                recipient: address,
-                originChainId: direction === "SOURCE_TO_GOLIATH"
-                    ? goliathConfig.bridge.sourceChainId
-                    : goliathNetwork.chainId,
-                destinationChainId: direction === "SOURCE_TO_GOLIATH"
-                    ? goliathNetwork.chainId
-                    : goliathConfig.bridge.sourceChainId,
-                originTxHash: null,
-                destinationTxHash: null,
-                depositId: null,
-                withdrawId: null,
-                status: "PENDING_ORIGIN_TX",
-                createdAt: Date.now(),
-                updatedAt: Date.now(),
-                errorMessage: null,
-            });
+        const opId = crypto.randomUUID();
+        const op: BridgeOperation = {
+            id: opId,
+            direction,
+            token: selectedToken,
+            amountHuman: amount,
+            amountAtomic: amountWei.toString(),
+            sender: address,
+            recipient: address,
+            originChainId: direction === "SOURCE_TO_GOLIATH"
+                ? goliathConfig.bridge.sourceChainId
+                : goliathNetwork.chainId,
+            destinationChainId: direction === "SOURCE_TO_GOLIATH"
+                ? goliathNetwork.chainId
+                : goliathConfig.bridge.sourceChainId,
+            originTxHash: null,
+            destinationTxHash: null,
+            depositId: null,
+            withdrawId: null,
+            status: "PENDING_ORIGIN_TX",
+            createdAt: Date.now(),
+            updatedAt: Date.now(),
+            errorMessage: null,
+        };
 
+        addOperation(op);
+
+        try {
             await executeBridge(address);
+
+            // Capture the txHash from the executor
+            const txHash = executorTxHash;
+            if (txHash) {
+                updateOperation(opId, { originTxHash: txHash, status: "CONFIRMING" });
+                op.originTxHash = txHash;
+                op.status = "CONFIRMING";
+            }
+
+            setActiveOperation(op);
             setShowConfirmModal(false);
+            setShowStatusModal(true);
             setAmount("");
         } catch (error) {
             const msg = error instanceof Error ? error.message : "Bridge failed";
             if (!msg.includes("rejected") && !msg.includes("denied") && !msg.includes("4001")) {
                 console.error("Bridge execution failed:", msg);
+                updateOperation(opId, { status: "FAILED", errorMessage: msg });
+            } else {
+                // User rejected — remove the pending operation
+                updateOperation(opId, { status: "FAILED", errorMessage: "Transaction rejected" });
             }
         } finally {
             setIsConfirming(false);
         }
-    }, [address, amount, amountWei, direction, selectedToken, executeBridge, addOperation]);
+    }, [address, amount, amountWei, direction, selectedToken, executeBridge, executorTxHash, addOperation, updateOperation]);
 
     // ---- Validation -------------------------------------------------------------
     const hasValidAmount = !!amount && parseFloat(amount) > 0;
@@ -537,31 +560,6 @@ const BridgeForm: React.FC = () => {
                         </span>
                     </div>
 
-                    {/* Recipient row */}
-                    <div className="flex justify-between items-start">
-                        <span className="text-[#808080] text-[14px] font-normal leading-[20px] shrink-0">
-                            {t("form.recipient")}
-                        </span>
-                        {isConnected && address ? (
-                            <a
-                                href={
-                                    direction === "SOURCE_TO_GOLIATH"
-                                        ? `${goliathNetwork.blockExplorerUrl}/address/${address}`
-                                        : `${goliathConfig.bridge.sourceExplorerUrl}/address/${address}`
-                                }
-                                target="_blank"
-                                rel="noopener noreferrer"
-                                className="text-[#E6E6E6] text-[14px] font-medium leading-[20px] hover:underline break-all text-right ml-3 font-mono"
-                            >
-                                {address}
-                                <span className="text-[#808080] ml-1">{t("form.you")}</span>
-                            </a>
-                        ) : (
-                            <span className="text-[#E6E6E6] text-[14px] font-medium leading-[20px]">
-                                {t("form.connectWallet")}
-                            </span>
-                        )}
-                    </div>
                 </div>
 
                 {/* Action button */}
@@ -588,6 +586,13 @@ const BridgeForm: React.FC = () => {
                 sourceChainName={SOURCE_CHAIN_NAME}
                 goliathChainName={GOLIATH_CHAIN_NAME}
                 isConfirming={isConfirming}
+            />
+
+            {/* Status modal (step-by-step progress) */}
+            <BridgeStatusModal
+                operation={activeOperation}
+                isOpen={showStatusModal}
+                onClose={() => setShowStatusModal(false)}
             />
         </>
     );

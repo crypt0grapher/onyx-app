@@ -17,6 +17,9 @@ const TERMINAL_STATUSES: readonly BridgeStatus[] = [
  * Polling automatically stops once the operation reaches a terminal
  * status (COMPLETED, FAILED, EXPIRED).  The interval is controlled by
  * `goliathConfig.bridge.statusPollInterval` (default 5 000 ms).
+ *
+ * Transient errors (network failures, 400/500 from relayer) are silently
+ * retried — the poller keeps running even when individual requests fail.
  */
 export function useBridgeStatusPoller(originTxHash: string | null) {
     const {
@@ -37,6 +40,11 @@ export function useBridgeStatusPoller(originTxHash: string | null) {
             }
             return goliathConfig.bridge.statusPollInterval;
         },
+        // Keep polling even when individual requests fail
+        retry: 2,
+        retryDelay: 2000,
+        // Don't throw on error — return stale data and keep polling
+        refetchOnWindowFocus: false,
     });
 
     const isTerminal = status

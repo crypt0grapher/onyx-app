@@ -70,6 +70,8 @@ const GoliathStakingHistory: React.FC = () => {
         endItem,
         totalItems,
         isLoading,
+        isError,
+        refetch,
         sortField,
         sortDirection,
         handlePageChange,
@@ -207,7 +209,23 @@ const GoliathStakingHistory: React.FC = () => {
                             />
                         ))}
 
-                    {!isLoading && items.length === 0 && (
+                    {!isLoading && isError && (
+                        <TableEmptyState
+                            title={t("errorTitle")}
+                            description={
+                                <button
+                                    type="button"
+                                    onClick={() => refetch()}
+                                    className="text-blue-400 hover:underline cursor-pointer"
+                                >
+                                    {t("errorRetry")}
+                                </button>
+                            }
+                            icon={<GoliathEmptyIcon />}
+                        />
+                    )}
+
+                    {!isLoading && !isError && items.length === 0 && (
                         <TableEmptyState
                             title={t("emptyTitle")}
                             description={
@@ -258,7 +276,26 @@ const GoliathStakingHistory: React.FC = () => {
                             />
                         ))}
 
-                    {!isLoading && items.length === 0 && (
+                    {!isLoading && isError && (
+                        <div className="rounded-[8px] border border-[#1F1F1F] bg-[#141414]">
+                            <TableEmptyState
+                                title={t("errorTitle")}
+                                description={
+                                    <button
+                                        type="button"
+                                        onClick={() => refetch()}
+                                        className="text-blue-400 hover:underline cursor-pointer"
+                                    >
+                                        {t("errorRetry")}
+                                    </button>
+                                }
+                                className="px-[16px]"
+                                icon={<GoliathEmptyIcon />}
+                            />
+                        </div>
+                    )}
+
+                    {!isLoading && !isError && items.length === 0 && (
                         <div className="rounded-[8px] border border-[#1F1F1F] bg-[#141414]">
                             <TableEmptyState
                                 title={t("emptyTitle")}

@@ -763,7 +763,9 @@
             "unstaked": "언스테이킹됨",
             "emptyTitle": "기록 없음",
             "emptyDescription": "스테이킹 거래 기록이 여기에 표시됩니다",
-            "emptyDescriptionLine2": "시작하려면 XCN을 스테이킹하거나 언스테이킹하세요"
+            "emptyDescriptionLine2": "시작하려면 XCN을 스테이킹하거나 언스테이킹하세요",
+            "errorTitle": "기록을 불러오지 못했습니다",
+            "errorRetry": "다시 시도하려면 클릭하세요"
         }
     },
     "time": {

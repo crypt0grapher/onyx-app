@@ -1,11 +1,16 @@
 "use client";
 
+import { useState } from "react";
 import { useTranslations } from "next-intl";
 import { goliathConfig } from "@/config/goliath";
 import BridgeForm from "@/components/bridge/BridgeForm";
+import BridgeHistoryPanel from "@/components/bridge/BridgeHistoryPanel";
+import BridgeStatusModal from "@/components/bridge/BridgeStatusModal";
+import type { BridgeOperation } from "@/hooks/bridge/types";
 
 export default function Bridge() {
     const t = useTranslations("bridge");
+    const [selectedOp, setSelectedOp] = useState<BridgeOperation | null>(null);
 
     if (!goliathConfig.bridge.bridgeEnabled) {
         return (
@@ -34,8 +39,18 @@ export default function Bridge() {
                         </p>
                     </div>
                     <BridgeForm />
+                    <BridgeHistoryPanel
+                        onSelectOperation={(op) => setSelectedOp(op)}
+                    />
                 </div>
             </main>
+
+            {/* Status modal for viewing history operations */}
+            <BridgeStatusModal
+                operation={selectedOp}
+                isOpen={!!selectedOp}
+                onClose={() => setSelectedOp(null)}
+            />
         </div>
     );
 }

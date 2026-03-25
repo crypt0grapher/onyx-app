@@ -763,7 +763,9 @@
             "unstaked": "已取消质押",
             "emptyTitle": "暂无记录",
             "emptyDescription": "您的质押交易记录将显示在这里",
-            "emptyDescriptionLine2": "质押或取消质押 XCN 以开始"
+            "emptyDescriptionLine2": "质押或取消质押 XCN 以开始",
+            "errorTitle": "无法加载历史记录",
+            "errorRetry": "点击重试"
         }
     },
     "time": {

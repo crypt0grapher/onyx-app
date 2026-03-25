@@ -765,7 +765,9 @@
             "unstaked": "Unstaked",
             "emptyTitle": "No History",
             "emptyDescription": "Your staking transactions will appear here",
-            "emptyDescriptionLine2": "Stake or unstake XCN to get started"
+            "emptyDescriptionLine2": "Stake or unstake XCN to get started",
+            "errorTitle": "Failed to load history",
+            "errorRetry": "Click to retry"
         }
     },
     "time": {

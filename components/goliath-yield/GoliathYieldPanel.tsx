@@ -48,7 +48,9 @@ const GoliathYieldPanel: React.FC = () => {
     const { data: xcnBalance } = useBalance({ address });
 
     // Compute available balance based on active mode
+    // Only show balance when on Goliath to avoid displaying ETH as XCN
     const availableBalance = (() => {
+        if (!onGoliath) return 0;
         if (activeMode === "stake") {
             if (!xcnBalance) return 0;
             return parseFloat(formatEther(xcnBalance.value));

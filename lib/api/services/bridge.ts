@@ -204,7 +204,8 @@ export class BridgeApiService extends BaseApiService {
                 timeoutMs: BRIDGE_CONFIG.DEFAULT_TIMEOUT,
             });
         } catch (error) {
-            if (error instanceof ApiError && error.statusCode === 404) {
+            // 400 = not yet tracked by relayer, 404 = not found
+            if (error instanceof ApiError && (error.statusCode === 404 || error.statusCode === 400)) {
                 return null;
             }
             throw error;
