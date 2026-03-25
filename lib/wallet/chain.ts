@@ -135,13 +135,34 @@ export const switchToChain = async (
             try {
                 const addResult = await addNetwork(chainConfig, callbacks, t);
                 if (!addResult) {
-                    return {
-                        success: false,
-                        error:
-                            t?.("failedToAddNetwork") ||
-                            "Failed to add network",
-                        needsAddition: true,
-                    };
+                    // addNetwork failed — the chain may already exist with different
+                    // params (e.g. added via a block explorer). Retry the plain switch.
+                    try {
+                        await ethereum.request({
+                            method: "wallet_switchEthereumChain",
+                            params: [{ chainId: chainConfig.chainId }],
+                        });
+
+                        const switchSuccessMsg = t
+                            ? t("networkSwitchedSuccess", {
+                                  chainName: chainConfig.chainName,
+                              })
+                            : `Successfully switched to ${chainConfig.chainName}!`;
+
+                        callbacks?.onSuccess?.(
+                            t?.("networkSwitched") || "Network Switched",
+                            switchSuccessMsg
+                        );
+                        return { success: true };
+                    } catch {
+                        return {
+                            success: false,
+                            error:
+                                t?.("failedToAddNetwork") ||
+                                "Failed to add network",
+                            needsAddition: true,
+                        };
+                    }
                 }
 
                 await ethereum.request({
@@ -166,12 +187,40 @@ export const switchToChain = async (
                     "Error adding network after switch failure:",
                     addError
                 );
-                const error = `Failed to add ${chainConfig.chainName}. Please add it manually.`;
-                callbacks?.onError?.(
-                    t?.("failedToAddNetwork") || "Failed to Add Network",
-                    error
-                );
-                return { success: false, error, needsAddition: true };
+
+                // The chain may already exist in the wallet with different
+                // parameters (e.g. user added it manually via a block explorer).
+                // Retry a plain switch — it should succeed if the chain is there.
+                try {
+                    await ethereum.request({
+                        method: "wallet_switchEthereumChain",
+                        params: [{ chainId: chainConfig.chainId }],
+                    });
+
+                    const retrySwitchMsg = t
+                        ? t("networkSwitchedSuccess", {
+                              chainName: chainConfig.chainName,
+                          })
+                        : `Successfully switched to ${chainConfig.chainName}!`;
+
+                    callbacks?.onSuccess?.(
+                        t?.("networkSwitched") || "Network Switched",
+                        retrySwitchMsg
+                    );
+                    return { success: true };
+                } catch (retrySwitchError: unknown) {
+                    console.error(
+                        "Retry switch also failed:",
+                        retrySwitchError
+                    );
+                    const error = `Failed to switch to ${chainConfig.chainName}. Please switch manually in your wallet.`;
+                    callbacks?.onError?.(
+                        t?.("networkSwitchFailed") ||
+                            "Failed to Switch Network",
+                        error
+                    );
+                    return { success: false, error, needsAddition: true };
+                }
             }
         } else if (walletError.code === 4001) {
             callbacks?.onInfo?.(

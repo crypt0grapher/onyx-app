@@ -1,8 +1,9 @@
 "use client";
 
 import { useTranslations } from "next-intl";
-import { useAccount, useSwitchChain } from "wagmi";
+import { useAccount } from "wagmi";
 import { useWallet } from "@/context/WalletProvider";
+import { useSwitchNetwork } from "@/hooks/wallet/useSwitchNetwork";
 import DataBoxesSection from "@/components/stake/DataBoxesSection";
 import Divider from "@/components/ui/common/Divider";
 import StakeActionPanel from "@/components/stake/StakeActionPanel";
@@ -15,7 +16,7 @@ export default function EthereumStakingPage() {
     const t = useTranslations("staking");
     const { isConnected } = useWallet();
     const { chainId } = useAccount();
-    const { switchChain, isPending } = useSwitchChain();
+    const { switchNetwork, isPending } = useSwitchNetwork();
     const isOnEthereum = chainId === ETHEREUM_CHAIN_ID;
     const needsSwitch = isConnected && !isOnEthereum;
 
@@ -35,7 +36,7 @@ export default function EthereumStakingPage() {
                         <button
                             type="button"
                             onClick={() =>
-                                switchChain({ chainId: ETHEREUM_CHAIN_ID })
+                                switchNetwork({ chainId: ETHEREUM_CHAIN_ID })
                             }
                             disabled={isPending}
                             className="flex-shrink-0 rounded-lg bg-white px-4 py-2 text-sm font-medium text-black transition-opacity hover:opacity-90 disabled:opacity-50 cursor-pointer disabled:cursor-not-allowed"

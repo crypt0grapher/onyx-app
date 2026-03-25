@@ -3,9 +3,10 @@
 import React, { useState, useRef, useCallback } from "react";
 import Image from "next/image";
 import { motion, AnimatePresence } from "framer-motion";
-import { useAccount, useSwitchChain } from "wagmi";
+import { useAccount } from "wagmi";
 import { useWallet } from "@/context/WalletProvider";
 import { useClickOutside } from "@/hooks/common/useClickOutside";
+import { useSwitchNetwork } from "@/hooks/wallet/useSwitchNetwork";
 import { SUPPORTED_NETWORKS, type Network } from "@/config/networks";
 import { toSrc } from "@/utils/image";
 import arrowDown from "@/assets/icons/arrow-down.svg";
@@ -13,7 +14,7 @@ import arrowDown from "@/assets/icons/arrow-down.svg";
 const FloatingNetworkDropdown: React.FC = () => {
     const { isConnected } = useWallet();
     const { chainId } = useAccount();
-    const { switchChain, isPending } = useSwitchChain();
+    const { switchNetwork, isPending } = useSwitchNetwork();
 
     const [isOpen, setIsOpen] = useState(false);
     const containerRef = useRef<HTMLDivElement>(null);
@@ -32,10 +33,10 @@ const FloatingNetworkDropdown: React.FC = () => {
     const handleSelect = useCallback(
         (network: Network) => {
             if (isPending || network.chainId === chainId) return;
-            switchChain({ chainId: network.chainId });
+            switchNetwork({ chainId: network.chainId });
             setIsOpen(false);
         },
-        [isPending, chainId, switchChain]
+        [isPending, chainId, switchNetwork]
     );
 
     if (!isConnected) return null;

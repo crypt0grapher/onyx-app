@@ -9,6 +9,7 @@ export { useNetworkCheck } from "./common/useNetworkCheck";
 export { default as useToast } from "./ui/useToast";
 export { useChainDetection } from "./wallet/useChainDetection";
 export { useTransactionExecutor } from "./wallet/useTransactionExecutor";
+export { useSwitchNetwork } from "./wallet/useSwitchNetwork";
 export { useProposalEta } from "./governance/useProposalEta";
 export { usePriorVotes } from "./governance/usePriorVotes";
 export { useCancelProposal } from "./governance/useCancelProposal";

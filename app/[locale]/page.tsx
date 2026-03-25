@@ -1,9 +1,10 @@
 "use client";
 
 import { useTranslations } from "next-intl";
-import { useAccount, useSwitchChain } from "wagmi";
+import { useAccount } from "wagmi";
 import { useWallet } from "@/context/WalletProvider";
 import { getGoliathNetwork } from "@/config/networks";
+import { useSwitchNetwork } from "@/hooks/wallet/useSwitchNetwork";
 import GoliathYieldPanel from "@/components/goliath-yield/GoliathYieldPanel";
 import GoliathDataBoxes from "@/components/goliath-yield/GoliathDataBoxes";
 import GoliathUserStats from "@/components/goliath-yield/GoliathUserStats";
@@ -19,7 +20,7 @@ function GoliathStakePage() {
     const t = useTranslations("goliathYield");
     const { isConnected } = useWallet();
     const { chainId } = useAccount();
-    const { switchChain, isPending } = useSwitchChain();
+    const { switchNetwork, isPending } = useSwitchNetwork();
     const goliathNetwork = getGoliathNetwork();
     const isOnGoliath = chainId === goliathNetwork.chainId;
     const needsSwitch = isConnected && !isOnGoliath;
@@ -42,7 +43,7 @@ function GoliathStakePage() {
                         <button
                             type="button"
                             onClick={() =>
-                                switchChain({
+                                switchNetwork({
                                     chainId: goliathNetwork.chainId,
                                 })
                             }
