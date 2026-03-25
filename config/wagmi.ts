@@ -56,7 +56,11 @@ export const goliathChain: Chain = {
     blockExplorers: {
         default: { name: "Goliath Explorer", url: goliathNetwork.blockExplorerUrl },
     },
-    contracts: {},
+    contracts: {
+        multicall3: {
+            address: '0x88b4BC8e5bd74327B5456466F3f30143986cC1f9',
+        },
+    },
 };
 
 const chains = [mainnet, onyxChain, goliathChain] as const;
