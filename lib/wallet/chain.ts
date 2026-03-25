@@ -183,9 +183,6 @@ export const switchToChain = async (
     }
 
     // ── Step 3: verify the chain actually switched ──────────────────────
-    // Do NOT call wallet_switchEthereumChain again — EIP-3085 says
-    // wallet_addEthereumChain already switches, and an immediate redundant
-    // switch request can race with MetaMask's internal state update.
     try {
         const currentChainId = await ethereum.request({
             method: "eth_chainId",
@@ -201,24 +198,24 @@ export const switchToChain = async (
         // verification failed — fall through
     }
 
-    // The add resolved but the wallet didn't switch (known MetaMask
-    // behaviour when the chain already exists with different params).
-    // Give MetaMask a moment then check once more — the chainChanged
-    // event may still be propagating.
-    await new Promise((r) => setTimeout(r, 500));
+    // ── Step 4: add resolved but wallet didn't switch ───────────────────
+    // EIP-3085 does not guarantee that a successful add also selects the
+    // chain.  Retry with a plain wallet_switchEthereumChain — the chain
+    // should now be registered after the add, so switch-by-ID can work.
+    // Do NOT call wallet_addEthereumChain again (that would show a second
+    // add prompt).
     try {
-        const currentChainId = await ethereum.request({
-            method: "eth_chainId",
+        await ethereum.request({
+            method: "wallet_switchEthereumChain",
+            params: [{ chainId: chainConfig.chainId }],
         });
-        if (currentChainId === chainConfig.chainId) {
-            callbacks?.onSuccess?.(
-                t?.("networkSwitched") || "Network Switched",
-                successMsg()
-            );
-            return { success: true };
-        }
+        callbacks?.onSuccess?.(
+            t?.("networkSwitched") || "Network Switched",
+            successMsg()
+        );
+        return { success: true };
     } catch {
-        // ignore
+        // switch still failed — nothing more we can do
     }
 
     const error = `Could not switch to ${chainConfig.chainName} automatically. Please switch manually in your wallet.`;

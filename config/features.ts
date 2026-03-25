@@ -94,7 +94,7 @@ const FEATURE_MAP: Record<number, ChainFeatureConfig> = {
         },
     },
 
-    // Goliath Network
+    // Goliath Mainnet
     [goliathNetwork.chainId]: {
         chainId: goliathNetwork.chainId,
         networkId: "goliath",

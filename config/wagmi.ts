@@ -46,7 +46,7 @@ const onyxChain: Chain = {
 
 export const goliathChain: Chain = {
     id: goliathNetwork.chainId,
-    name: goliathNetwork.name,
+    name: "Goliath Mainnet",
     nativeCurrency: goliathNetwork.nativeCurrency,
     rpcUrls: {
         default: {

@@ -66,7 +66,7 @@ describe("networks", () => {
     it("getNetworkBySymbol finds by network name", () => {
         expect(getNetworkBySymbol("Ethereum Mainnet")?.id).toBe("ethereum");
         expect(getNetworkBySymbol("Onyx Network")?.id).toBe("onyx");
-        expect(getNetworkBySymbol("Goliath Network")?.id).toBe("goliath");
+        expect(getNetworkBySymbol("Goliath Mainnet")?.id).toBe("goliath");
     });
 
     it("getNetworkBySymbol returns undefined for unknown symbol", () => {

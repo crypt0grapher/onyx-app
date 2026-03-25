@@ -70,7 +70,7 @@ export const SUPPORTED_NETWORKS: Network[] = [
     {
         id: "goliath",
         name: "Goliath",
-        network: "Goliath Network",
+        network: "Goliath Mainnet",
         icon: goliathIcon,
         chainId: goliathChainId,
         chainIdHex: "0x" + goliathChainId.toString(16),
