@@ -5,8 +5,8 @@ import { useAccount } from "wagmi";
 import { useQuery } from "@tanstack/react-query";
 import { formatEther } from "viem";
 import { goliathConfig } from "@/config/goliath";
-import { stakedXcnAbi } from "@/contracts/abis/goliath";
-import { goliathPublicClient } from "@/lib/goliathClient";
+import { getGoliathNetwork } from "@/config/networks";
+import { fetchStakingEventsFromExplorer } from "@/lib/api/services/blockscout";
 
 export interface GoliathStakingEvent {
     id: string;
@@ -31,49 +31,21 @@ export function useGoliathStakingHistory() {
         queryFn: async () => {
             if (!address) return [];
 
-            // Get latest block to use a bounded range (some RPCs reject fromBlock: 0)
-            const latestBlock = await goliathPublicClient.getBlockNumber();
-            const fromBlock = latestBlock > 1_000_000n ? latestBlock - 1_000_000n : 0n;
-
-            const [stakedLogs, unstakedLogs] = await Promise.all([
-                goliathPublicClient.getContractEvents({
-                    address: stXcnAddress,
-                    abi: stakedXcnAbi,
-                    eventName: "Staked",
-                    args: { user: address },
-                    fromBlock,
-                    toBlock: "latest",
-                }),
-                goliathPublicClient.getContractEvents({
-                    address: stXcnAddress,
-                    abi: stakedXcnAbi,
-                    eventName: "Unstaked",
-                    args: { user: address },
-                    fromBlock,
-                    toBlock: "latest",
-                }),
-            ]);
-
-            const staked: GoliathStakingEvent[] = stakedLogs.map((log, i) => ({
-                id: `staked-${log.transactionHash}-${i}`,
-                type: "staked" as const,
-                transactionHash: log.transactionHash,
-                blockNumber: log.blockNumber,
-                amount: formatEther(log.args.xcnAmount ?? 0n),
-            }));
-
-            const unstaked: GoliathStakingEvent[] = unstakedLogs.map(
-                (log, i) => ({
-                    id: `unstaked-${log.transactionHash}-${i}`,
-                    type: "unstaked" as const,
-                    transactionHash: log.transactionHash,
-                    blockNumber: log.blockNumber,
-                    amount: formatEther(log.args.xcnReturned ?? 0n),
-                })
+            const explorerUrl = getGoliathNetwork().blockExplorerUrl;
+            const explorerEvents = await fetchStakingEventsFromExplorer(
+                stXcnAddress,
+                address,
+                explorerUrl,
             );
 
-            return [...staked, ...unstaked].sort(
-                (a, b) => Number(b.blockNumber - a.blockNumber)
+            return explorerEvents.map(
+                (ev, i): GoliathStakingEvent => ({
+                    id: `${ev.type.toLowerCase()}-${ev.transactionHash}-${i}`,
+                    type: ev.type === "Staked" ? "staked" : "unstaked",
+                    transactionHash: ev.transactionHash,
+                    blockNumber: ev.blockNumber,
+                    amount: formatEther(ev.xcnAmount),
+                }),
             );
         },
         enabled: !!address,
