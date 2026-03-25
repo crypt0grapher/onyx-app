@@ -30,9 +30,14 @@ export interface ChainConfig {
     blockExplorerUrls: string[];
 }
 
-const goliathChainId = Number(
-    process.env.NEXT_PUBLIC_GOLIATH_CHAIN_ID || "327"
-);
+// Goliath wallet add/switch flows must always target mainnet chain 327.
+// Do not make this env-driven: a testnet override here causes MetaMask
+// to prompt for the wrong chain ID and breaks switching for users who
+// already have Goliath Mainnet installed.
+export const GOLIATH_MAINNET_CHAIN_ID = 327;
+export const GOLIATH_MAINNET_CHAIN_ID_HEX = "0x147";
+
+const goliathChainId = GOLIATH_MAINNET_CHAIN_ID;
 
 export const SUPPORTED_NETWORKS: Network[] = [
     {
@@ -73,7 +78,7 @@ export const SUPPORTED_NETWORKS: Network[] = [
         network: "Goliath Mainnet",
         icon: goliathIcon,
         chainId: goliathChainId,
-        chainIdHex: "0x" + goliathChainId.toString(16),
+        chainIdHex: GOLIATH_MAINNET_CHAIN_ID_HEX,
         rpcUrl:
             process.env.NEXT_PUBLIC_GOLIATH_RPC_URL ||
             "https://rpc.goliath.net",
