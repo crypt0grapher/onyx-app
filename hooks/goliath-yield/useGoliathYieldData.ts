@@ -157,6 +157,7 @@ export function useGoliathYieldData() {
     userData,
     apr,
     isLoading: protocolLoading || userLoading,
+    onGoliath,
     refetch,
   };
 }

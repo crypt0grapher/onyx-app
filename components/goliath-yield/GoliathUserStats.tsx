@@ -4,8 +4,9 @@ import React from "react";
 import Image from "next/image";
 import { useTranslations } from "next-intl";
 import { formatEther } from "viem";
-import { useAccount } from "wagmi";
+import { useAccount, useChainId } from "wagmi";
 import { useGoliathYieldData } from "@/hooks/goliath-yield";
+import { isGoliathChain } from "@/config/networks";
 import LoadingDots from "@/components/ui/common/LoadingDots";
 
 import stakeIcon from "@/assets/icons/stake.svg";
@@ -50,13 +51,15 @@ const StatItem: React.FC<StatItemProps> = ({
 const GoliathUserStats: React.FC = () => {
     const t = useTranslations("goliathYield");
     const { isConnected } = useAccount();
+    const chainId = useChainId();
+    const onGoliath = isGoliathChain(chainId);
     const { userData, apr, isLoading } = useGoliathYieldData();
 
     const renderValue = (
         value: string,
         loading: boolean,
         requiresConnection: boolean = true,
-        disconnectedFallback: string = "0.00",
+        disconnectedFallback: string = "--",
     ): string | React.ReactElement => {
         if (loading)
             return (
@@ -66,6 +69,7 @@ const GoliathUserStats: React.FC = () => {
                     className="text-primary"
                 />
             );
+        if (!onGoliath) return "--";
         if (requiresConnection && !isConnected) return disconnectedFallback;
         return value;
     };
@@ -91,14 +95,14 @@ const GoliathUserStats: React.FC = () => {
             <StatItem
                 icon={stakeIcon}
                 label={t("yourStXcnBalance")}
-                value={renderValue(stXcnDisplay, isLoading, true, "0.0000 stXCN")}
+                value={renderValue(stXcnDisplay, isLoading, true, "--")}
                 hasBorderBottom
             />
 
             <StatItem
                 icon={claimIcon}
                 label={t("yourUnderlyingXcn")}
-                value={renderValue(underlyingDisplay, isLoading, true, "0.0000 XCN")}
+                value={renderValue(underlyingDisplay, isLoading, true, "--")}
                 hasBorderBottom
             />
 

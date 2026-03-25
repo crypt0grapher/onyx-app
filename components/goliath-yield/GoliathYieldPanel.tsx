@@ -22,7 +22,7 @@ const GoliathYieldPanel: React.FC = () => {
     const t = useTranslations("goliathYield");
     const tt = useTranslations("toast");
     const { address, isConnected } = useAccount();
-    const { protocolData, userData, apr, isLoading } = useGoliathYieldData();
+    const { protocolData, userData, apr, isLoading, onGoliath } = useGoliathYieldData();
     const {
         stake,
         isPending: isStakePending,
@@ -179,6 +179,7 @@ const GoliathYieldPanel: React.FC = () => {
 
     const isButtonDisabled =
         !isConnected ||
+        !onGoliath ||
         isLoading ||
         !amount ||
         parseFloat(amount) <= 0 ||
@@ -190,6 +191,8 @@ const GoliathYieldPanel: React.FC = () => {
             label: t("estimatedDailyEarnings"),
             value: isLoading ? (
                 <LoadingDots size="sm" variant="inline" />
+            ) : !onGoliath ? (
+                "--"
             ) : (
                 `${calculateEstimatedEarnings(amount)} XCN`
             ),
@@ -198,6 +201,8 @@ const GoliathYieldPanel: React.FC = () => {
             label: `${t("apr")}:`,
             value: isLoading ? (
                 <LoadingDots size="sm" variant="inline" />
+            ) : !onGoliath ? (
+                "--"
             ) : (
                 `${apr.toFixed(2)}%`
             ),
@@ -206,6 +211,8 @@ const GoliathYieldPanel: React.FC = () => {
             label: `${t("fee")}:`,
             value: isLoading ? (
                 <LoadingDots size="sm" variant="inline" />
+            ) : !onGoliath ? (
+                "--"
             ) : (
                 `${((protocolData?.feePercentBps ?? 0) / 100).toFixed(2)}%`
             ),

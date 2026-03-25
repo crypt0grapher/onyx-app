@@ -16,7 +16,7 @@ function formatLargeNumber(value: bigint): string {
 
 const GoliathDataBoxes: React.FC = () => {
     const t = useTranslations("goliathYield.dataBoxes");
-    const { apr, protocolData, isLoading } = useGoliathYieldData();
+    const { apr, protocolData, isLoading, onGoliath } = useGoliathYieldData();
 
     const renderValue = (
         value: string,
@@ -24,6 +24,7 @@ const GoliathDataBoxes: React.FC = () => {
     ): string | React.ReactNode => {
         if (loading)
             return <LoadingDots className="justify-start min-w-[60px]" />;
+        if (!onGoliath) return "--";
         return value;
     };
 
@@ -31,17 +32,17 @@ const GoliathDataBoxes: React.FC = () => {
     const protocolFee = renderValue(
         protocolData
             ? `${(protocolData.feePercentBps / 100).toFixed(2)}%`
-            : "0.00%",
+            : "--",
         isLoading
     );
     const totalSupply = renderValue(
-        protocolData ? formatLargeNumber(protocolData.totalSupply) : "0.00",
+        protocolData ? formatLargeNumber(protocolData.totalSupply) : "--",
         isLoading
     );
     const contractBalance = renderValue(
         protocolData
             ? formatLargeNumber(protocolData.contractBalance)
-            : "0.00",
+            : "--",
         isLoading
     );
 
