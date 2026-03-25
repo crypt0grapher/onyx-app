@@ -1,12 +1,12 @@
 "use client";
 
 import { useMemo, useState } from "react";
-import { useAccount, useChainId, usePublicClient } from "wagmi";
+import { useAccount } from "wagmi";
 import { useQuery } from "@tanstack/react-query";
 import { formatEther } from "viem";
 import { goliathConfig } from "@/config/goliath";
 import { stakedXcnAbi } from "@/contracts/abis/goliath";
-import { isGoliathChain } from "@/config/networks";
+import { goliathPublicClient } from "@/lib/goliathClient";
 
 export interface GoliathStakingEvent {
     id: string;
@@ -20,9 +20,6 @@ const ITEMS_PER_PAGE = 10;
 
 export function useGoliathStakingHistory() {
     const { address } = useAccount();
-    const chainId = useChainId();
-    const publicClient = usePublicClient();
-    const onGoliath = isGoliathChain(chainId);
     const stXcnAddress = goliathConfig.staking.stXcnAddress;
 
     const [currentPage, setCurrentPage] = useState(1);
@@ -30,12 +27,12 @@ export function useGoliathStakingHistory() {
     const [sortDirection, setSortDirection] = useState<"asc" | "desc">("desc");
 
     const { data: events, isLoading } = useQuery({
-        queryKey: ["goliath-staking-history", address, chainId],
+        queryKey: ["goliath-staking-history", address],
         queryFn: async () => {
-            if (!publicClient || !address) return [];
+            if (!address) return [];
 
             const [stakedLogs, unstakedLogs] = await Promise.all([
-                publicClient.getContractEvents({
+                goliathPublicClient.getContractEvents({
                     address: stXcnAddress,
                     abi: stakedXcnAbi,
                     eventName: "Staked",
@@ -43,7 +40,7 @@ export function useGoliathStakingHistory() {
                     fromBlock: 0n,
                     toBlock: "latest",
                 }),
-                publicClient.getContractEvents({
+                goliathPublicClient.getContractEvents({
                     address: stXcnAddress,
                     abi: stakedXcnAbi,
                     eventName: "Unstaked",
@@ -75,7 +72,7 @@ export function useGoliathStakingHistory() {
                 (a, b) => Number(b.blockNumber - a.blockNumber)
             );
         },
-        enabled: !!address && !!publicClient && onGoliath,
+        enabled: !!address,
         refetchInterval: 30000,
     });
 

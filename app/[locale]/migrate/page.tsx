@@ -203,6 +203,7 @@ export default function Migrate() {
                                         visibleSteps={visibleSteps}
                                         activeStep={activeStep}
                                         stepExecutions={stepExecutions}
+                                        orchestratorState={orchestratorState}
                                     />
                                 </motion.div>
                             </>

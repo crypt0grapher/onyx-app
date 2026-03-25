@@ -7,6 +7,7 @@ interface MigrationProgressBarProps {
     visibleSteps: MigrationStep[];
     activeStep: MigrationStep | null;
     stepExecutions: Record<MigrationStep, StepExecution>;
+    orchestratorState: "idle" | "running" | "paused" | "completed";
 }
 
 const STEP_LABELS: Record<MigrationStep, string> = {
@@ -22,7 +23,9 @@ function getStepState(
     step: MigrationStep,
     activeStep: MigrationStep | null,
     execution: StepExecution,
+    orchestratorState: string,
 ): StepState {
+    if (orchestratorState === "idle") return "pending";
     if (execution.status === "CONFIRMED") return "completed";
     if (execution.status === "FAILED") return "failed";
     if (step === activeStep) return "active";
@@ -55,13 +58,14 @@ export default function MigrationProgressBar({
     visibleSteps,
     activeStep,
     stepExecutions,
+    orchestratorState,
 }: MigrationProgressBarProps) {
     return (
         <div className="bg-[#0d0d0d] border border-[#1a1a1a] rounded-2xl px-6 py-5 overflow-x-auto">
             <div className="flex items-center justify-between min-w-0">
                 {visibleSteps.map((step, index) => {
                     const execution = stepExecutions[step];
-                    const state = getStepState(step, activeStep, execution);
+                    const state = getStepState(step, activeStep, execution, orchestratorState);
                     const stepNumber = index + 1;
                     const label = STEP_LABELS[step];
                     const segmentState = getDotSegmentState(state);

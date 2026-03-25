@@ -11,6 +11,9 @@ import BridgeConfirmModal from "@/components/bridge/BridgeConfirmModal";
 import useDebounce from "@/hooks/common/useDebounce";
 import { goliathConfig } from "@/config/goliath";
 import { getGoliathNetwork } from "@/config/networks";
+import { useSwitchNetwork } from "@/hooks/wallet/useSwitchNetwork";
+import { useBridgeExecutor } from "@/hooks/bridge/useBridgeExecutor";
+import { useBridgeOperations } from "@/hooks/bridge/useBridgeOperations";
 import {
     type BridgeDirection,
     type BridgeTokenSymbol,
@@ -133,6 +136,9 @@ const BridgeForm: React.FC = () => {
 
     const debouncedAmount = useDebounce(amount, 500);
 
+    // ---- Network switch ---------------------------------------------------------
+    const { switchNetwork, isPending: isSwitchPending } = useSwitchNetwork();
+
     // ---- Derived values ---------------------------------------------------------
     const expectedChainId = getExpectedChainId(direction);
     const isOnCorrectNetwork = chainId === expectedChainId;
@@ -194,6 +200,21 @@ const BridgeForm: React.FC = () => {
         }
     }, [isNative, amount, decimals, allowanceData]);
 
+    // ---- Bridge execution -------------------------------------------------------
+    const amountWei = useMemo(() => {
+        if (!amount || parseFloat(amount) <= 0) return 0n;
+        try { return parseUnits(amount, decimals); } catch { return 0n; }
+    }, [amount, decimals]);
+
+    const {
+        execute: executeBridge,
+        approve: approveBridge,
+        needsApproval: executorNeedsApproval,
+        isPending: isBridgePending,
+    } = useBridgeExecutor(direction, selectedToken, tokenAddress, amountWei);
+
+    const { addOperation } = useBridgeOperations();
+
     // ---- Fee quote --------------------------------------------------------------
     useEffect(() => {
         const fetchFee = async () => {
@@ -253,17 +274,46 @@ const BridgeForm: React.FC = () => {
     }, [isConfirming]);
 
     const handleConfirmBridge = useCallback(async () => {
-        // Actual bridge execution will be implemented in a follow-up task.
-        // For now this just closes the modal after a brief delay to demonstrate flow.
+        if (!address || !amount) return;
         setIsConfirming(true);
+
         try {
-            // placeholder -- will be replaced by contract write logic
-            await new Promise((resolve) => setTimeout(resolve, 1500));
+            addOperation({
+                id: crypto.randomUUID(),
+                direction,
+                token: selectedToken,
+                amountHuman: amount,
+                amountAtomic: amountWei.toString(),
+                sender: address,
+                recipient: address,
+                originChainId: direction === "SOURCE_TO_GOLIATH"
+                    ? goliathConfig.bridge.sourceChainId
+                    : goliathNetwork.chainId,
+                destinationChainId: direction === "SOURCE_TO_GOLIATH"
+                    ? goliathNetwork.chainId
+                    : goliathConfig.bridge.sourceChainId,
+                originTxHash: null,
+                destinationTxHash: null,
+                depositId: null,
+                withdrawId: null,
+                status: "PENDING_ORIGIN_TX",
+                createdAt: Date.now(),
+                updatedAt: Date.now(),
+                errorMessage: null,
+            });
+
+            await executeBridge(address);
+            setShowConfirmModal(false);
+            setAmount("");
+        } catch (error) {
+            const msg = error instanceof Error ? error.message : "Bridge failed";
+            if (!msg.includes("rejected") && !msg.includes("denied") && !msg.includes("4001")) {
+                console.error("Bridge execution failed:", msg);
+            }
         } finally {
             setIsConfirming(false);
-            setShowConfirmModal(false);
         }
-    }, []);
+    }, [address, amount, amountWei, direction, selectedToken, executeBridge, addOperation]);
 
     // ---- Validation -------------------------------------------------------------
     const hasValidAmount = !!amount && parseFloat(amount) > 0;
@@ -276,20 +326,40 @@ const BridgeForm: React.FC = () => {
     // ---- Button label -----------------------------------------------------------
     const buttonLabel = useMemo(() => {
         if (!isConnected) return t("actions.connect");
+        if (isSwitchPending) return t("actions.switching");
         if (!isOnCorrectNetwork)
             return t("actions.switchNetwork", {
                 network: getExpectedChainName(direction),
             });
-        if (needsApproval) return t("actions.approve", { token: selectedToken });
+        if (needsApproval || executorNeedsApproval)
+            return t("actions.approve", { token: selectedToken });
+        if (isBridgePending) return t("actions.bridging");
         return t("actions.bridge", { token: selectedToken });
-    }, [isConnected, isOnCorrectNetwork, needsApproval, direction, selectedToken, t]);
+    }, [isConnected, isSwitchPending, isOnCorrectNetwork, needsApproval, executorNeedsApproval, isBridgePending, direction, selectedToken, t]);
 
     const isButtonDisabled =
         !isConnected ||
-        !isOnCorrectNetwork ||
-        !hasValidAmount ||
-        hasInsufficientBalance ||
-        isBelowMinimum;
+        isSwitchPending ||
+        isBridgePending ||
+        (isOnCorrectNetwork && (
+            !hasValidAmount ||
+            hasInsufficientBalance ||
+            isBelowMinimum
+        ));
+
+    // ---- Unified click handler --------------------------------------------------
+    const handleButtonClick = useCallback(async () => {
+        if (!isConnected) return;
+        if (!isOnCorrectNetwork) {
+            switchNetwork({ chainId: expectedChainId });
+            return;
+        }
+        if (needsApproval || executorNeedsApproval) {
+            await approveBridge();
+            return;
+        }
+        handleOpenConfirm();
+    }, [isConnected, isOnCorrectNetwork, expectedChainId, needsApproval, executorNeedsApproval, switchNetwork, approveBridge, handleOpenConfirm]);
 
     // ---- Receive amount ---------------------------------------------------------
     const receiveAmount = useMemo(() => {
@@ -468,15 +538,29 @@ const BridgeForm: React.FC = () => {
                     </div>
 
                     {/* Recipient row */}
-                    <div className="flex justify-between items-center">
-                        <span className="text-[#808080] text-[14px] font-normal leading-[20px]">
+                    <div className="flex justify-between items-start">
+                        <span className="text-[#808080] text-[14px] font-normal leading-[20px] shrink-0">
                             {t("form.recipient")}
                         </span>
-                        <span className="text-[#E6E6E6] text-[14px] font-medium leading-[20px] [font-feature-settings:'ss11'_on,'cv09'_on,'liga'_off,'calt'_off]">
-                            {isConnected && address
-                                ? `${address.slice(0, 6)}...${address.slice(-4)}`
-                                : t("form.connectWallet")}
-                        </span>
+                        {isConnected && address ? (
+                            <a
+                                href={
+                                    direction === "SOURCE_TO_GOLIATH"
+                                        ? `${goliathNetwork.blockExplorerUrl}/address/${address}`
+                                        : `${goliathConfig.bridge.sourceExplorerUrl}/address/${address}`
+                                }
+                                target="_blank"
+                                rel="noopener noreferrer"
+                                className="text-[#E6E6E6] text-[14px] font-medium leading-[20px] hover:underline break-all text-right ml-3 font-mono"
+                            >
+                                {address}
+                                <span className="text-[#808080] ml-1">{t("form.you")}</span>
+                            </a>
+                        ) : (
+                            <span className="text-[#E6E6E6] text-[14px] font-medium leading-[20px]">
+                                {t("form.connectWallet")}
+                            </span>
+                        )}
                     </div>
                 </div>
 
@@ -485,7 +569,7 @@ const BridgeForm: React.FC = () => {
                     <PrimaryButton
                         label={buttonLabel}
                         icon={bridgeIcon}
-                        onClick={handleOpenConfirm}
+                        onClick={handleButtonClick}
                         disabled={isButtonDisabled}
                     />
                 </div>

@@ -10,6 +10,8 @@ import {
     useGoliathUnstake,
 } from "@/hooks/goliath-yield";
 import { useTransactionExecutor } from "@/hooks/wallet/useTransactionExecutor";
+import { useSwitchNetwork } from "@/hooks/wallet/useSwitchNetwork";
+import { getGoliathNetwork } from "@/config/networks";
 import useToast from "@/hooks/ui/useToast";
 import InteractivePanel from "@/components/ui/shared/InteractivePanel";
 import LoadingDots from "@/components/ui/common/LoadingDots";
@@ -39,6 +41,8 @@ const GoliathYieldPanel: React.FC = () => {
 
     const { showToast } = useToast();
     const { executeTransaction } = useTransactionExecutor();
+    const { switchNetwork, isPending: isSwitchPending } = useSwitchNetwork();
+    const goliathNetwork = getGoliathNetwork();
 
     // Get native XCN balance for staking
     const { data: xcnBalance } = useBalance({ address });
@@ -74,6 +78,11 @@ const GoliathYieldPanel: React.FC = () => {
                 text: tt("wallet.needsConnection"),
                 subtext: tt("wallet.needsConnectionSubtext"),
             });
+            return;
+        }
+
+        if (!onGoliath) {
+            switchNetwork({ chainId: goliathNetwork.chainId });
             return;
         }
 
@@ -165,8 +174,15 @@ const GoliathYieldPanel: React.FC = () => {
 
     const getButtonLabel = (): string => {
         if (!isConnected) return t("connectWallet");
+        if (isSwitchPending) return t("switchingNetwork");
+        if (!onGoliath) return t("connectToGoliath");
         if (isLoading) return t("loading");
         if (protocolData?.isPaused) return t("paused");
+        if (!amount || parseFloat(amount) <= 0) {
+            return activeMode === "stake"
+                ? t("enterStakeAmount")
+                : t("enterUnstakeAmount");
+        }
 
         if (activeMode === "stake") {
             if (isStakePending || isStakeConfirming) return t("staking");
@@ -179,10 +195,9 @@ const GoliathYieldPanel: React.FC = () => {
 
     const isButtonDisabled =
         !isConnected ||
-        !onGoliath ||
-        isLoading ||
-        !amount ||
-        parseFloat(amount) <= 0 ||
+        isSwitchPending ||
+        (onGoliath && isLoading) ||
+        (onGoliath && (!amount || parseFloat(amount) <= 0)) ||
         isTransactionPending ||
         (protocolData?.isPaused ?? false);
 

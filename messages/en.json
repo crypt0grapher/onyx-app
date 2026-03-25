@@ -722,6 +722,8 @@
         "wrongNetwork": "Please switch to Goliath Network to use Goliath Liquid Staking.",
         "switchingNetwork": "Switching...",
         "loading": "Loading...",
+        "enterStakeAmount": "Enter XCN amount to Stake",
+        "enterUnstakeAmount": "Enter stXCN amount to Unstake",
         "staking": "Staking...",
         "unstaking": "Unstaking...",
         "estimatedDailyEarnings": "Estimated Daily Earnings:",
@@ -859,7 +861,8 @@
             "youSend": "You send",
             "feeFree": "Free",
             "destinationBalance": "Balance on {network}",
-            "estimatedArrivalValue": "~5 min"
+            "estimatedArrivalValue": "~5 min",
+            "you": "(You)"
         },
         "actions": {
             "connect": "Connect Wallet",
@@ -867,7 +870,8 @@
             "approve": "Approve {token}",
             "bridge": "Bridge {token}",
             "bridging": "Bridging...",
-            "approving": "Approving..."
+            "approving": "Approving...",
+            "switching": "Switching..."
         },
         "confirm": {
             "title": "Confirm Bridge",
