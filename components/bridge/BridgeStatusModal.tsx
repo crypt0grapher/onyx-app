@@ -7,7 +7,10 @@ import { useBridgeStatusPoller } from "@/hooks/bridge/useBridgeStatusPoller";
 import { buildExplorerUrl } from "@/utils/explorer";
 import { truncateAddress } from "@/utils/address";
 import type { BridgeOperation } from "@/hooks/bridge/types";
-import type { BridgeStatus } from "@/lib/api/services/bridge";
+import type {
+    BridgeStatus,
+    BridgeStatusResponse,
+} from "@/lib/api/services/bridge";
 
 // ---------------------------------------------------------------------------
 // Types
@@ -42,6 +45,25 @@ const STEP_ORDER: BridgeStatus[] = [
 function getStepIndex(status: BridgeStatus): number {
     const idx = STEP_ORDER.indexOf(status);
     return idx >= 0 ? idx : 0;
+}
+
+/**
+ * When a bridge operation has FAILED, determine which step was reached
+ * before failure using API timestamps or local operation data.
+ */
+function getFailedStepIndex(
+    apiStatus: BridgeStatusResponse | null,
+    operation: BridgeOperation | null,
+): number {
+    if (apiStatus?.timestamps) {
+        if (apiStatus.timestamps.destinationSubmittedAt) return 3;
+        if (apiStatus.timestamps.finalizedAt) return 2;
+        if (apiStatus.timestamps.depositedAt) return 1;
+        return 0;
+    }
+    if (operation?.destinationTxHash) return 3;
+    if (operation?.originTxHash) return 1;
+    return 0;
 }
 
 const ExternalLinkIcon: React.FC = () => (
@@ -82,7 +104,9 @@ const BridgeStatusModal: React.FC<BridgeStatusModalProps> = ({
 
     const isFailed = currentStatus === "FAILED" || currentStatus === "EXPIRED";
     const isCompleted = currentStatus === "COMPLETED";
-    const activeIndex = getStepIndex(currentStatus);
+    const activeIndex = isFailed
+        ? getFailedStepIndex(status ?? null, operation)
+        : getStepIndex(currentStatus);
 
     const confirmationText = useMemo(() => {
         if (!status?.originConfirmations) return null;
@@ -246,8 +270,10 @@ const BridgeStatusModal: React.FC<BridgeStatusModalProps> = ({
                 {/* ---- Step indicators with connecting lines ---- */}
                 <div className="flex flex-col">
                     {steps.map((step, i) => {
-                        const isLastAndFailed =
-                            isFailed && i === steps.length - 1;
+                        const isLastStep = i === steps.length - 1;
+                        const isFailedStep =
+                            isFailed && i === activeIndex && !isLastStep;
+                        const isLastAndFailed = isFailed && isLastStep;
                         const prevStep = i > 0 ? steps[i - 1] : null;
 
                         // Dot styles
@@ -259,6 +285,13 @@ const BridgeStatusModal: React.FC<BridgeStatusModalProps> = ({
                             dotInner = (
                                 <span className="text-green-400 text-xs">
                                     &#10003;
+                                </span>
+                            );
+                        } else if (isFailedStep) {
+                            dotOuter = "bg-red-500/20 border-red-500/40";
+                            dotInner = (
+                                <span className="text-red-400 text-xs">
+                                    &#10005;
                                 </span>
                             );
                         } else if (step.active && !isFailed) {
@@ -287,10 +320,11 @@ const BridgeStatusModal: React.FC<BridgeStatusModalProps> = ({
                             );
                         }
 
-                        const labelClass =
-                            step.done || step.active
-                                ? "text-primary"
-                                : "text-secondary";
+                        const labelClass = isFailedStep || isLastAndFailed
+                            ? "text-red-400"
+                            : step.done || step.active
+                              ? "text-primary"
+                              : "text-secondary";
 
                         // Connecting line between steps
                         let lineClass: string;
@@ -330,6 +364,13 @@ const BridgeStatusModal: React.FC<BridgeStatusModalProps> = ({
                         );
                     })}
                 </div>
+
+                {/* ---- Error message ---- */}
+                {isFailed && status?.error && (
+                    <div className="rounded-xl bg-red-500/10 border border-red-500/20 p-3">
+                        <p className="text-red-400 text-sm">{status.error}</p>
+                    </div>
+                )}
 
                 {/* ---- ETA ---- */}
                 {!isCompleted && !isFailed && (
