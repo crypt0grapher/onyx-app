@@ -4,9 +4,11 @@ import React, { useMemo, useState, useCallback, useEffect, useRef } from "react"
 import { useTranslations } from "next-intl";
 import Modal from "@/components/ui/modal/Modal";
 import { useBridgeStatusPoller } from "@/hooks/bridge/useBridgeStatusPoller";
+import { useBridgeCountdown } from "@/hooks/bridge/useBridgeCountdown";
 import { useClipboard } from "@/hooks/common/useClipboard";
 import { buildBridgeExplorerUrl } from "@/utils/explorer";
 import { truncateTxHash } from "@/utils/address";
+import { formatCountdown, getDirectionEstimateSeconds } from "@/utils/countdown";
 import type { BridgeOperation } from "@/hooks/bridge/types";
 import type {
     BridgeStatus,
@@ -142,6 +144,10 @@ const BridgeStatusModal: React.FC<BridgeStatusModalProps> = ({
         operation?.originTxHash ?? null,
     );
 
+    const { remainingSeconds, isOverdue } = useBridgeCountdown(
+        status?.estimatedCompletionTime ?? null,
+    );
+
     const currentStatus: BridgeStatus =
         status?.status ?? operation?.status ?? "PENDING_ORIGIN_TX";
 
@@ -175,6 +181,17 @@ const BridgeStatusModal: React.FC<BridgeStatusModalProps> = ({
         if (!status?.originConfirmations) return null;
         return `${status.originConfirmations}/${status.requiredConfirmations}`;
     }, [status?.originConfirmations, status?.requiredConfirmations]);
+
+    const countdownDisplay = useMemo(() => {
+        if (status?.estimatedCompletionTime) {
+            return formatCountdown(remainingSeconds, t("form.finishingUp"));
+        }
+        if (operation?.direction) {
+            const fallbackSeconds = getDirectionEstimateSeconds(operation.direction);
+            return formatCountdown(fallbackSeconds, t("form.finishingUp"));
+        }
+        return t("form.estimatedArrivalValue");
+    }, [remainingSeconds, status?.estimatedCompletionTime, operation?.direction, t]);
 
     // Chain names based on direction
     const originChainName =
@@ -487,10 +504,10 @@ const BridgeStatusModal: React.FC<BridgeStatusModalProps> = ({
                         <span className="text-secondary text-sm">
                             {t("form.estimatedArrival")}:&nbsp;
                         </span>
-                        <span className="text-primary text-sm font-medium">
-                            {t("form.estimatedArrivalValue")}
+                        <span className="text-primary text-sm font-medium tabular-nums">
+                            {countdownDisplay}
                         </span>
-                        {isPolling && (
+                        {isPolling && !isOverdue && (
                             <span className="inline-block ml-2 w-3 h-3 border-2 border-green-400 border-t-transparent rounded-full animate-spin align-middle" />
                         )}
                     </div>

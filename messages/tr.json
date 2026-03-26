@@ -866,7 +866,8 @@
             "youSend": "Gönderdiğiniz",
             "feeFree": "Ücretsiz",
             "destinationBalance": "{network} bakiyesi",
-            "estimatedArrivalValue": "~5 dk"
+            "estimatedArrivalValue": "~2-4 dk",
+            "finishingUp": "Tamamlanıyor..."
         },
         "actions": {
             "connect": "Cüzdan Bağla",

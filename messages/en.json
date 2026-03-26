@@ -867,7 +867,8 @@
             "youSend": "You send",
             "feeFree": "Free",
             "destinationBalance": "Balance on {network}",
-            "estimatedArrivalValue": "~5 min",
+            "estimatedArrivalValue": "~2-4 min",
+            "finishingUp": "Finishing up...",
             "you": "(You)"
         },
         "actions": {

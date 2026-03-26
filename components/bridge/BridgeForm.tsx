@@ -23,6 +23,7 @@ import {
     type LimitsResponse,
     bridgeApiService,
 } from "@/lib/api/services/bridge";
+import { formatCountdown, getDirectionEstimateSeconds } from "@/utils/countdown";
 import bridgeIcon from "@/assets/icons/bridge.svg";
 
 // ---------------------------------------------------------------------------
@@ -419,6 +420,12 @@ const BridgeForm: React.FC = () => {
         return "--";
     }, [direction, feeQuote, selectedToken, t]);
 
+    // ---- Estimated time display -------------------------------------------------
+    const estimatedTimeDisplay = useMemo(() => {
+        const seconds = getDirectionEstimateSeconds(direction);
+        return formatCountdown(seconds, t("form.finishingUp"));
+    }, [direction, t]);
+
     // ---- Rendering --------------------------------------------------------------
     const fromNetwork =
         direction === "SOURCE_TO_GOLIATH" ? SOURCE_CHAIN_NAME : GOLIATH_CHAIN_NAME;
@@ -578,7 +585,7 @@ const BridgeForm: React.FC = () => {
                             {t("form.estimatedArrival")}
                         </span>
                         <span className="text-[#E6E6E6] text-[14px] font-medium leading-[20px]">
-                            {t("form.estimatedArrivalValue")}
+                            {estimatedTimeDisplay}
                         </span>
                     </div>
 
@@ -604,7 +611,7 @@ const BridgeForm: React.FC = () => {
                 token={selectedToken}
                 amount={amount}
                 fee={feeDisplay}
-                estimatedTime={t("form.estimatedArrivalValue")}
+                estimatedTime={estimatedTimeDisplay}
                 sourceChainName={SOURCE_CHAIN_NAME}
                 goliathChainName={GOLIATH_CHAIN_NAME}
                 isConfirming={isConfirming}

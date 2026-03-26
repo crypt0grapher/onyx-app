@@ -865,7 +865,8 @@
             "youSend": "보내는 금액",
             "feeFree": "무료",
             "destinationBalance": "{network} 잔액",
-            "estimatedArrivalValue": "~5분"
+            "estimatedArrivalValue": "~2-4분",
+            "finishingUp": "마무리 중..."
         },
         "actions": {
             "connect": "지갑 연결",

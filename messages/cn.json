@@ -865,7 +865,8 @@
             "youSend": "您发送",
             "feeFree": "免费",
             "destinationBalance": "{network} 余额",
-            "estimatedArrivalValue": "~5分钟"
+            "estimatedArrivalValue": "~2-4分钟",
+            "finishingUp": "即将完成..."
         },
         "actions": {
             "connect": "连接钱包",
