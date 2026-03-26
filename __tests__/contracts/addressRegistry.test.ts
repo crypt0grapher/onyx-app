@@ -55,7 +55,7 @@ describe("Goliath token addresses", () => {
     });
 
     it("USDC address matches deployed contract", () => {
-        expect(addressEq(goliathConfig.tokens.USDC, "0x60bB118298F4a6f54A73891E5Ba66CAAb7229654")).toBe(true);
+        expect(addressEq(goliathConfig.tokens.USDC, "0xC8410270bb53f6c99A2EFe6eD3686a8630Efe22B")).toBe(true);
     });
 
     it("USDT address matches deployed contract", () => {

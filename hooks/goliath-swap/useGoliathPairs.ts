@@ -25,7 +25,7 @@ interface PairCandidate {
 /**
  * Fetches on-chain reserves for all potentially relevant Uniswap V2 pairs
  * between `tokenIn` and `tokenOut`, including 1-hop routes through base
- * tokens (WXCN, USDC, USDT, ETH).
+ * tokens (WXCN, USDC, ETH).
  *
  * Pair addresses are computed deterministically via CREATE2 -- no factory
  * `getPair` calls are needed.
@@ -36,8 +36,8 @@ export function useGoliathPairs(
 ) {
   const { dex, tokens } = goliathConfig;
   const baseTokens: Address[] = useMemo(
-    () => [tokens.WXCN, tokens.USDC, tokens.USDT, tokens.ETH],
-    [tokens.WXCN, tokens.USDC, tokens.USDT, tokens.ETH],
+    () => [tokens.WXCN, tokens.USDC, tokens.ETH],
+    [tokens.WXCN, tokens.USDC, tokens.ETH],
   );
 
   // Build the list of pair candidates whose reserves we need to fetch.

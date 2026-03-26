@@ -135,7 +135,7 @@ function loadGoliathConfig(): GoliathConfig {
         ),
         USDC: envAddress(
             "NEXT_PUBLIC_GOLIATH_USDC_ADDRESS",
-            "0x60bB118298F4a6f54A73891E5Ba66CAAb7229654",
+            "0xC8410270bb53f6c99A2EFe6eD3686a8630Efe22B",
         ),
         ETH: envAddress(
             "NEXT_PUBLIC_GOLIATH_ETH_ADDRESS",
@@ -145,14 +145,17 @@ function loadGoliathConfig(): GoliathConfig {
             "NEXT_PUBLIC_GOLIATH_BTC_ADDRESS",
             "0xDf30632AC69E3AD2A96D7538d5B874E0ddA4101E",
         ),
+        // Not yet deployed on mainnet (chain 327)
         XAUX: envAddress(
             "NEXT_PUBLIC_GOLIATH_XAUX_ADDRESS",
             "0x3421E2336B39BFb2B4B999b51e33a67AAE45D62d",
         ),
+        // Not yet deployed on mainnet (chain 327)
         XAGX: envAddress(
             "NEXT_PUBLIC_GOLIATH_XAGX_ADDRESS",
             "0x18C1457621178409d8841cE18d2dE6c25aB7D16e",
         ),
+        // Not yet deployed on mainnet (chain 327)
         USDT: envAddress(
             "NEXT_PUBLIC_GOLIATH_USDT_ADDRESS",
             "0x86381420c71d404ca6C3C0873e80Fe8AEF2dD6C7",
