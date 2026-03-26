@@ -5,6 +5,7 @@ import type { BridgeOperation } from "./types";
 
 const STORAGE_KEY = "bridge:operations:v1";
 const CLEANUP_DAYS = 7;
+const SYNC_EVENT = "bridge:operations:sync";
 
 const TERMINAL_STATUSES: ReadonlyArray<BridgeOperation["status"]> = [
     "COMPLETED",
@@ -19,6 +20,9 @@ const TERMINAL_STATUSES: ReadonlyArray<BridgeOperation["status"]> = [
  * operations (completed / failed / expired) older than 7 days.  Every
  * mutation (add, update, remove) is immediately flushed to storage so
  * state survives page reloads.
+ *
+ * Multiple hook instances on the same page stay in sync via a custom
+ * DOM event dispatched after each storage write.
  */
 export function useBridgeOperations() {
     const [operations, setOperations] = useState<BridgeOperation[]>([]);
@@ -57,13 +61,30 @@ export function useBridgeOperations() {
     }, []);
 
     // ------------------------------------------------------------------
+    // Cross-instance sync via custom events
+    // ------------------------------------------------------------------
+
+    useEffect(() => {
+        if (typeof window === "undefined") return;
+        const handleSync = () => {
+            try {
+                const raw = localStorage.getItem(STORAGE_KEY);
+                if (raw) setOperations(JSON.parse(raw));
+            } catch { /* ignore */ }
+        };
+        window.addEventListener(SYNC_EVENT, handleSync);
+        return () => window.removeEventListener(SYNC_EVENT, handleSync);
+    }, []);
+
+    // ------------------------------------------------------------------
     // Helpers
     // ------------------------------------------------------------------
 
-    /** Persist an operations array to localStorage. */
+    /** Persist an operations array to localStorage and notify other instances. */
     const persistToStorage = useCallback((ops: BridgeOperation[]) => {
         if (typeof window !== "undefined") {
             localStorage.setItem(STORAGE_KEY, JSON.stringify(ops));
+            window.dispatchEvent(new Event(SYNC_EVENT));
         }
     }, []);
 

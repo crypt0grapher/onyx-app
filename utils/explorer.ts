@@ -51,4 +51,24 @@ export const buildEtherscanUrl = (
     }
 };
 
+/**
+ * Build an explorer URL for a bridge transaction using the operation direction
+ * instead of chain ID lookup. This ensures correct URLs even when stored
+ * chain IDs are stale.
+ */
+export const buildBridgeExplorerUrl = (
+    txHash: string,
+    chain: "origin" | "destination",
+    direction: "SOURCE_TO_GOLIATH" | "GOLIATH_TO_SOURCE",
+): string => {
+    const isGoliath =
+        (chain === "origin" && direction === "GOLIATH_TO_SOURCE") ||
+        (chain === "destination" && direction === "SOURCE_TO_GOLIATH");
+    const goliathNetwork = SUPPORTED_NETWORKS.find((n) => n.id === "goliath");
+    const base = isGoliath
+        ? (goliathNetwork?.blockExplorerUrl ?? "https://explorer.goliath.net")
+        : "https://etherscan.io";
+    return `${base}/tx/${txHash}`;
+};
+
 export type { ExplorerKind };

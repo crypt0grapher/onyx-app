@@ -1,11 +1,11 @@
 "use client";
 
-import React, { useMemo } from "react";
+import React, { useMemo, useState, useCallback, useEffect, useRef } from "react";
 import { useTranslations } from "next-intl";
 import Modal from "@/components/ui/modal/Modal";
 import { useBridgeStatusPoller } from "@/hooks/bridge/useBridgeStatusPoller";
-import { buildExplorerUrl } from "@/utils/explorer";
-import { truncateAddress } from "@/utils/address";
+import { useClipboard } from "@/hooks/common/useClipboard";
+import { buildBridgeExplorerUrl } from "@/utils/explorer";
 import type { BridgeOperation } from "@/hooks/bridge/types";
 import type {
     BridgeStatus,
@@ -20,12 +20,12 @@ interface BridgeStatusModalProps {
     operation: BridgeOperation | null;
     isOpen: boolean;
     onClose: () => void;
+    onStatusChange?: (id: string, updates: Partial<BridgeOperation>) => void;
 }
 
 interface StatusStep {
     key: string;
     label: string;
-    sublabel?: string;
     done: boolean;
     active: boolean;
 }
@@ -66,6 +66,10 @@ function getFailedStepIndex(
     return 0;
 }
 
+// ---------------------------------------------------------------------------
+// Icons
+// ---------------------------------------------------------------------------
+
 const ExternalLinkIcon: React.FC = () => (
     <svg
         width="12"
@@ -85,6 +89,39 @@ const ExternalLinkIcon: React.FC = () => (
     </svg>
 );
 
+const CopyIcon: React.FC = () => (
+    <svg
+        width="12"
+        height="12"
+        viewBox="0 0 12 12"
+        fill="none"
+        xmlns="http://www.w3.org/2000/svg"
+        className="flex-shrink-0"
+    >
+        <rect x="4" y="4" width="7" height="7" rx="1" stroke="currentColor" strokeWidth="1.2" />
+        <path d="M8 4V2C8 1.45 7.55 1 7 1H2C1.45 1 1 1.45 1 2V7C1 7.55 1.45 8 2 8H4" stroke="currentColor" strokeWidth="1.2" />
+    </svg>
+);
+
+const CopiedIcon: React.FC = () => (
+    <svg
+        width="12"
+        height="12"
+        viewBox="0 0 12 12"
+        fill="none"
+        xmlns="http://www.w3.org/2000/svg"
+        className="flex-shrink-0"
+    >
+        <path
+            d="M2 6L5 9L10 3"
+            stroke="currentColor"
+            strokeWidth="1.5"
+            strokeLinecap="round"
+            strokeLinejoin="round"
+        />
+    </svg>
+);
+
 // ---------------------------------------------------------------------------
 // Component
 // ---------------------------------------------------------------------------
@@ -93,8 +130,13 @@ const BridgeStatusModal: React.FC<BridgeStatusModalProps> = ({
     operation,
     isOpen,
     onClose,
+    onStatusChange,
 }) => {
     const t = useTranslations("bridge");
+    const { copyToClipboard } = useClipboard();
+    const [copiedHash, setCopiedHash] = useState<string | null>(null);
+    const hasSyncedRef = useRef<string | null>(null);
+
     const { status, isPolling } = useBridgeStatusPoller(
         operation?.originTxHash ?? null,
     );
@@ -107,6 +149,26 @@ const BridgeStatusModal: React.FC<BridgeStatusModalProps> = ({
     const activeIndex = isFailed
         ? getFailedStepIndex(status ?? null, operation)
         : getStepIndex(currentStatus);
+
+    // Reset sync tracking when operation changes
+    useEffect(() => {
+        hasSyncedRef.current = null;
+    }, [operation?.id]);
+
+    // Sync terminal status back to localStorage via parent
+    useEffect(() => {
+        if (!operation || !status || !onStatusChange) return;
+        if (hasSyncedRef.current === operation.id) return;
+
+        const apiStatus = status.status;
+        if (apiStatus === "COMPLETED" || apiStatus === "FAILED" || apiStatus === "EXPIRED") {
+            hasSyncedRef.current = operation.id;
+            onStatusChange(operation.id, {
+                status: apiStatus,
+                destinationTxHash: status.destinationTxHash || operation.destinationTxHash,
+            });
+        }
+    }, [status, operation, onStatusChange]);
 
     const confirmationText = useMemo(() => {
         if (!status?.originConfirmations) return null;
@@ -168,6 +230,18 @@ const BridgeStatusModal: React.FC<BridgeStatusModalProps> = ({
     // Destination tx hash
     const destTxHash = status?.destinationTxHash || operation?.destinationTxHash;
 
+    // Copy handler
+    const handleCopy = useCallback(
+        async (hash: string) => {
+            const ok = await copyToClipboard(hash);
+            if (ok) {
+                setCopiedHash(hash);
+                setTimeout(() => setCopiedHash(null), 2000);
+            }
+        },
+        [copyToClipboard],
+    );
+
     if (!operation) return null;
 
     return (
@@ -191,79 +265,113 @@ const BridgeStatusModal: React.FC<BridgeStatusModalProps> = ({
                 {/* ---- Transaction hashes ---- */}
                 <div className="flex flex-col gap-2">
                     {/* Origin tx */}
-                    <div className="rounded-xl bg-[#0F0F0F] p-3 flex items-center justify-between">
-                        <div className="flex items-center gap-2 min-w-0">
-                            <span className="text-secondary text-xs whitespace-nowrap">
+                    <div className="rounded-xl bg-[#0F0F0F] p-3">
+                        <div className="flex items-center justify-between mb-1.5">
+                            <span className="text-secondary text-xs">
                                 {originChainName} Tx
                             </span>
-                            {operation.originTxHash ? (
-                                <span className="font-mono text-sm text-primary truncate">
-                                    {truncateAddress(operation.originTxHash)}
-                                </span>
-                            ) : (
-                                <span className="text-sm text-secondary italic">
-                                    Awaiting...
-                                </span>
-                            )}
+                            <div className="flex items-center gap-2">
+                                {operation.originTxHash && (
+                                    <>
+                                        <button
+                                            type="button"
+                                            onClick={() =>
+                                                handleCopy(operation.originTxHash!)
+                                            }
+                                            className="text-secondary hover:text-primary transition-colors cursor-pointer"
+                                            title="Copy tx hash"
+                                        >
+                                            {copiedHash === operation.originTxHash ? (
+                                                <span className="text-green-400">
+                                                    <CopiedIcon />
+                                                </span>
+                                            ) : (
+                                                <CopyIcon />
+                                            )}
+                                        </button>
+                                        <a
+                                            href={buildBridgeExplorerUrl(
+                                                operation.originTxHash,
+                                                "origin",
+                                                operation.direction,
+                                            )}
+                                            target="_blank"
+                                            rel="noreferrer"
+                                            className="text-blue-400 hover:text-blue-300 transition-colors"
+                                        >
+                                            <ExternalLinkIcon />
+                                        </a>
+                                    </>
+                                )}
+                                {operation.originTxHash && activeIndex >= 2 ? (
+                                    <span className="text-green-400 text-xs">&#10003;</span>
+                                ) : operation.originTxHash ? (
+                                    <span className="inline-block w-3 h-3 border-2 border-yellow-400 border-t-transparent rounded-full animate-spin" />
+                                ) : null}
+                            </div>
                         </div>
-                        <div className="flex items-center gap-2 flex-shrink-0">
-                            {operation.originTxHash && (
-                                <a
-                                    href={buildExplorerUrl(
-                                        operation.originTxHash,
-                                        "tx",
-                                        operation.originChainId,
-                                    )}
-                                    target="_blank"
-                                    rel="noreferrer"
-                                    className="text-blue-400 hover:text-blue-300 transition-colors"
-                                >
-                                    <ExternalLinkIcon />
-                                </a>
-                            )}
-                            {operation.originTxHash && activeIndex >= 2 ? (
-                                <span className="text-green-400 text-xs">&#10003;</span>
-                            ) : operation.originTxHash ? (
-                                <span className="inline-block w-3 h-3 border-2 border-yellow-400 border-t-transparent rounded-full animate-spin" />
-                            ) : null}
-                        </div>
+                        {operation.originTxHash ? (
+                            <p className="font-mono text-xs text-primary break-all leading-relaxed">
+                                {operation.originTxHash}
+                            </p>
+                        ) : (
+                            <p className="text-sm text-secondary italic">
+                                Awaiting...
+                            </p>
+                        )}
                     </div>
 
                     {/* Destination tx */}
-                    <div className="rounded-xl bg-[#0F0F0F] p-3 flex items-center justify-between">
-                        <div className="flex items-center gap-2 min-w-0">
-                            <span className="text-secondary text-xs whitespace-nowrap">
+                    <div className="rounded-xl bg-[#0F0F0F] p-3">
+                        <div className="flex items-center justify-between mb-1.5">
+                            <span className="text-secondary text-xs">
                                 {destChainName} Tx
                             </span>
-                            {destTxHash ? (
-                                <span className="font-mono text-sm text-primary truncate">
-                                    {truncateAddress(destTxHash)}
-                                </span>
-                            ) : (
-                                <span className="text-sm text-secondary italic">
-                                    Awaiting...
-                                </span>
-                            )}
+                            <div className="flex items-center gap-2">
+                                {destTxHash && (
+                                    <>
+                                        <button
+                                            type="button"
+                                            onClick={() => handleCopy(destTxHash)}
+                                            className="text-secondary hover:text-primary transition-colors cursor-pointer"
+                                            title="Copy tx hash"
+                                        >
+                                            {copiedHash === destTxHash ? (
+                                                <span className="text-green-400">
+                                                    <CopiedIcon />
+                                                </span>
+                                            ) : (
+                                                <CopyIcon />
+                                            )}
+                                        </button>
+                                        <a
+                                            href={buildBridgeExplorerUrl(
+                                                destTxHash,
+                                                "destination",
+                                                operation.direction,
+                                            )}
+                                            target="_blank"
+                                            rel="noreferrer"
+                                            className="text-blue-400 hover:text-blue-300 transition-colors"
+                                        >
+                                            <ExternalLinkIcon />
+                                        </a>
+                                    </>
+                                )}
+                                {isCompleted && destTxHash ? (
+                                    <span className="text-green-400 text-xs">&#10003;</span>
+                                ) : null}
+                            </div>
                         </div>
-                        <div className="flex items-center gap-2 flex-shrink-0">
-                            {destTxHash && (
-                                <a
-                                    href={buildExplorerUrl(
-                                        destTxHash,
-                                        "tx",
-                                        operation.destinationChainId,
-                                    )}
-                                    target="_blank"
-                                    rel="noreferrer"
-                                    className="text-blue-400 hover:text-blue-300 transition-colors"
-                                >
-                                    <ExternalLinkIcon />
-                                </a>
-                            )}
-                            {isCompleted && destTxHash ? (
-                                <span className="text-green-400 text-xs">&#10003;</span>
-                            ) : null}
-                        </div>
+                        {destTxHash ? (
+                            <p className="font-mono text-xs text-primary break-all leading-relaxed">
+                                {destTxHash}
+                            </p>
+                        ) : (
+                            <p className="text-sm text-secondary italic">
+                                Awaiting...
+                            </p>
+                        )}
                     </div>
                 </div>
 

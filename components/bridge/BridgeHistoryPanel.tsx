@@ -3,7 +3,7 @@
 import React, { useMemo } from "react";
 import { useTranslations } from "next-intl";
 import { useBridgeOperations } from "@/hooks/bridge/useBridgeOperations";
-import { buildExplorerUrl } from "@/utils/explorer";
+import { buildBridgeExplorerUrl } from "@/utils/explorer";
 import { truncateAddress } from "@/utils/address";
 import type { BridgeOperation } from "@/hooks/bridge/types";
 
@@ -101,10 +101,10 @@ const BridgeHistoryPanel: React.FC<BridgeHistoryPanelProps> = ({
                             <div className="flex items-center gap-2">
                                 {op.originTxHash && (
                                     <a
-                                        href={buildExplorerUrl(
+                                        href={buildBridgeExplorerUrl(
                                             op.originTxHash,
-                                            "tx",
-                                            op.originChainId,
+                                            "origin",
+                                            op.direction,
                                         )}
                                         target="_blank"
                                         rel="noreferrer"
@@ -112,6 +112,21 @@ const BridgeHistoryPanel: React.FC<BridgeHistoryPanelProps> = ({
                                         className="text-xs text-blue-400 hover:underline font-mono"
                                     >
                                         {truncateAddress(op.originTxHash)}
+                                    </a>
+                                )}
+                                {op.destinationTxHash && (
+                                    <a
+                                        href={buildBridgeExplorerUrl(
+                                            op.destinationTxHash,
+                                            "destination",
+                                            op.direction,
+                                        )}
+                                        target="_blank"
+                                        rel="noreferrer"
+                                        onClick={(e) => e.stopPropagation()}
+                                        className="text-xs text-blue-400 hover:underline font-mono"
+                                    >
+                                        {truncateAddress(op.destinationTxHash)}
                                     </a>
                                 )}
                                 <span className="text-xs text-[#808080]">

@@ -615,6 +615,7 @@ const BridgeForm: React.FC = () => {
                 operation={activeOperation}
                 isOpen={showStatusModal}
                 onClose={() => setShowStatusModal(false)}
+                onStatusChange={updateOperation}
             />
         </>
     );

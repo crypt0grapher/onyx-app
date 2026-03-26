@@ -7,10 +7,12 @@ import BridgeForm from "@/components/bridge/BridgeForm";
 import BridgeHistoryPanel from "@/components/bridge/BridgeHistoryPanel";
 import BridgeStatusModal from "@/components/bridge/BridgeStatusModal";
 import type { BridgeOperation } from "@/hooks/bridge/types";
+import { useBridgeOperations } from "@/hooks/bridge/useBridgeOperations";
 
 export default function Bridge() {
     const t = useTranslations("bridge");
     const [selectedOp, setSelectedOp] = useState<BridgeOperation | null>(null);
+    const { updateOperation } = useBridgeOperations();
 
     if (!goliathConfig.bridge.bridgeEnabled) {
         return (
@@ -50,6 +52,7 @@ export default function Bridge() {
                 operation={selectedOp}
                 isOpen={!!selectedOp}
                 onClose={() => setSelectedOp(null)}
+                onStatusChange={updateOperation}
             />
         </div>
     );
