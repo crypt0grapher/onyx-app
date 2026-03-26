@@ -404,7 +404,7 @@ const BridgeStatusModal: React.FC<BridgeStatusModalProps> = ({
                             );
                         } else if (step.active && !isFailed) {
                             dotOuter =
-                                "bg-green-500/10 border-green-500/50 shadow-[0_0_12px_rgba(34,197,94,0.3)]";
+                                "bg-green-500/20 border-green-500/60 shadow-[0_0_20px_rgba(34,197,94,0.5)]";
                             dotInner = (
                                 <span
                                     className="block w-3 h-3 rounded-full bg-green-400"
