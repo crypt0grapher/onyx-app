@@ -32,6 +32,17 @@ function isUnifiedItem(item: AnyHistoryItem): item is UnifiedHistoryItem {
     return "txHash" in item && "network" in item;
 }
 
+/** Format a pre-formatted unified amount for display (amount is already human-readable). */
+function formatUnifiedAmount(item: UnifiedHistoryItem): string {
+    const num = Number(item.amount);
+    if (!Number.isFinite(num)) return "--";
+    const formatted = num.toLocaleString("en-US", {
+        minimumFractionDigits: 4,
+        maximumFractionDigits: 4,
+    });
+    return `${formatted} ${item.tokenSymbol}`;
+}
+
 /** Normalise common fields for rendering regardless of source type. */
 function getItemFields(item: AnyHistoryItem) {
     if (isUnifiedItem(item)) {
@@ -43,6 +54,7 @@ function getItemFields(item: AnyHistoryItem) {
             from: item.from,
             to: item.to,
             amount: item.amount,
+            displayAmount: formatUnifiedAmount(item),
             timestamp: String(item.timestamp),
             explorerUrl: item.explorerUrl,
         };
@@ -55,6 +67,7 @@ function getItemFields(item: AnyHistoryItem) {
         from: item.from,
         to: item.to,
         amount: item.amount,
+        displayAmount: formatXcnAmountFromWei(item.amount),
         timestamp: item.blockTimestamp,
         explorerUrl: buildEtherscanUrl(item.transactionHash, "tx"),
     };
@@ -255,7 +268,7 @@ const HistoryTable: React.FC<HistoryTableProps> = ({
                 className: tableHeaders[4].className,
             },
             {
-                content: formatXcnAmountFromWei(fields.amount),
+                content: fields.displayAmount,
                 textColor: "#E6E6E6",
                 className: tableHeaders[5].className,
             },
@@ -458,9 +471,7 @@ const HistoryTable: React.FC<HistoryTableProps> = ({
                                             </span>
                                         </div>
                                     }
-                                    amount={formatXcnAmountFromWei(
-                                        fields.amount,
-                                    )}
+                                    amount={fields.displayAmount}
                                     details={formatMobileRowDetails(
                                         transaction,
                                     )}
