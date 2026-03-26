@@ -46,7 +46,7 @@ export function useBridgeDeposit() {
 
         if (!params.tokenAddress) {
             // Native ETH deposit
-            await writeContractAsync({
+            return await writeContractAsync({
                 address: bridgeAddress,
                 abi: bridgeLockAbi,
                 functionName: "depositNative",
@@ -56,7 +56,7 @@ export function useBridgeDeposit() {
             });
         } else {
             // ERC-20 deposit
-            await writeContractAsync({
+            return await writeContractAsync({
                 address: bridgeAddress,
                 abi: bridgeLockAbi,
                 functionName: "deposit",

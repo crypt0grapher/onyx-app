@@ -153,6 +153,8 @@ export function useBridgeXcnWithdraw() {
 
             // 6. Background bind (fire and forget with retries)
             bindWithRetry(intentResult.intentId, address, txHash);
+
+            return txHash;
         } catch (err) {
             const resolvedError =
                 err instanceof Error ? err : new Error("Unknown error");

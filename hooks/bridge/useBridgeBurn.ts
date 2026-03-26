@@ -44,7 +44,7 @@ export function useBridgeBurn() {
         const bridgeAddress = goliathConfig.bridge.goliathBridgeAddress;
         const recipient = params.recipient || address!;
 
-        await writeContractAsync({
+        return await writeContractAsync({
             address: bridgeAddress,
             abi: bridgeGoliathAbi,
             functionName: "burn",

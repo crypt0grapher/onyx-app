@@ -65,15 +65,15 @@ export function useBridgeExecutor(
 
     const execute = async (recipient?: Address) => {
         if (direction === "SOURCE_TO_GOLIATH") {
-            await depositHook.deposit({
+            return await depositHook.deposit({
                 tokenAddress: isNativeEth ? null : tokenAddress,
                 amount,
                 recipient,
             });
         } else if (isNativeXcn) {
-            await xcnWithdrawHook.withdraw({ amount, recipient });
+            return await xcnWithdrawHook.withdraw({ amount, recipient });
         } else {
-            await burnHook.burn({
+            return await burnHook.burn({
                 tokenAddress: tokenAddress!,
                 amount,
                 recipient,

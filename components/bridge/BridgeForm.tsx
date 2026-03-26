@@ -215,7 +215,6 @@ const BridgeForm: React.FC = () => {
         approve: approveBridge,
         needsApproval: executorNeedsApproval,
         isPending: isBridgePending,
-        txHash: executorTxHash,
     } = useBridgeExecutor(direction, selectedToken, tokenAddress, amountWei);
 
     const { addOperation, updateOperation } = useBridgeOperations();
@@ -310,10 +309,8 @@ const BridgeForm: React.FC = () => {
         addOperation(op);
 
         try {
-            await executeBridge(address);
+            const txHash = await executeBridge(address);
 
-            // Capture the txHash from the executor
-            const txHash = executorTxHash;
             if (txHash) {
                 updateOperation(opId, { originTxHash: txHash, status: "CONFIRMING" });
                 op.originTxHash = txHash;
@@ -336,7 +333,7 @@ const BridgeForm: React.FC = () => {
         } finally {
             setIsConfirming(false);
         }
-    }, [address, amount, amountWei, direction, selectedToken, executeBridge, executorTxHash, addOperation, updateOperation]);
+    }, [address, amount, amountWei, direction, selectedToken, executeBridge, addOperation, updateOperation]);
 
     // ---- Validation -------------------------------------------------------------
     const hasValidAmount = !!amount && parseFloat(amount) > 0;
@@ -354,11 +351,12 @@ const BridgeForm: React.FC = () => {
             return t("actions.switchNetwork", {
                 network: getExpectedChainName(direction),
             });
+        if (!hasValidAmount) return t("actions.enterAmount");
         if (needsApproval || executorNeedsApproval)
             return t("actions.approve", { token: selectedToken });
         if (isBridgePending) return t("actions.bridging");
         return t("actions.bridge", { token: selectedToken });
-    }, [isConnected, isSwitchPending, isOnCorrectNetwork, needsApproval, executorNeedsApproval, isBridgePending, direction, selectedToken, t]);
+    }, [isConnected, isSwitchPending, isOnCorrectNetwork, hasValidAmount, needsApproval, executorNeedsApproval, isBridgePending, direction, selectedToken, t]);
 
     const isButtonDisabled =
         !isConnected ||

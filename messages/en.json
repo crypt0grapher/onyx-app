@@ -873,7 +873,8 @@
             "bridge": "Bridge {token}",
             "bridging": "Bridging...",
             "approving": "Approving...",
-            "switching": "Switching..."
+            "switching": "Switching...",
+            "enterAmount": "Enter amount to bridge"
         },
         "confirm": {
             "title": "Confirm Bridge",
