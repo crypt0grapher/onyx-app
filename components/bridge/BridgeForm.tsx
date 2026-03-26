@@ -20,6 +20,7 @@ import {
     type BridgeDirection,
     type BridgeTokenSymbol,
     type FeeQuoteResponse,
+    type LimitsResponse,
     bridgeApiService,
 } from "@/lib/api/services/bridge";
 import bridgeIcon from "@/assets/icons/bridge.svg";
@@ -137,6 +138,7 @@ const BridgeForm: React.FC = () => {
     const [feeQuote, setFeeQuote] = useState<FeeQuoteResponse | null>(null);
     const [isFetchingFee, setIsFetchingFee] = useState(false);
     const [isConfirming, setIsConfirming] = useState(false);
+    const [limits, setLimits] = useState<LimitsResponse | null>(null);
 
     const debouncedAmount = useDebounce(amount, 500);
 
@@ -249,6 +251,17 @@ const BridgeForm: React.FC = () => {
         fetchFee();
     }, [debouncedAmount, selectedToken, direction]);
 
+    // ---- Fetch bridge limits on mount -------------------------------------------
+    useEffect(() => {
+        let cancelled = false;
+        bridgeApiService.getLimits().then((data) => {
+            if (!cancelled) setLimits(data);
+        }).catch(() => {
+            // Fall back to generic minimum — limits state stays null
+        });
+        return () => { cancelled = true; };
+    }, []);
+
     // ---- Handlers ---------------------------------------------------------------
     const handleAmountChange = useCallback(
         (value: string) => {
@@ -339,9 +352,20 @@ const BridgeForm: React.FC = () => {
     const hasValidAmount = !!amount && parseFloat(amount) > 0;
     const hasInsufficientBalance =
         hasValidAmount && parseFloat(amount) > parseFloat(balance);
+
+    // Per-token minimum: only enforced for GOLIATH_TO_SOURCE (withdrawals)
+    const tokenMinimum = useMemo(() => {
+        if (direction !== "GOLIATH_TO_SOURCE") return null;
+        const tokenLimits = limits?.goliathToSepolia?.tokens?.[selectedToken];
+        if (tokenLimits?.minAmountFormatted) return tokenLimits.minAmountFormatted;
+        // Fallback to generic minimum when limits API failed or token not found
+        return goliathConfig.bridge.minAmount;
+    }, [direction, limits, selectedToken]);
+
     const isBelowMinimum =
         hasValidAmount &&
-        parseFloat(amount) < parseFloat(goliathConfig.bridge.minAmount);
+        tokenMinimum !== null &&
+        parseFloat(amount) < parseFloat(tokenMinimum);
 
     // ---- Button label -----------------------------------------------------------
     const buttonLabel = useMemo(() => {
@@ -510,7 +534,7 @@ const BridgeForm: React.FC = () => {
                     {isBelowMinimum && !hasInsufficientBalance && (
                         <span className="text-red-400 text-[12px] leading-[16px]">
                             {t("validation.minAmount", {
-                                min: goliathConfig.bridge.minAmount,
+                                min: `${Number(tokenMinimum).toLocaleString()} ${selectedToken}`,
                             })}
                         </span>
                     )}
