@@ -10,7 +10,7 @@ import { fetchStakingEventsFromExplorer } from "@/lib/api/services/blockscout";
 
 export interface GoliathStakingEvent {
     id: string;
-    type: "staked" | "unstaked";
+    type: "liquidStake" | "liquidUnstake";
     transactionHash: string;
     blockNumber: bigint;
     amount: string; // formatted XCN amount (ether units)
@@ -41,7 +41,7 @@ export function useGoliathStakingHistory() {
             return explorerEvents.map(
                 (ev, i): GoliathStakingEvent => ({
                     id: `${ev.type.toLowerCase()}-${ev.transactionHash}-${i}`,
-                    type: ev.type === "Staked" ? "staked" : "unstaked",
+                    type: ev.type === "Staked" ? "liquidStake" : "liquidUnstake",
                     transactionHash: ev.transactionHash,
                     blockNumber: ev.blockNumber,
                     amount: formatEther(ev.xcnAmount),

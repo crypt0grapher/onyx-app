@@ -84,7 +84,9 @@
             "reservesreduced": "예비금 감소",
             "bridge": "브릿지",
             "swap": "스왑",
-            "migrate": "마이그레이션"
+            "migrate": "마이그레이션",
+            "liquidStake": "리퀴드 스테이킹",
+            "liquidUnstake": "리퀴드 언스테이킹"
         },
         "percentageOptions": {
             "0": "0%",
@@ -426,7 +428,9 @@
             "reservesreduced": "예비금 감소",
             "bridge": "브릿지",
             "swap": "스왑",
-            "migrate": "마이그레이션"
+            "migrate": "마이그레이션",
+            "liquidStake": "리퀴드 스테이킹",
+            "liquidUnstake": "리퀴드 언스테이킹"
         },
         "status": {
             "confirmed": "확인됨",

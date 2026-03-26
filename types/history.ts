@@ -10,6 +10,8 @@ export type HistorySource =
 export type HistoryType =
   | "stake"
   | "unstake"
+  | "liquidStake"
+  | "liquidUnstake"
   | "swap"
   | "bridge"
   | "migrate"

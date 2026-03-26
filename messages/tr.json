@@ -151,7 +151,9 @@
             "reservesreduced": "Rezerv Azaldı",
             "bridge": "Köprü",
             "swap": "Takas",
-            "migrate": "Göç"
+            "migrate": "Göç",
+            "liquidStake": "Liquid Stake",
+            "liquidUnstake": "Liquid Unstake"
         },
         "percentageOptions": {
             "0": "0%",
@@ -427,7 +429,9 @@
             "reservesreduced": "Rezerv Azaldı",
             "bridge": "Köprü",
             "swap": "Takas",
-            "migrate": "Göç"
+            "migrate": "Göç",
+            "liquidStake": "Liquid Stake",
+            "liquidUnstake": "Liquid Unstake"
         },
         "status": {
             "confirmed": "Onaylandı",

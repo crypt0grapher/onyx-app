@@ -84,7 +84,9 @@
             "reservesreduced": "Reserves Reduced",
             "bridge": "Bridge",
             "swap": "Swap",
-            "migrate": "Migrate"
+            "migrate": "Migrate",
+            "liquidStake": "Liquid Stake",
+            "liquidUnstake": "Liquid Unstake"
         },
         "percentageOptions": {
             "0": "0%",
@@ -426,7 +428,9 @@
             "reservesreduced": "Reserves Reduced",
             "bridge": "Bridge",
             "swap": "Swap",
-            "migrate": "Migrate"
+            "migrate": "Migrate",
+            "liquidStake": "Liquid Stake",
+            "liquidUnstake": "Liquid Unstake"
         },
         "status": {
             "confirmed": "Confirmed",

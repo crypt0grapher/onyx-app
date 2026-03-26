@@ -82,7 +82,7 @@ const GoliathStakingHistory: React.FC = () => {
         {
             label: t("type"),
             sortable: true,
-            className: "w-[120px]",
+            className: "w-[180px]",
             field: "type",
         },
         {

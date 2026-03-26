@@ -37,7 +37,7 @@ export function adaptYieldEvents(
     id: `${event.txHash}:goliath:${event.type}`,
     network: "goliath" as const,
     source: "stxcn-events" as const,
-    type: event.type === "Staked" ? ("stake" as const) : ("unstake" as const),
+    type: event.type === "Staked" ? ("liquidStake" as const) : ("liquidUnstake" as const),
     status: "confirmed" as const,
     timestamp: event.timestamp,
     txHash: event.txHash,

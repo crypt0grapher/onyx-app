@@ -84,7 +84,9 @@
             "reservesreduced": "减少储备",
             "bridge": "跨链桥",
             "swap": "交换",
-            "migrate": "迁移"
+            "migrate": "迁移",
+            "liquidStake": "流动性质押",
+            "liquidUnstake": "流动性解除质押"
         },
         "percentageOptions": {
             "0": "0%",
@@ -426,7 +428,9 @@
             "reservesreduced": "减少储备",
             "bridge": "跨链桥",
             "swap": "交换",
-            "migrate": "迁移"
+            "migrate": "迁移",
+            "liquidStake": "流动性质押",
+            "liquidUnstake": "流动性解除质押"
         },
         "status": {
             "confirmed": "已确认",
