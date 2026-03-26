@@ -16,8 +16,6 @@ import type { Token } from "@/config/swap";
 import xcnIcon from "@/assets/icons/XCN.svg";
 import usdcIcon from "@/assets/icons/usdc.svg";
 import ethIcon from "@/assets/icons/eth.svg";
-import usdtIcon from "@/assets/icons/usdt.svg";
-import btcIcon from "@/assets/icons/btc.webp";
 
 // ---------------------------------------------------------------------------
 // Goliath Token type (extends the shared Token interface with native flag)
@@ -57,42 +55,6 @@ const GOLIATH_TOKENS: GoliathToken[] = [
         icon: ethIcon,
         decimals: 18,
         address: goliathConfig.tokens.ETH,
-        isNative: false,
-    },
-    {
-        id: "usdt",
-        name: "Tether",
-        symbol: "USDT",
-        icon: usdtIcon,
-        decimals: 6,
-        address: goliathConfig.tokens.USDT,
-        isNative: false,
-    },
-    {
-        id: "btc",
-        name: "Bitcoin",
-        symbol: "BTC",
-        icon: btcIcon,
-        decimals: 8,
-        address: goliathConfig.tokens.BTC,
-        isNative: false,
-    },
-    {
-        id: "xaux",
-        name: "Gold",
-        symbol: "XAUX",
-        icon: xcnIcon,
-        decimals: 8,
-        address: goliathConfig.tokens.XAUX,
-        isNative: false,
-    },
-    {
-        id: "xagx",
-        name: "Silver",
-        symbol: "XAGX",
-        icon: xcnIcon,
-        decimals: 8,
-        address: goliathConfig.tokens.XAGX,
         isNative: false,
     },
 ];
