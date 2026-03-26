@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useMemo, useCallback } from "react";
+import { useState, useMemo, useCallback, useEffect } from "react";
 import {
     useAccount,
     useBalance,
@@ -138,7 +138,7 @@ export function useGoliathSwapController() {
     }, [minimumReceived, toToken.decimals]);
 
     // -- Balance -------------------------------------------------------------
-    const { data: fromBalance } = useBalance({
+    const { data: fromBalance, refetch: refetchFromBalance } = useBalance({
         address,
         token: fromToken.isNative
             ? undefined
@@ -146,7 +146,7 @@ export function useGoliathSwapController() {
         query: { enabled: !!address },
     });
 
-    const { data: toBalance } = useBalance({
+    const { data: toBalance, refetch: refetchToBalance } = useBalance({
         address,
         token: toToken.isNative
             ? undefined
@@ -200,6 +200,14 @@ export function useGoliathSwapController() {
         error,
         reset,
     } = useGoliathSwapExecution();
+
+    // Refetch balances once the swap transaction is confirmed on-chain
+    useEffect(() => {
+        if (isSuccess) {
+            refetchFromBalance();
+            refetchToBalance();
+        }
+    }, [isSuccess, refetchFromBalance, refetchToBalance]);
 
     const handleSwap = useCallback(async () => {
         if (!trade || !minimumReceived) return;
