@@ -174,11 +174,14 @@ const HistoryTable: React.FC<HistoryTableProps> = ({
      *  common.events namespace first and history.types second. */
     const getTypeLabel = (rawType: string): string => {
         const key = rawType.toLowerCase();
-        // Try common.events first (where subgraph types live)
-        try {
-            return evT(key);
-        } catch {
-            // Fall through
+        // Try common.events — first with original casing (camelCase keys
+        // like "liquidStake"), then lowercased (subgraph types like "stake")
+        for (const k of [rawType, key]) {
+            try {
+                return evT(k);
+            } catch {
+                // Fall through
+            }
         }
         // Then try history.types (includes bridge, swap, unstake, etc.)
         try {
