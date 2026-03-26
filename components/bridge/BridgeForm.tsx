@@ -319,8 +319,8 @@ const BridgeForm: React.FC = () => {
 
             setActiveOperation(op);
             setShowConfirmModal(false);
-            setShowStatusModal(true);
             setAmount("");
+            setTimeout(() => setShowStatusModal(true), 210);
         } catch (error) {
             const msg = error instanceof Error ? error.message : "Bridge failed";
             if (!msg.includes("rejected") && !msg.includes("denied") && !msg.includes("4001")) {
