@@ -6,6 +6,7 @@ import Modal from "@/components/ui/modal/Modal";
 import { useBridgeStatusPoller } from "@/hooks/bridge/useBridgeStatusPoller";
 import { useClipboard } from "@/hooks/common/useClipboard";
 import { buildBridgeExplorerUrl } from "@/utils/explorer";
+import { truncateTxHash } from "@/utils/address";
 import type { BridgeOperation } from "@/hooks/bridge/types";
 import type {
     BridgeStatus,
@@ -311,8 +312,8 @@ const BridgeStatusModal: React.FC<BridgeStatusModalProps> = ({
                             </div>
                         </div>
                         {operation.originTxHash ? (
-                            <p className="font-mono text-xs text-primary break-all leading-relaxed">
-                                {operation.originTxHash}
+                            <p className="font-mono text-xs text-primary leading-relaxed">
+                                {truncateTxHash(operation.originTxHash)}
                             </p>
                         ) : (
                             <p className="text-sm text-secondary italic">
@@ -364,8 +365,8 @@ const BridgeStatusModal: React.FC<BridgeStatusModalProps> = ({
                             </div>
                         </div>
                         {destTxHash ? (
-                            <p className="font-mono text-xs text-primary break-all leading-relaxed">
-                                {destTxHash}
+                            <p className="font-mono text-xs text-primary leading-relaxed">
+                                {truncateTxHash(destTxHash)}
                             </p>
                         ) : (
                             <p className="text-sm text-secondary italic">
