@@ -57,24 +57,20 @@ const RAW_USDC_RESERVE = 150_000n * 10n ** 6n; // 150,000 USDC (1.5e11)
 const RAW_WXCN_RESERVE = 28_462_998n * 10n ** 18n; // 28,462,998 WXCN
 const RAW_ETH_RESERVE = 69n * 10n ** 18n; // 69 ETH
 
-// For findBestRoute tests, USDC reserves (6 decimals) fall below MIN_RESERVE
-// (10^15). We scale reserves up while keeping the same price ratio so the
-// routing logic can be tested independently of the decimal-aware threshold.
-// Scale factor: 10^9 brings 1.5e11 USDC up to 1.5e20 (well above 10^15).
-const SCALE = 10n ** 9n;
-
+// With the AND-based MIN_RESERVE check, real reserves work directly --
+// a pair is only discarded when BOTH sides are dust.
 const USDC_WXCN_PAIR = makePair(
     USDC,
     WXCN,
-    RAW_USDC_RESERVE * SCALE, // scaled USDC reserve
-    RAW_WXCN_RESERVE * SCALE, // scaled WXCN reserve (same ratio)
+    RAW_USDC_RESERVE, // 150,000 USDC (1.5e11 raw, below 10^15 but partner is above)
+    RAW_WXCN_RESERVE, // 28,462,998 WXCN (well above 10^15)
 );
 
 const USDC_ETH_PAIR = makePair(
     USDC,
     ETH,
-    RAW_USDC_RESERVE * SCALE, // scaled USDC reserve
-    RAW_ETH_RESERVE * SCALE, // scaled ETH reserve (same ratio)
+    RAW_USDC_RESERVE, // 150,000 USDC (1.5e11 raw)
+    RAW_ETH_RESERVE,  // 69 ETH (6.9e19 raw, above 10^15)
 );
 
 // ---------------------------------------------------------------------------
@@ -315,7 +311,10 @@ describe("findBestRoute — reserves below MIN_RESERVE", () => {
         expect(route).toBeNull();
     });
 
-    it("returns null when one reserve is just below MIN_RESERVE", () => {
+    it("succeeds when one reserve is below MIN_RESERVE but the other is healthy", () => {
+        // This covers 6-decimal tokens like USDC whose raw reserves are
+        // naturally below MIN_RESERVE (10^15). The AND logic ensures a pair
+        // is only discarded when BOTH reserves are dust.
         const belowThreshold = MIN_RESERVE - 1n;
         const tinyPair = makePair(
             USDC,
@@ -331,7 +330,33 @@ describe("findBestRoute — reserves below MIN_RESERVE", () => {
             100n * 10n ** 6n,
             BASE_TOKENS,
         );
-        expect(route).toBeNull();
+        expect(route).not.toBeNull();
+        expect(route!.outputAmount).toBeGreaterThan(0n);
+    });
+
+    it("succeeds with realistic 6-decimal USDC reserves (below MIN_RESERVE)", () => {
+        // Real mainnet scenario: 298K USDC = 2.98e11 raw (below 10^15)
+        // paired with 28.2M WXCN (well above 10^15). This must NOT be filtered.
+        const realisticPair = makePair(
+            USDC,
+            WXCN,
+            298_000n * 10n ** 6n,     // 298,000 USDC (6 decimals) = 2.98e11
+            28_272_724n * 10n ** 18n,  // 28.27M WXCN (18 decimals)
+        );
+
+        const route = findBestRoute(
+            [realisticPair],
+            USDC,
+            WXCN,
+            1000n * 10n ** 6n, // swap 1000 USDC
+            BASE_TOKENS,
+        );
+
+        expect(route).not.toBeNull();
+        expect(route!.outputAmount).toBeGreaterThan(0n);
+        // ~94,879 WXCN for 1000 USDC at this price ratio
+        expect(route!.outputAmount).toBeGreaterThan(90_000n * 10n ** 18n);
+        expect(route!.outputAmount).toBeLessThan(100_000n * 10n ** 18n);
     });
 
     it("succeeds when both reserves are at MIN_RESERVE with sufficient input", () => {

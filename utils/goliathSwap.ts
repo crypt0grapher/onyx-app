@@ -199,7 +199,7 @@ function calculateRoute(
         ? [pair.reserve0, pair.reserve1]
         : [pair.reserve1, pair.reserve0];
 
-    if (reserveIn < MIN_RESERVE || reserveOut < MIN_RESERVE) return null;
+    if (reserveIn < MIN_RESERVE && reserveOut < MIN_RESERVE) return null;
 
     const outAmount = getAmountOut(currentAmount, reserveIn, reserveOut);
     const impact = calculatePriceImpactBps(
