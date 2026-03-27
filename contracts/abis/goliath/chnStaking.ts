@@ -1,5 +1,5 @@
 /**
- * ABI for the CHNStaking contract (Sepolia).
+ * ABI for the CHNStaking contract (Ethereum mainnet).
  * Used for the migration feature to read staked positions and withdraw.
  *
  * Functions:

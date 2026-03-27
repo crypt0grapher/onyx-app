@@ -4,50 +4,20 @@ import type {
   HistoryStatus,
   HistoryNetwork,
 } from "@/types/history";
-
-// ---------------------------------------------------------------------------
-// Source types -- defined inline because the migration API service has not
-// been created yet.  Once it ships, swap these for real imports.
-// ---------------------------------------------------------------------------
-
-export type MigrationStatus =
-  | "PENDING"
-  | "PROCESSING"
-  | "COMPLETED"
-  | "FAILED";
-
-export interface MigrationTimestamps {
-  initiatedAt: string | null;
-  completedAt: string | null;
-}
-
-export interface MigrationStatusResponse {
-  operationId: string;
-  status: MigrationStatus;
-  originChainId: number;
-  destinationChainId: number;
-  originTxHash: string | null;
-  destinationTxHash: string | null;
-  sender: string;
-  recipient: string;
-  token: string;
-  amount: string;
-  amountFormatted: string;
-  timestamps: MigrationTimestamps;
-}
+import type { MigrationStatusResponse } from "@/lib/api/services/migration";
 
 // ---------------------------------------------------------------------------
 // Mapping helpers
 // ---------------------------------------------------------------------------
 
-function mapMigrationStatus(status: MigrationStatus): HistoryStatus {
+function mapMigrationStatus(status: MigrationStatusResponse["status"]): HistoryStatus {
   if (status === "COMPLETED") return "confirmed";
   if (status === "FAILED") return "failed";
   return "pending";
 }
 
-function resolveNetwork(chainId: number): HistoryNetwork {
-  if (chainId === 1 || chainId === 11155111) return "ethereum";
+export function resolveNetwork(chainId: number): HistoryNetwork {
+  if (chainId === 1) return "ethereum";
   if (chainId === 80888) return "onyx";
   return "goliath";
 }
@@ -63,8 +33,8 @@ export function adaptMigrationItems(
   items: MigrationStatusResponse[],
 ): UnifiedHistoryItem[] {
   return items.map((item) => {
-    const initiatedTimestamp = item.timestamps.initiatedAt
-      ? Math.floor(new Date(item.timestamps.initiatedAt).getTime() / 1000)
+    const depositedTimestamp = item.timestamps.depositedAt
+      ? Math.floor(new Date(item.timestamps.depositedAt).getTime() / 1000)
       : 0;
 
     return {
@@ -73,7 +43,7 @@ export function adaptMigrationItems(
       source: "migration-api" as const,
       type: "migrate" as const,
       status: mapMigrationStatus(item.status),
-      timestamp: initiatedTimestamp,
+      timestamp: depositedTimestamp,
       txHash: item.originTxHash,
       from: item.sender,
       to: item.recipient,

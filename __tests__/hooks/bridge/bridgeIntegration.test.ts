@@ -108,18 +108,22 @@ describe("BridgeLock ABI", () => {
 // ---------------------------------------------------------------------------
 
 describe("BridgeGoliath ABI", () => {
-    it("has a burn function with params (token: address, amount: uint256, destinationAddress: address)", () => {
+    it("has a burn function with params (token, amount, destinationAddress, destinationChainId)", () => {
         const burn = findAbiEntry(bridgeGoliathAbi, "burn", "function");
         expect(burn).toBeDefined();
         expect(burn!.type).toBe("function");
 
         const inputs = "inputs" in burn! ? burn!.inputs : [];
-        expect(inputs).toHaveLength(3);
+        expect(inputs).toHaveLength(4);
         expect(inputs[0]).toMatchObject({ name: "token", type: "address" });
         expect(inputs[1]).toMatchObject({ name: "amount", type: "uint256" });
         expect(inputs[2]).toMatchObject({
             name: "destinationAddress",
             type: "address",
+        });
+        expect(inputs[3]).toMatchObject({
+            name: "destinationChainId",
+            type: "uint64",
         });
     });
 

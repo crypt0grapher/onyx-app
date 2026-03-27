@@ -19,7 +19,7 @@ describe("adaptYieldEvents", () => {
         const items = adaptYieldEvents(events, GOLIATH_CHAIN_ID);
 
         expect(items).toHaveLength(1);
-        expect(items[0].type).toBe("stake");
+        expect(items[0].type).toBe("liquidStake");
         expect(items[0].network).toBe("goliath");
         expect(items[0].source).toBe("stxcn-events");
         expect(items[0].status).toBe("confirmed");
@@ -47,7 +47,7 @@ describe("adaptYieldEvents", () => {
         const items = adaptYieldEvents(events, GOLIATH_CHAIN_ID);
 
         expect(items).toHaveLength(1);
-        expect(items[0].type).toBe("unstake");
+        expect(items[0].type).toBe("liquidUnstake");
         expect(items[0].tokenSymbol).toBe("stXCN");
     });
 
@@ -104,8 +104,8 @@ describe("adaptYieldEvents", () => {
         const items = adaptYieldEvents(events, GOLIATH_CHAIN_ID);
 
         expect(items).toHaveLength(3);
-        expect(items.filter((i) => i.type === "stake")).toHaveLength(2);
-        expect(items.filter((i) => i.type === "unstake")).toHaveLength(1);
+        expect(items.filter((i) => i.type === "liquidStake")).toHaveLength(2);
+        expect(items.filter((i) => i.type === "liquidUnstake")).toHaveLength(1);
     });
 
     it("builds correct explorer URL for goliath chain", () => {
