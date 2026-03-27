@@ -12,8 +12,8 @@ import type { Address } from "viem";
 
 /**
  * Executes a Goliath -> Source withdrawal for ERC-20 tokens by calling
- * `burn(token, amount, destinationAddress)` on the Goliath bridge
- * contract.
+ * `burn(token, amount, destinationAddress, destinationChainId)` on the
+ * Goliath bridge contract.
  *
  * This hook is NOT used for native XCN -- use `useBridgeXcnWithdraw`
  * for the multi-phase XCN withdrawal flow instead.
@@ -48,7 +48,7 @@ export function useBridgeBurn() {
             address: bridgeAddress,
             abi: bridgeGoliathAbi,
             functionName: "burn",
-            args: [params.tokenAddress, params.amount, recipient],
+            args: [params.tokenAddress, params.amount, recipient, BigInt(goliathConfig.bridge.sourceChainId)],
             chainId: goliathChainId,
         });
     };

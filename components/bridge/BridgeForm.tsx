@@ -239,7 +239,7 @@ const BridgeForm: React.FC = () => {
                 const quote = await bridgeApiService.getFeeQuote({
                     token: selectedToken,
                     amount: debouncedAmount,
-                    direction: "goliathToSepolia",
+                    direction: "GOLIATH_TO_ETHEREUM",
                 });
                 setFeeQuote(quote);
             } catch {
@@ -357,7 +357,7 @@ const BridgeForm: React.FC = () => {
     // Per-token minimum: only enforced for GOLIATH_TO_SOURCE (withdrawals)
     const tokenMinimum = useMemo(() => {
         if (direction !== "GOLIATH_TO_SOURCE") return null;
-        const tokenLimits = limits?.goliathToSepolia?.tokens?.[selectedToken];
+        const tokenLimits = limits?.goliathToEthereum?.tokens?.[selectedToken];
         if (tokenLimits?.minAmountFormatted) return tokenLimits.minAmountFormatted;
         // Fallback to generic minimum when limits API failed or token not found
         return goliathConfig.bridge.minAmount;

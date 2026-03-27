@@ -1,8 +1,8 @@
 /**
- * ABI for the Goliath Bridge contract.
+ * ABI for the BridgeMint contract deployed on Goliath mainnet (chain 327).
  *
  * Functions:
- *   - burn(token, amount, destinationAddress) -- burn bridged tokens on Goliath
+ *   - burn(token, amount, destinationAddress, destinationChainId) -- burn bridged tokens on Goliath
  *
  * Events:
  *   - Withdraw -- emitted on every burn/withdrawal
@@ -13,6 +13,7 @@ export const bridgeGoliathAbi = [
       { name: 'token', type: 'address' },
       { name: 'amount', type: 'uint256' },
       { name: 'destinationAddress', type: 'address' },
+      { name: 'destinationChainId', type: 'uint64' },
     ],
     name: 'burn',
     outputs: [{ name: 'withdrawId', type: 'bytes32' }],
@@ -29,6 +30,7 @@ export const bridgeGoliathAbi = [
       { indexed: false, name: 'amount', type: 'uint256' },
       { indexed: false, name: 'timestamp', type: 'uint64' },
       { indexed: false, name: 'sourceChainId', type: 'uint64' },
+      { indexed: false, name: 'destinationChainId', type: 'uint64' },
     ],
     name: 'Withdraw',
     type: 'event',

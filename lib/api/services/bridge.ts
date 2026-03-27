@@ -60,7 +60,7 @@ export interface BridgeHealthResponse {
     status: "healthy" | "unhealthy";
     version: string;
     chains: {
-        sepolia: {
+        ethereum: {
             connected: boolean;
             lastBlock: number;
             lastProcessedBlock: number;
@@ -103,8 +103,8 @@ export interface DirectionLimits {
 }
 
 export interface LimitsResponse {
-    goliathToSepolia: DirectionLimits;
-    sepoliaToGoliath: DirectionLimits;
+    goliathToEthereum: DirectionLimits;
+    ethereumToGoliath: DirectionLimits;
 }
 
 export interface XcnWithdrawIntentResponse {
