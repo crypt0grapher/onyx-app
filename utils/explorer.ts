@@ -2,20 +2,30 @@ import { SUPPORTED_NETWORKS } from "@/config/networks";
 
 type ExplorerKind = "tx" | "address" | "block";
 
-/** Hedera transaction IDs look like `0.0.1083@1774674719.778114029` */
-const HEDERA_TX_ID_RE = /^[\d.]+@(\d+\.\d+)$/;
-
 const GOLIATH_VALIDATOR_EXPLORER = "https://validators.goliath.net/mainnet";
 
 /**
- * If `value` is a Hedera transaction ID (contains `@`), return the
- * validators explorer URL.  Otherwise return `null` so callers can
- * fall through to standard EVM explorer logic.
+ * Detect Hedera-native transaction identifiers and return a validators
+ * explorer URL.  Two formats are supported:
+ *
+ * 1. Hedera tx ID:          `0.0.1083@1774674719.778114029`  (legacy fallback)
+ * 2. Consensus timestamp:   `1774674723.642351710`           (preferred)
+ *
+ * EVM hashes (`0x…`) return `null` so callers fall through to the
+ * standard block-explorer logic.
  */
 const tryBuildHederaTxUrl = (value: string): string | null => {
-    const m = value.match(HEDERA_TX_ID_RE);
-    if (!m) return null;
-    return `${GOLIATH_VALIDATOR_EXPLORER}/transaction/${m[1]}`;
+    // Consensus timestamp: "1774674723.642351710" — digits.digits, no letters
+    if (/^\d+\.\d+$/.test(value)) {
+        return `${GOLIATH_VALIDATOR_EXPLORER}/transaction/${value}`;
+    }
+    // Hedera tx ID: "0.0.1083@1774674719.778114029" — extract timestamp after @
+    const atIdx = value.indexOf("@");
+    if (atIdx !== -1) {
+        const ts = value.slice(atIdx + 1);
+        return `${GOLIATH_VALIDATOR_EXPLORER}/transaction/${ts}`;
+    }
+    return null;
 };
 
 const getExplorerBaseUrl = (chainId?: number): string => {
@@ -99,7 +109,8 @@ export const buildBridgeExplorerUrl = (
     return `${base}/tx/${txHash}`;
 };
 
-/** Returns true if the value looks like a Hedera transaction ID (`account@ts`) */
-export const isHederaTxId = (value: string): boolean => HEDERA_TX_ID_RE.test(value);
+/** Returns true if the value is a Hedera tx ID or consensus timestamp (not an EVM hash) */
+export const isHederaTxId = (value: string): boolean =>
+    value.includes("@") || (/^\d+\.\d+$/.test(value) && !value.startsWith("0x"));
 
 export type { ExplorerKind };
