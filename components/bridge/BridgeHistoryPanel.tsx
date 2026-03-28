@@ -4,7 +4,7 @@ import React, { useMemo } from "react";
 import { useTranslations } from "next-intl";
 import { useBridgeOperations } from "@/hooks/bridge/useBridgeOperations";
 import { buildBridgeExplorerUrl } from "@/utils/explorer";
-import { truncateAddress } from "@/utils/address";
+import { truncateTxHash } from "@/utils/address";
 import type { BridgeOperation } from "@/hooks/bridge/types";
 
 // ---------------------------------------------------------------------------
@@ -111,7 +111,7 @@ const BridgeHistoryPanel: React.FC<BridgeHistoryPanelProps> = ({
                                         onClick={(e) => e.stopPropagation()}
                                         className="text-xs text-blue-400 hover:underline font-mono"
                                     >
-                                        {truncateAddress(op.originTxHash)}
+                                        {truncateTxHash(op.originTxHash)}
                                     </a>
                                 )}
                                 {op.destinationTxHash && (
@@ -126,7 +126,7 @@ const BridgeHistoryPanel: React.FC<BridgeHistoryPanelProps> = ({
                                         onClick={(e) => e.stopPropagation()}
                                         className="text-xs text-blue-400 hover:underline font-mono"
                                     >
-                                        {truncateAddress(op.destinationTxHash)}
+                                        {truncateTxHash(op.destinationTxHash)}
                                     </a>
                                 )}
                                 <span className="text-xs text-[#808080]">
