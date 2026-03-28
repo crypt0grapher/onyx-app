@@ -3,6 +3,7 @@
 import {
     ChainConfig,
     getOnyxNetwork,
+    getGoliathNetwork,
     networkToChainConfig,
 } from "@/config/networks";
 
@@ -88,7 +89,14 @@ export const addNetwork = async (
 };
 
 /**
- * Switches to a specific network, adding it first if necessary
+ * Switches to a specific network, adding it first if necessary.
+ *
+ * Flow:
+ *   1. wallet_switchEthereumChain  — works when the wallet already knows the chain
+ *   2. wallet_addEthereumChain     — adds AND switches per EIP-3085
+ *   3. Verify with eth_chainId     — never call switch again after a successful add,
+ *      because MetaMask may not have updated its switch-registry yet and the extra
+ *      call can interfere with the in-progress chain change.
  */
 export const switchToChain = async (
     chainConfig: ChainConfig,
@@ -105,74 +113,26 @@ export const switchToChain = async (
         return { success: false, error };
     }
 
+    const successMsg = () =>
+        t
+            ? t("networkSwitchedSuccess", { chainName: chainConfig.chainName })
+            : `Successfully switched to ${chainConfig.chainName}!`;
+
+    // ── Step 1: try a plain switch (fast path) ──────────────────────────
     try {
         await ethereum.request({
             method: "wallet_switchEthereumChain",
             params: [{ chainId: chainConfig.chainId }],
         });
-
-        const switchSuccessMessage = t
-            ? t("networkSwitchedSuccess", { chainName: chainConfig.chainName })
-            : `Successfully switched to ${chainConfig.chainName}!`;
-
         callbacks?.onSuccess?.(
             t?.("networkSwitched") || "Network Switched",
-            switchSuccessMessage
+            successMsg()
         );
         return { success: true };
     } catch (switchError: unknown) {
-        console.error("Error switching network:", switchError);
         const walletError = switchError as WalletError;
 
-        if (walletError.code === 4902) {
-            callbacks?.onInfo?.(
-                t?.("addingNetwork") || "Adding Network",
-                t?.("addingNetworkDescription") ||
-                    `Adding ${chainConfig.chainName} to your wallet...`
-            );
-
-            try {
-                const addResult = await addNetwork(chainConfig, callbacks, t);
-                if (!addResult) {
-                    return {
-                        success: false,
-                        error:
-                            t?.("failedToAddNetwork") ||
-                            "Failed to add network",
-                        needsAddition: true,
-                    };
-                }
-
-                await ethereum.request({
-                    method: "wallet_switchEthereumChain",
-                    params: [{ chainId: chainConfig.chainId }],
-                });
-
-                const addAndSwitchMessage = t
-                    ? t("networkAddedAndSwitchedSuccess", {
-                          chainName: chainConfig.chainName,
-                      })
-                    : `Successfully added and switched to ${chainConfig.chainName}!`;
-
-                callbacks?.onSuccess?.(
-                    t?.("networkAddedAndSwitched") ||
-                        "Network Added & Switched",
-                    addAndSwitchMessage
-                );
-                return { success: true };
-            } catch (addError: unknown) {
-                console.error(
-                    "Error adding network after switch failure:",
-                    addError
-                );
-                const error = `Failed to add ${chainConfig.chainName}. Please add it manually.`;
-                callbacks?.onError?.(
-                    t?.("failedToAddNetwork") || "Failed to Add Network",
-                    error
-                );
-                return { success: false, error, needsAddition: true };
-            }
-        } else if (walletError.code === 4001) {
+        if (walletError.code === 4001) {
             callbacks?.onInfo?.(
                 t?.("networkSwitchCancelled") || "Network Switch Cancelled",
                 t?.("networkSwitchCancelledDescription") ||
@@ -184,15 +144,86 @@ export const switchToChain = async (
                     t?.("userCancelledNetworkSwitch") ||
                     "User cancelled network switch",
             };
-        } else {
-            const error = `Failed to switch to ${chainConfig.chainName}`;
-            callbacks?.onError?.(
-                t?.("networkSwitchFailed") || "Network Switch Failed",
-                error
-            );
-            return { success: false, error };
         }
+
+        // 4902 or any other error → fall through to add
     }
+
+    // ── Step 2: add the chain (EIP-3085 — this also switches) ───────────
+    try {
+        await ethereum.request({
+            method: "wallet_addEthereumChain",
+            params: [chainConfig],
+        });
+    } catch (addError: unknown) {
+        const walletError = addError as WalletError;
+
+        if (walletError.code === 4001) {
+            callbacks?.onInfo?.(
+                t?.("networkAdditionCancelled") ||
+                    "Network Addition Cancelled",
+                t?.("networkAdditionCancelledDescription") ||
+                    "You cancelled adding the network to your wallet."
+            );
+            return {
+                success: false,
+                error:
+                    t?.("userCancelledNetworkSwitch") ||
+                    "User cancelled network switch",
+            };
+        }
+
+        // Add failed for a non-user reason — report and bail
+        const error = `Failed to add ${chainConfig.chainName}. Please switch manually in your wallet.`;
+        callbacks?.onError?.(
+            t?.("networkSwitchFailed") || "Failed to Switch Network",
+            error
+        );
+        return { success: false, error, needsAddition: true };
+    }
+
+    // ── Step 3: verify the chain actually switched ──────────────────────
+    try {
+        const currentChainId = await ethereum.request({
+            method: "eth_chainId",
+        });
+        if (currentChainId === chainConfig.chainId) {
+            callbacks?.onSuccess?.(
+                t?.("networkSwitched") || "Network Switched",
+                successMsg()
+            );
+            return { success: true };
+        }
+    } catch {
+        // verification failed — fall through
+    }
+
+    // ── Step 4: add resolved but wallet didn't switch ───────────────────
+    // EIP-3085 does not guarantee that a successful add also selects the
+    // chain.  Retry with a plain wallet_switchEthereumChain — the chain
+    // should now be registered after the add, so switch-by-ID can work.
+    // Do NOT call wallet_addEthereumChain again (that would show a second
+    // add prompt).
+    try {
+        await ethereum.request({
+            method: "wallet_switchEthereumChain",
+            params: [{ chainId: chainConfig.chainId }],
+        });
+        callbacks?.onSuccess?.(
+            t?.("networkSwitched") || "Network Switched",
+            successMsg()
+        );
+        return { success: true };
+    } catch {
+        // switch still failed — nothing more we can do
+    }
+
+    const error = `Could not switch to ${chainConfig.chainName} automatically. Please switch manually in your wallet.`;
+    callbacks?.onError?.(
+        t?.("networkSwitchFailed") || "Network Switch Failed",
+        error
+    );
+    return { success: false, error };
 };
 
 /**
@@ -247,4 +278,37 @@ export const isCurrentChainOnyx = async (): Promise<boolean> => {
     const currentChainId = await getCurrentChainId();
     const onyxNetwork = getOnyxNetwork();
     return currentChainId === onyxNetwork.chainIdHex;
+};
+
+/**
+ * Adds the Goliath network to the user's wallet
+ */
+export const addGoliathNetwork = async (
+    callbacks?: ChainOperationCallbacks,
+    t?: (key: string, values?: Record<string, string | number | Date>) => string
+): Promise<boolean> => {
+    const goliathNetwork = getGoliathNetwork();
+    const chainConfig = networkToChainConfig(goliathNetwork);
+    return addNetwork(chainConfig, callbacks, t);
+};
+
+/**
+ * Switches to the Goliath network, adding it first if necessary
+ */
+export const switchToGoliathNetwork = async (
+    callbacks?: ChainOperationCallbacks,
+    t?: (key: string, values?: Record<string, string | number | Date>) => string
+): Promise<ChainSwitchResult> => {
+    const goliathNetwork = getGoliathNetwork();
+    const chainConfig = networkToChainConfig(goliathNetwork);
+    return switchToChain(chainConfig, callbacks, t);
+};
+
+/**
+ * Checks if the current chain is the Goliath network
+ */
+export const isCurrentChainGoliath = async (): Promise<boolean> => {
+    const currentChainId = await getCurrentChainId();
+    const goliathNetwork = getGoliathNetwork();
+    return currentChainId === goliathNetwork.chainIdHex;
 };

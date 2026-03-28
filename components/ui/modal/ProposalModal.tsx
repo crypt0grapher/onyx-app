@@ -80,7 +80,7 @@ const ProposalModal: React.FC<ProposalModalProps> = ({
         <AnimatePresence>
             {isOpen && (
                 <motion.div
-                    className="fixed inset-0 z-[51] flex items-center justify-center p-4 bg-black/40 backdrop-blur-[2.5px]"
+                    className="fixed inset-0 z-[51] flex items-center justify-center p-4 bg-black/60"
                     variants={overlayVariants}
                     initial="hidden"
                     animate="visible"

@@ -1,7 +1,7 @@
 {
     "sidebar": {
         "navigation": {
-            "stake": "Stake Et",
+            "stake": "Staking",
             "history": "Geçmiş",
             "swap": "Takas",
             "bridge": "Köprü",
@@ -11,7 +11,12 @@
             "points": "Puanlar",
             "card": "Kart",
             "payments": "Ödemeler",
-            "enterprise": "Kurumsal"
+            "enterprise": "Kurumsal",
+            "stake-home": "Goliath Liquid Staking",
+            "ethereum-staking": "Eski Ethereum Staking",
+            "migrate": "Goliath'a Göç",
+            "goliath-bridge": "Goliath Köprüsü",
+            "legacy-bridge": "Eski Köprü"
         },
         "footer": {
             "terms": "Şartlar",
@@ -131,6 +136,7 @@
         "events": {
             "supply": "Tedarik",
             "stake": "Stake",
+            "unstake": "Unstake",
             "transfer": "Transfer",
             "withdraw": "Çekme",
             "claim": "Talep",
@@ -142,7 +148,12 @@
             "repayborrow": "Borç Ödeme",
             "liquidateborrow": "Borç Tasfiye",
             "reservesadded": "Rezerv Eklendi",
-            "reservesreduced": "Rezerv Azaldı"
+            "reservesreduced": "Rezerv Azaldı",
+            "bridge": "Köprü",
+            "swap": "Takas",
+            "migrate": "Göç",
+            "liquidStake": "Liquid Stake",
+            "liquidUnstake": "Liquid Unstake"
         },
         "percentageOptions": {
             "0": "0%",
@@ -273,6 +284,9 @@
     "staking": {
         "title": "Stake Etme",
         "description": "Tokenlarınızı stake edin veya çekin",
+        "connectToEthereum": "Ethereum'a Geç",
+        "wrongNetwork": "Legacy Ethereum Staking kullanmak için lütfen Ethereum Ağına geçin.",
+        "switchingNetwork": "Geçiş yapılıyor...",
         "stakedTokensTitle": "Stake Edilen Tokenlar",
         "stakedTokensDescription": "Stake ödüllerinizi görüntüleyin ve talep edin",
         "historyTitle": "Stake Geçmişi",
@@ -391,9 +405,16 @@
         "allTxns": "Tüm İşlemler",
         "myTxns": "İşlemlerim",
         "allTypes": "Tüm Türler",
+        "filters": {
+            "network": "Ağ",
+            "allNetworks": "Tüm Ağlar",
+            "type": "Tür",
+            "allTypes": "Tüm Türler"
+        },
         "types": {
             "supply": "Tedarik",
             "stake": "Stake",
+            "unstake": "Unstake",
             "transfer": "Transfer",
             "withdraw": "Çekme",
             "claim": "Talep",
@@ -405,7 +426,17 @@
             "repayborrow": "Borç Ödeme",
             "liquidateborrow": "Borç Tasfiye",
             "reservesadded": "Rezerv Eklendi",
-            "reservesreduced": "Rezerv Azaldı"
+            "reservesreduced": "Rezerv Azaldı",
+            "bridge": "Köprü",
+            "swap": "Takas",
+            "migrate": "Göç",
+            "liquidStake": "Liquid Stake",
+            "liquidUnstake": "Liquid Unstake"
+        },
+        "status": {
+            "confirmed": "Onaylandı",
+            "pending": "Beklemede",
+            "failed": "Başarısız"
         },
         "table": {
             "type": "Tür",
@@ -671,6 +702,77 @@
             "bridge": "Köprü"
         }
     },
+    "goliathYield": {
+        "title": "Goliath Liquid Staking",
+        "description": "stXCN almak ve getiri kazanmak için XCN stake edin",
+        "statsTitle": "Protokol İstatistikleri",
+        "statsDescription": "Protokol metriklerini ve stake pozisyonunuzu görüntüleyin",
+        "protocolStats": "Protokol İstatistikleri",
+        "stake": "Stake Et",
+        "unstake": "Unstake Et",
+        "stakeXCN": "XCN Stake Et",
+        "unstakeStXCN": "stXCN Unstake Et",
+        "balance": "stXCN Bakiyesi",
+        "xcnBalance": "XCN Bakiyesi",
+        "underlyingValue": "Temel XCN Değeri",
+        "totalSupply": "Toplam stXCN Arzı",
+        "apr": "APR",
+        "fee": "Ücret",
+        "contractBalance": "Sözleşme Bakiyesi",
+        "paused": "Stake duraklatıldı",
+        "amount": "Miktar",
+        "max": "MAKS",
+        "connectWallet": "Cüzdan Bağla",
+        "connectToGoliath": "Goliath'a Geç",
+        "wrongNetwork": "Goliath Liquid Staking kullanmak için lütfen Goliath Ağına geçin.",
+        "switchingNetwork": "Geçiş yapılıyor...",
+        "loading": "Yükleniyor...",
+        "staking": "Stake ediliyor...",
+        "unstaking": "Unstake ediliyor...",
+        "estimatedDailyEarnings": "Tahmini Günlük Kazanç:",
+        "insufficientBalance": "Yetersiz Bakiye",
+        "insufficientBalanceSubtext": "Yeterli XCN tokenınız yok",
+        "insufficientStXcnBalance": "Yetersiz stXCN Bakiyesi",
+        "insufficientStXcnBalanceSubtext": "Yeterli stXCN tokenınız yok",
+        "stakeSuccess": "{amount} XCN başarıyla stake edildi",
+        "stakeFailed": "Stake Başarısız",
+        "unstakeSuccess": "{amount} stXCN başarıyla unstake edildi",
+        "unstakeFailed": "Unstake Başarısız",
+        "confirm": {
+            "stakeTitle": "Stake Onayla",
+            "unstakeTitle": "Unstake Onayla",
+            "amount": "Miktar",
+            "receive": "Alacağınız miktar",
+            "fee": "Ücret"
+        },
+        "dataBoxes": {
+            "stakingAPR": "Stake APR",
+            "protocolFee": "Protokol Ücreti",
+            "totalSupply": "Toplam stXCN Arzı",
+            "contractBalance": "Sözleşme Bakiyesi"
+        },
+        "userStatsTitle": "Pozisyonunuz",
+        "userStatsDescription": "Stake pozisyonunuzu ve kazançlarınızı görüntüleyin",
+        "yourStXcnBalance": "stXCN Bakiyeniz",
+        "yourUnderlyingXcn": "Temel XCN Değeri",
+        "currentApr": "Güncel APR",
+        "historyTitle": "Stake Geçmişi",
+        "historyDescription": "Goliath ağındaki stake ve unstake işlem geçmişinizi görüntüleyin",
+        "history": {
+            "type": "Tür",
+            "txnHash": "İşlem Hash",
+            "block": "Blok",
+            "amount": "Miktar",
+            "created": "Oluşturulma",
+            "staked": "Stake Edildi",
+            "unstaked": "Unstake Edildi",
+            "emptyTitle": "Geçmiş Yok",
+            "emptyDescription": "Stake işlemleriniz burada görünecek",
+            "emptyDescriptionLine2": "Başlamak için XCN stake edin veya unstake edin",
+            "errorTitle": "Geçmiş yüklenemedi",
+            "errorRetry": "Yeniden denemek için tıklayın"
+        }
+    },
     "time": {
         "lessThanMinute": "bir dakikadan az önce",
         "minuteAgo": "bir dakika önce",
@@ -697,5 +799,115 @@
         "inWeeks": "{weeks} hafta içinde",
         "inMonths": "{months} ay içinde",
         "inYears": "{years} yıl içinde"
+    },
+    "migrate": {
+        "title": "Goliath'a Göç Et",
+        "subtitle": "XCN stake işleminizi Goliath ağına taşıyın",
+        "summary": {
+            "staked": "Stake Edilen XCN",
+            "rewards": "Bekleyen Ödüller",
+            "wallet": "Cüzdan XCN",
+            "total": "Göç Edilecek Toplam"
+        },
+        "connect": "Göç işlemine başlamak için cüzdanınızı bağlayın",
+        "empty": "Göç edilecek XCN bulunamadı",
+        "disabled": "Göç işlemi şu anda devre dışı",
+        "switchNetwork": "{network} ağına geç",
+        "migrateButton": "Göç Et",
+        "migrating": "Göç ediliyor...",
+        "migrationComplete": "Göç Tamamlandı",
+        "retryMigration": "Tekrar Dene",
+        "steps": {
+            "claim": "Ödülleri Talep Et",
+            "claimDesc": "Bekleyen stake ödüllerinizi talep edin",
+            "approve": "XCN Onayla",
+            "approveDesc": "Köprü için XCN onaylayın",
+            "unstake": "XCN Çıkar",
+            "unstakeDesc": "{amount} XCN çıkar",
+            "bridge": "Goliath'a Köprü",
+            "bridgeDesc": "{amount} XCN Goliath'a köprüle",
+            "stakeToggle": "Goliath'ta otomatik stake",
+            "stakeToggleDesc": "XCN'nizi Goliath'a varışında otomatik stake edin",
+            "viewTransaction": "İşlemi görüntüle",
+            "processing": "İşleniyor..."
+        },
+        "status": {
+            "title": "Göç Durumu",
+            "submitted": "İşlem gönderildi",
+            "confirming": "Onaylanıyor...",
+            "relaying": "Goliath'a aktarılıyor...",
+            "processing": "Goliath'ta işleniyor...",
+            "completed": "Göç tamamlandı!",
+            "failed": "Göç başarısız",
+            "stakingPrompt": "XCN'niz ulaştı! Şimdi stake edin?",
+            "stakeNow": "XCN Stake Et",
+            "skipStaking": "Daha sonra stake edeceğim",
+            "startNew": "Yeni Göç Başlat",
+            "viewOriginTx": "Kaynak işlemini görüntüle",
+            "viewDestTx": "Hedef işlemini görüntüle"
+        }
+    },
+    "bridge": {
+        "title": "Köprü",
+        "subtitle": "Ağlar arasında token transfer edin",
+        "form": {
+            "from": "Gönderen",
+            "to": "Alıcı",
+            "amount": "Miktar",
+            "max": "MAKS",
+            "balance": "Bakiye",
+            "fee": "Ücret",
+            "estimatedArrival": "Tahmini varış",
+            "selectToken": "Token seç",
+            "swapDirection": "Yön değiştir",
+            "youReceive": "Alacağınız",
+            "recipient": "Alıcı",
+            "connectWallet": "Cüzdan Bağla",
+            "youSend": "Gönderdiğiniz",
+            "feeFree": "Ücretsiz",
+            "destinationBalance": "{network} bakiyesi",
+            "estimatedArrivalValue": "~2-4 dk",
+            "finishingUp": "Tamamlanıyor..."
+        },
+        "actions": {
+            "connect": "Cüzdan Bağla",
+            "switchNetwork": "{network} ağına geç",
+            "approve": "{token} Onayla",
+            "bridge": "{token} Köprüle",
+            "bridging": "Köprüleniyor...",
+            "approving": "Onaylanıyor..."
+        },
+        "confirm": {
+            "title": "Köprüyü Onayla",
+            "amount": "Miktar",
+            "direction": "Yön",
+            "fee": "Ücret",
+            "feeInfo": "Ücretsiz",
+            "eta": "Tahmini süre",
+            "confirm": "Köprüyü Onayla",
+            "cancel": "İptal"
+        },
+        "status": {
+            "title": "Köprü Durumu",
+            "pending": "İşlem gönderildi",
+            "confirming": "Kaynak zincirde onaylanıyor",
+            "relaying": "Hedefe aktarılıyor",
+            "processing": "Hedefte işleniyor",
+            "completed": "Tamamlandı",
+            "failed": "Başarısız",
+            "viewOriginTx": "Kaynak işlemini görüntüle",
+            "viewDestTx": "Hedef işlemini görüntüle"
+        },
+        "history": {
+            "title": "Son Köprü İşlemleri",
+            "empty": "Henüz köprü işlemi yok",
+            "toGoliath": "Goliath'a",
+            "toSource": "Kaynağa"
+        },
+        "validation": {
+            "minAmount": "Minimum miktar {min}",
+            "insufficientBalance": "Yetersiz bakiye",
+            "bridgeDisabled": "Köprü şu anda devre dışı"
+        }
     }
 }

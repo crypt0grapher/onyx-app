@@ -9,6 +9,7 @@ export { useNetworkCheck } from "./common/useNetworkCheck";
 export { default as useToast } from "./ui/useToast";
 export { useChainDetection } from "./wallet/useChainDetection";
 export { useTransactionExecutor } from "./wallet/useTransactionExecutor";
+export { useSwitchNetwork } from "./wallet/useSwitchNetwork";
 export { useProposalEta } from "./governance/useProposalEta";
 export { usePriorVotes } from "./governance/usePriorVotes";
 export { useCancelProposal } from "./governance/useCancelProposal";
@@ -31,6 +32,7 @@ export {
     useCompleteStakingData,
 } from "./staking/useUserStaking";
 export { useHistoryData } from "./staking/useHistoryData";
+export { useUnifiedHistory } from "./history/useUnifiedHistory";
 export { useUserStakingGraph } from "./staking/useUserStakingGraph";
 export { useTokenPrice } from "./swap/useTokenPrice";
 export { useGasEstimate } from "./swap/useGasEstimate";

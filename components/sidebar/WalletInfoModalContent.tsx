@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useState } from "react";
+import React from "react";
 import Image from "next/image";
 import { useTranslations } from "next-intl";
 import { useWallet } from "@/context/WalletProvider";
@@ -9,10 +9,9 @@ import {
   useDeviceType,
   useToast,
   useChainDetection,
+  useSwitchNetwork,
 } from "@/hooks";
 import { getWalletIcon, getWalletName } from "@/lib/wallet/metadata";
-import { switchToChain, ChainOperationCallbacks } from "@/lib/wallet/chain";
-import { networkToChainConfig } from "@/config/networks";
 import { toSrc } from "@/utils/image";
 import Divider from "@/components/ui/common/Divider";
 import SecondaryButton from "@/components/ui/buttons/SecondaryButton";
@@ -37,13 +36,12 @@ const WalletInfoModalContent: React.FC<WalletInfoModalContentProps> = ({
   const { walletAddress, connectedWalletId } = useWallet();
   const { copyToClipboard } = useClipboard();
   const deviceType = useDeviceType();
-  const { showSuccessToast, showDangerToast } = useToast();
+  const { showSuccessToast } = useToast();
   const { currentChainId } = useChainDetection();
   const t = useTranslations("sidebar.wallet.info");
   const tToast = useTranslations("toast.copyAddress");
-  const tNetworkErrors = useTranslations("common.errors.network");
 
-  const [isNetworkSwitching, setIsNetworkSwitching] = useState(false);
+  const { switchNetwork, isPending: isNetworkSwitching } = useSwitchNetwork();
 
   const getCurrentNetwork = (): Network => {
     if (currentChainId) {
@@ -80,37 +78,7 @@ const WalletInfoModalContent: React.FC<WalletInfoModalContentProps> = ({
 
   const handleNetworkSelect = async (network: Network) => {
     if (isNetworkSwitching) return;
-
-    setIsNetworkSwitching(true);
-
-    const callbacks: ChainOperationCallbacks = {
-      onSuccess: (title, message) => {
-        showSuccessToast(title, message);
-      },
-      onError: (title, message) => {
-        showDangerToast(title, message);
-      },
-      onInfo: (title, message) => {
-        showSuccessToast(title, message);
-      },
-    };
-
-    try {
-      const chainConfig = networkToChainConfig(network);
-      await switchToChain(chainConfig, callbacks, (key, values) =>
-        tNetworkErrors(key, values)
-      );
-    } catch (error) {
-      console.error("Error switching network:", error);
-      showDangerToast(
-        tNetworkErrors("networkSwitchFailed"),
-        tNetworkErrors("failedToSwitchNetwork", {
-          chainName: network.name,
-        })
-      );
-    } finally {
-      setIsNetworkSwitching(false);
-    }
+    await switchNetwork({ chainId: network.chainId });
   };
 
   return (

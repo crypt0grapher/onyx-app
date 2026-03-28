@@ -8,6 +8,7 @@ export type TableEmptyStateProps = {
   title?: string;
   description?: string | React.ReactNode;
   className?: string;
+  icon?: React.ReactNode;
 };
 
 const TableEmptyState: React.FC<TableEmptyStateProps> = ({
@@ -20,19 +21,22 @@ const TableEmptyState: React.FC<TableEmptyStateProps> = ({
     </>
   ),
   className = "",
+  icon,
 }) => {
   return (
     <div
       className={`flex items-center justify-center py-[48px] px-[16px] w-full ${className}`}
     >
       <div className="flex md:flex-row flex-col items-center justify-center gap-4 md:gap-6">
-        <Image
-          src={onyxLogoShadow}
-          alt="Onyx Logo Shadow"
-          width={136}
-          height={140}
-          priority={false}
-        />
+        {icon ?? (
+          <Image
+            src={onyxLogoShadow}
+            alt="Onyx Logo Shadow"
+            width={136}
+            height={140}
+            priority={false}
+          />
+        )}
         <div className="flex flex-col pb-[20px]">
           <h3 className="text-primary text-center md:text-left text-[20px] font-medium leading-[28px] font-sans [font-feature-settings:'ss11'_on,'cv09'_on,'liga'_off,'calt'_off]">
             {title}

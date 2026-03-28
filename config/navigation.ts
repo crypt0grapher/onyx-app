@@ -11,22 +11,53 @@ import stake from "@/assets/icons/stake.svg";
 import swap from "@/assets/icons/swap.svg";
 import { type ImageLikeSrc } from "@/utils/image";
 
+export type NavChildItem = {
+    key: string;
+    label: string;
+    href: string;
+    isExternal?: boolean;
+};
+
 export type NavItem = {
     key: string;
     label: string;
     icon: ImageLikeSrc;
     href: string;
+    children?: NavChildItem[];
 };
 
 export const navItems: NavItem[] = [
-    { key: "stake", label: "Stake", icon: stake, href: "/" },
+    {
+        key: "stake",
+        label: "Staking",
+        icon: stake,
+        href: "/",
+        children: [
+            { key: "stake-home", label: "Goliath Liquid Staking", href: "/" },
+            {
+                key: "ethereum-staking",
+                label: "Legacy Ethereum Staking",
+                href: "/ethereum-staking",
+            },
+            { key: "migrate", label: "Migrate to Goliath", href: "/migrate" },
+        ],
+    },
     { key: "history", label: "History", icon: history, href: "/history" },
     { key: "swap", label: "Swap", icon: swap, href: "/swap" },
     {
         key: "bridge",
         label: "Bridge",
         icon: bridge,
-        href: "https://bridge.onyx.org/",
+        href: "/bridge",
+        children: [
+            { key: "goliath-bridge", label: "Goliath Bridge", href: "/bridge" },
+            {
+                key: "legacy-bridge",
+                label: "Legacy Bridge",
+                href: "https://bridge.onyx.org/",
+                isExternal: true,
+            },
+        ],
     },
     { key: "farm", label: "Farm", icon: farm, href: "/farm" },
     {

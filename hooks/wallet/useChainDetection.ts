@@ -2,11 +2,14 @@
 
 import { useState, useEffect, useCallback, useMemo } from "react";
 import { useAccount, useChainId } from "wagmi";
-import { getCurrentChainId, isCurrentChainOnyx } from "@/lib/wallet/chain";
+import { getCurrentChainId, isCurrentChainOnyx, isCurrentChainGoliath } from "@/lib/wallet/chain";
+import { SUPPORTED_NETWORKS } from "@/config/networks";
 
 export interface ChainDetectionState {
     currentChainId: string | null;
+    currentNetworkId: "ethereum" | "onyx" | "goliath" | null;
     isOnOnyxChain: boolean;
+    isOnGoliathChain: boolean;
     isWalletConnected: boolean;
     shouldShowAddNetworkCard: boolean;
     isLoading: boolean;
@@ -19,6 +22,8 @@ export const useChainDetection = (): ChainDetectionState => {
 
     const [currentChainId, setCurrentChainId] = useState<string | null>(null);
     const [isOnOnyxChain, setIsOnOnyxChain] = useState(false);
+    const [isOnGoliathChain, setIsOnGoliathChain] = useState(false);
+    const [currentNetworkId, setCurrentNetworkId] = useState<"ethereum" | "onyx" | "goliath" | null>(null);
     const [isLoading, setIsLoading] = useState(true);
 
     const detectChain = useCallback(async () => {
@@ -30,10 +35,27 @@ export const useChainDetection = (): ChainDetectionState => {
 
             const isOnyx = await isCurrentChainOnyx();
             setIsOnOnyxChain(isOnyx);
+
+            const isGoliath = await isCurrentChainGoliath();
+            setIsOnGoliathChain(isGoliath);
+
+            // Determine which supported network the user is on
+            if (chainId) {
+                const matched = SUPPORTED_NETWORKS.find(
+                    (n) => n.chainIdHex === chainId
+                );
+                setCurrentNetworkId(
+                    matched ? (matched.id as "ethereum" | "onyx" | "goliath") : null
+                );
+            } else {
+                setCurrentNetworkId(null);
+            }
         } catch (error) {
             console.error("Error detecting chain:", error);
             setCurrentChainId(null);
             setIsOnOnyxChain(false);
+            setIsOnGoliathChain(false);
+            setCurrentNetworkId(null);
         } finally {
             setIsLoading(false);
         }
@@ -61,17 +83,23 @@ export const useChainDetection = (): ChainDetectionState => {
         }
     }, [detectChain]);
 
+    const isOnSupportedChain = useMemo(() => {
+        return currentNetworkId !== null;
+    }, [currentNetworkId]);
+
     const shouldShowAddNetworkCard = useMemo(() => {
         if (isLoading) return false;
 
-        if (isConnected && !isOnOnyxChain) return true;
+        if (isConnected && !isOnSupportedChain) return true;
 
         return false;
-    }, [isConnected, isOnOnyxChain, isLoading]);
+    }, [isConnected, isOnSupportedChain, isLoading]);
 
     return {
         currentChainId,
+        currentNetworkId,
         isOnOnyxChain,
+        isOnGoliathChain,
         isWalletConnected: isConnected,
         shouldShowAddNetworkCard,
         isLoading,

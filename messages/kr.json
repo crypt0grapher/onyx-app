@@ -11,7 +11,12 @@
             "points": "포인트",
             "card": "카드",
             "payments": "결제",
-            "enterprise": "기업"
+            "enterprise": "기업",
+            "stake-home": "Goliath Liquid Staking",
+            "ethereum-staking": "레거시 이더리움 스테이킹",
+            "migrate": "Goliath로 이전",
+            "goliath-bridge": "Goliath 브릿지",
+            "legacy-bridge": "레거시 브릿지"
         },
         "footer": {
             "terms": "이용약관",
@@ -64,6 +69,7 @@
         "events": {
             "supply": "공급",
             "stake": "스테이킹",
+            "unstake": "언스테이킹",
             "transfer": "전송",
             "withdraw": "출금",
             "claim": "청구",
@@ -75,7 +81,12 @@
             "repayborrow": "대출 상환",
             "liquidateborrow": "대출 청산",
             "reservesadded": "예비금 추가",
-            "reservesreduced": "예비금 감소"
+            "reservesreduced": "예비금 감소",
+            "bridge": "브릿지",
+            "swap": "스왑",
+            "migrate": "마이그레이션",
+            "liquidStake": "리퀴드 스테이킹",
+            "liquidUnstake": "리퀴드 언스테이킹"
         },
         "percentageOptions": {
             "0": "0%",
@@ -273,6 +284,9 @@
     "staking": {
         "title": "스테이킹",
         "description": "토큰을 스테이킹하거나 출금하세요",
+        "connectToEthereum": "이더리움으로 전환",
+        "wrongNetwork": "Legacy Ethereum Staking을 사용하려면 이더리움 네트워크로 전환해 주세요.",
+        "switchingNetwork": "전환 중...",
         "stakedTokensTitle": "스테이킹된 토큰",
         "stakedTokensDescription": "스테이킹 보상을 확인하고 청구하세요",
         "historyTitle": "스테이킹 히스토리",
@@ -390,9 +404,16 @@
         "allTxns": "모든 트랜잭션",
         "myTxns": "내 트랜잭션",
         "allTypes": "모든 유형",
+        "filters": {
+            "network": "네트워크",
+            "allNetworks": "모든 네트워크",
+            "type": "유형",
+            "allTypes": "모든 유형"
+        },
         "types": {
             "supply": "공급",
             "stake": "스테이킹",
+            "unstake": "언스테이킹",
             "transfer": "전송",
             "withdraw": "출금",
             "claim": "청구",
@@ -404,7 +425,17 @@
             "repayborrow": "대출 상환",
             "liquidateborrow": "대출 청산",
             "reservesadded": "예비금 추가",
-            "reservesreduced": "예비금 감소"
+            "reservesreduced": "예비금 감소",
+            "bridge": "브릿지",
+            "swap": "스왑",
+            "migrate": "마이그레이션",
+            "liquidStake": "리퀴드 스테이킹",
+            "liquidUnstake": "리퀴드 언스테이킹"
+        },
+        "status": {
+            "confirmed": "확인됨",
+            "pending": "대기 중",
+            "failed": "실패"
         },
         "table": {
             "type": "유형",
@@ -670,6 +701,77 @@
             "bridge": "브릿지"
         }
     },
+    "goliathYield": {
+        "title": "Goliath Liquid Staking",
+        "description": "XCN을 스테이킹하여 stXCN을 받고 수익을 얻으세요",
+        "statsTitle": "프로토콜 통계",
+        "statsDescription": "프로토콜 지표와 스테이킹 포지션을 확인하세요",
+        "protocolStats": "프로토콜 통계",
+        "stake": "스테이킹",
+        "unstake": "언스테이킹",
+        "stakeXCN": "XCN 스테이킹",
+        "unstakeStXCN": "stXCN 언스테이킹",
+        "balance": "stXCN 잔액",
+        "xcnBalance": "XCN 잔액",
+        "underlyingValue": "기초 XCN 가치",
+        "totalSupply": "총 stXCN 공급량",
+        "apr": "APR",
+        "fee": "수수료",
+        "contractBalance": "컨트랙트 잔액",
+        "paused": "스테이킹이 일시 중지되었습니다",
+        "amount": "금액",
+        "max": "최대",
+        "connectWallet": "지갑 연결",
+        "connectToGoliath": "Goliath로 전환",
+        "wrongNetwork": "Goliath Liquid Staking을 사용하려면 Goliath 네트워크로 전환해 주세요.",
+        "switchingNetwork": "전환 중...",
+        "loading": "로딩 중...",
+        "staking": "스테이킹 중...",
+        "unstaking": "언스테이킹 중...",
+        "estimatedDailyEarnings": "예상 일일 수익:",
+        "insufficientBalance": "잔액 부족",
+        "insufficientBalanceSubtext": "XCN 토큰이 부족합니다",
+        "insufficientStXcnBalance": "stXCN 잔액 부족",
+        "insufficientStXcnBalanceSubtext": "stXCN 토큰이 부족합니다",
+        "stakeSuccess": "{amount} XCN 스테이킹 성공",
+        "stakeFailed": "스테이킹 실패",
+        "unstakeSuccess": "{amount} stXCN 언스테이킹 성공",
+        "unstakeFailed": "언스테이킹 실패",
+        "confirm": {
+            "stakeTitle": "스테이킹 확인",
+            "unstakeTitle": "언스테이킹 확인",
+            "amount": "금액",
+            "receive": "받게 될 금액",
+            "fee": "수수료"
+        },
+        "dataBoxes": {
+            "stakingAPR": "스테이킹 APR",
+            "protocolFee": "프로토콜 수수료",
+            "totalSupply": "총 stXCN 공급량",
+            "contractBalance": "컨트랙트 잔액"
+        },
+        "userStatsTitle": "내 포지션",
+        "userStatsDescription": "스테이킹 포지션과 수익을 확인하세요",
+        "yourStXcnBalance": "내 stXCN 잔액",
+        "yourUnderlyingXcn": "기초 XCN 가치",
+        "currentApr": "현재 APR",
+        "historyTitle": "스테이킹 기록",
+        "historyDescription": "Goliath 네트워크에서의 스테이킹 및 언스테이킹 거래 기록을 확인하세요",
+        "history": {
+            "type": "유형",
+            "txnHash": "트랜잭션 해시",
+            "block": "블록",
+            "amount": "금액",
+            "created": "생성일",
+            "staked": "스테이킹됨",
+            "unstaked": "언스테이킹됨",
+            "emptyTitle": "기록 없음",
+            "emptyDescription": "스테이킹 거래 기록이 여기에 표시됩니다",
+            "emptyDescriptionLine2": "시작하려면 XCN을 스테이킹하거나 언스테이킹하세요",
+            "errorTitle": "기록을 불러오지 못했습니다",
+            "errorRetry": "다시 시도하려면 클릭하세요"
+        }
+    },
     "time": {
         "lessThanMinute": "1분 미만 전",
         "minuteAgo": "1분 전",
@@ -696,5 +798,115 @@
         "inWeeks": "{weeks}주일 후",
         "inMonths": "{months}개월 후",
         "inYears": "{years}년 후"
+    },
+    "migrate": {
+        "title": "Goliath로 이전",
+        "subtitle": "XCN 스테이킹을 Goliath 네트워크로 이전하세요",
+        "summary": {
+            "staked": "스테이킹된 XCN",
+            "rewards": "대기 중인 보상",
+            "wallet": "지갑 XCN",
+            "total": "이전할 총량"
+        },
+        "connect": "이전을 시작하려면 지갑을 연결하세요",
+        "empty": "이전할 수 있는 XCN이 없습니다",
+        "disabled": "이전이 현재 비활성화되어 있습니다",
+        "switchNetwork": "{network}(으)로 전환",
+        "migrateButton": "마이그레이션",
+        "migrating": "마이그레이션 중...",
+        "migrationComplete": "마이그레이션 완료",
+        "retryMigration": "다시 시도",
+        "steps": {
+            "claim": "보상 청구",
+            "claimDesc": "대기 중인 스테이킹 보상을 청구하세요",
+            "approve": "XCN 승인",
+            "approveDesc": "브릿지를 위해 XCN을 승인하세요",
+            "unstake": "XCN 언스테이킹",
+            "unstakeDesc": "{amount} XCN 언스테이킹",
+            "bridge": "Goliath로 브릿지",
+            "bridgeDesc": "{amount} XCN을 Goliath로 브릿지",
+            "stakeToggle": "Goliath에서 자동 스테이킹",
+            "stakeToggleDesc": "도착 시 Goliath에서 XCN을 자동으로 스테이킹합니다",
+            "viewTransaction": "트랜잭션 보기",
+            "processing": "처리 중..."
+        },
+        "status": {
+            "title": "마이그레이션 상태",
+            "submitted": "트랜잭션 제출됨",
+            "confirming": "확인 중...",
+            "relaying": "Goliath로 전달 중...",
+            "processing": "Goliath에서 처리 중...",
+            "completed": "마이그레이션 완료!",
+            "failed": "마이그레이션 실패",
+            "stakingPrompt": "XCN이 도착했습니다! 지금 스테이킹하시겠습니까?",
+            "stakeNow": "XCN 스테이킹",
+            "skipStaking": "나중에 스테이킹하겠습니다",
+            "startNew": "새 마이그레이션 시작",
+            "viewOriginTx": "원본 트랜잭션 보기",
+            "viewDestTx": "대상 트랜잭션 보기"
+        }
+    },
+    "bridge": {
+        "title": "브릿지",
+        "subtitle": "네트워크 간 토큰을 전송하세요",
+        "form": {
+            "from": "보내기",
+            "to": "받기",
+            "amount": "금액",
+            "max": "최대",
+            "balance": "잔액",
+            "fee": "수수료",
+            "estimatedArrival": "예상 도착 시간",
+            "selectToken": "토큰 선택",
+            "swapDirection": "방향 전환",
+            "youReceive": "수령 금액",
+            "recipient": "수신자",
+            "connectWallet": "지갑 연결",
+            "youSend": "보내는 금액",
+            "feeFree": "무료",
+            "destinationBalance": "{network} 잔액",
+            "estimatedArrivalValue": "~2-4분",
+            "finishingUp": "마무리 중..."
+        },
+        "actions": {
+            "connect": "지갑 연결",
+            "switchNetwork": "{network}(으)로 전환",
+            "approve": "{token} 승인",
+            "bridge": "{token} 브릿지",
+            "bridging": "브릿지 중...",
+            "approving": "승인 중..."
+        },
+        "confirm": {
+            "title": "브릿지 확인",
+            "amount": "금액",
+            "direction": "방향",
+            "fee": "수수료",
+            "feeInfo": "무료",
+            "eta": "예상 시간",
+            "confirm": "브릿지 확인",
+            "cancel": "취소"
+        },
+        "status": {
+            "title": "브릿지 상태",
+            "pending": "트랜잭션 제출됨",
+            "confirming": "원본 체인에서 확인 중",
+            "relaying": "대상으로 전달 중",
+            "processing": "대상에서 처리 중",
+            "completed": "완료",
+            "failed": "실패",
+            "viewOriginTx": "원본 트랜잭션 보기",
+            "viewDestTx": "대상 트랜잭션 보기"
+        },
+        "history": {
+            "title": "최근 브릿지",
+            "empty": "아직 브릿지 기록이 없습니다",
+            "toGoliath": "Goliath로",
+            "toSource": "소스로"
+        },
+        "validation": {
+            "minAmount": "최소 금액은 {min}입니다",
+            "insufficientBalance": "잔액 부족",
+            "bridgeDisabled": "브릿지가 현재 비활성화되어 있습니다"
+        }
     }
 }

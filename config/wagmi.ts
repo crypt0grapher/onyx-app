@@ -9,7 +9,7 @@ import {
     walletConnect,
     injected,
 } from "wagmi/connectors";
-import { getOnyxNetwork, SUPPORTED_NETWORKS } from "./networks";
+import { getOnyxNetwork, getGoliathNetwork, SUPPORTED_NETWORKS } from "./networks";
 
 const WC_PROJECT_ID = process.env.NEXT_PUBLIC_WALLETCONNECT_PROJECT_ID;
 
@@ -27,6 +27,7 @@ const wcConnector = WC_PROJECT_ID
 
 const ethereumNetwork = SUPPORTED_NETWORKS.find((n) => n.id === "ethereum")!;
 const onyxNetwork = getOnyxNetwork();
+const goliathNetwork = getGoliathNetwork();
 
 const onyxChain: Chain = {
     id: onyxNetwork.chainId,
@@ -43,13 +44,33 @@ const onyxChain: Chain = {
     contracts: {},
 };
 
-const chains = [mainnet, onyxChain] as const;
+export const goliathChain: Chain = {
+    id: goliathNetwork.chainId,
+    name: "Goliath Mainnet",
+    nativeCurrency: goliathNetwork.nativeCurrency,
+    rpcUrls: {
+        default: {
+            http: [goliathNetwork.rpcUrl],
+        },
+    },
+    blockExplorers: {
+        default: { name: "Goliath Explorer", url: goliathNetwork.blockExplorerUrl },
+    },
+    contracts: {
+        multicall3: {
+            address: '0x88b4BC8e5bd74327B5456466F3f30143986cC1f9',
+        },
+    },
+};
+
+const chains = [mainnet, onyxChain, goliathChain] as const;
 
 export const wagmiConfig = createConfig({
     chains,
     transports: {
         [mainnet.id]: http(ethereumNetwork.rpcUrl),
         [onyxChain.id]: http(onyxNetwork.rpcUrl),
+        [goliathChain.id]: http(goliathNetwork.rpcUrl),
     },
     connectors: [...baseConnectors, ...wcConnector],
     ssr: true,

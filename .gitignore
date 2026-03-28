@@ -1,2 +1,29 @@
-.DS_Store
+# Dependencies
 node_modules
+
+# Next.js
+.next/
+out/
+
+# Build
+tsconfig.tsbuildinfo
+
+# Environment (keep .env.example)
+.env
+.env.local
+.env.mainnet
+.env.testnet
+.env*.local
+
+# IDE
+.idea/
+.vscode/
+*.swp
+*.swo
+
+# OS
+.DS_Store
+Thumbs.db
+.memory-bank/
+.docs/
+

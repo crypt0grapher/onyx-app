@@ -12,7 +12,9 @@ import { StaticImageData } from "next/image";
  */
 export type EventType =
     | "Stake"
+    | "LiquidStake"
     | "Withdraw"
+    | "LiquidUnstake"
     | "Claim"
     | "Trade"
     | "Swap"
@@ -27,8 +29,10 @@ export type EventType =
 export const getEventIcon = (eventType: string): StaticImageData => {
     switch (eventType) {
         case "Stake":
+        case "LiquidStake":
             return stakeIcon;
         case "Withdraw":
+        case "LiquidUnstake":
             return withdrawIcon;
         case "Claim":
             return claimIcon;

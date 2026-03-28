@@ -94,6 +94,33 @@ body {
     -webkit-overflow-scrolling: touch;
 }
 
+/* Migration progress bar dot animation */
+@keyframes dotPulse {
+    0%, 100% {
+        opacity: 0.2;
+        transform: scale(0.8);
+    }
+    50% {
+        opacity: 1;
+        transform: scale(1.2);
+    }
+}
+
+@keyframes activeGlow {
+    0%, 100% {
+        box-shadow: 0 0 8px rgba(34, 197, 94, 0.2);
+    }
+    50% {
+        box-shadow: 0 0 16px rgba(34, 197, 94, 0.4);
+    }
+}
+
+/* Bridge status modal blinking bubble */
+@keyframes bridgePulse {
+    0%, 100% { opacity: 1; transform: scale(1); }
+    50% { opacity: 0.3; transform: scale(0.7); }
+}
+
 /* Toast notification styles */
 .toast-container {
     z-index: 9999;

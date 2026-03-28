@@ -20,13 +20,13 @@ const AddXcnNetworkCard: React.FC = () => {
     const tCommon = useTranslations("common");
     const tNetworkErrors = useTranslations("common.errors.network");
     const { isConnected } = useWallet();
-    const { isOnOnyxChain, isLoading: isChainDetectionLoading } =
+    const { shouldShowAddNetworkCard, isLoading: isChainDetectionLoading } =
         useChainDetection();
     const { showSuccessToast, showDangerToast } = useToast();
     const [isAddingNetwork, setIsAddingNetwork] = useState(false);
 
     const shouldShow =
-        isConnected && !isOnOnyxChain && !isChainDetectionLoading;
+        isConnected && shouldShowAddNetworkCard && !isChainDetectionLoading;
 
     const handleAddNetwork = async () => {
         if (isAddingNetwork) return;
