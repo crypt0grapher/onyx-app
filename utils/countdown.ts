@@ -31,5 +31,5 @@ export const formatCountdown = (
 export const getDirectionEstimateSeconds = (
     direction: BridgeDirection
 ): number => {
-    return direction === "SOURCE_TO_GOLIATH" ? 240 : 120;
+    return direction === "SOURCE_TO_GOLIATH" ? 120 : 60;
 };
