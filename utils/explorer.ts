@@ -19,11 +19,9 @@ const tryBuildHederaTxUrl = (value: string): string | null => {
     if (/^\d+\.\d+$/.test(value)) {
         return `${GOLIATH_VALIDATOR_EXPLORER}/transaction/${value}`;
     }
-    // Hedera tx ID: "0.0.1083@1774674719.778114029" — extract timestamp after @
-    const atIdx = value.indexOf("@");
-    if (atIdx !== -1) {
-        const ts = value.slice(atIdx + 1);
-        return `${GOLIATH_VALIDATOR_EXPLORER}/transaction/${ts}`;
+    // Hedera tx ID: "0.0.1083@1774674719.778114029" — pass full ID to explorer
+    if (value.includes("@")) {
+        return `${GOLIATH_VALIDATOR_EXPLORER}/transaction/${value}`;
     }
     return null;
 };
