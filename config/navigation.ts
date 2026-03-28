@@ -39,7 +39,6 @@ export const navItems: NavItem[] = [
                 label: "Legacy Ethereum Staking",
                 href: "/ethereum-staking",
             },
-            { key: "migrate", label: "Migrate to Goliath", href: "/migrate" },
         ],
     },
     { key: "history", label: "History", icon: history, href: "/history" },
